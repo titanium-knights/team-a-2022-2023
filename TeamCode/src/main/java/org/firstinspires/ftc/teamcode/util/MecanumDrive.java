@@ -11,10 +11,10 @@ public class MecanumDrive {
     DcMotor fl, fr, bl, br;
 
     public MecanumDrive(HardwareMap hmap){
-        fl = hmap.dcMotor.get("fl");
-        fr = hmap.dcMotor.get("fr");
-        bl = hmap.dcMotor.get("bl");
-        br = hmap.dcMotor.get("br");
+        fl = hmap.dcMotor.get(Config.frontLeftWheel);
+        fr = hmap.dcMotor.get(Config.frontRightWheel);
+        bl = hmap.dcMotor.get(Config.backLeftWheel);
+        br = hmap.dcMotor.get(Config.backRightWheel);
 
         fl.setDirection(DcMotorSimple.Direction.REVERSE);
         fr.setDirection(DcMotorSimple.Direction.FORWARD);
