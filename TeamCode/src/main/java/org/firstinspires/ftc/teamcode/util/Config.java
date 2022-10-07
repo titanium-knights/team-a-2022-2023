@@ -7,8 +7,9 @@ public class Config {
     public static String backLeftWheel = "bl";
     public static String backRightWheel = "br";
 
+    //subsystems
     public static String clawServo = "claw";
 
-
+    public static String liftMotor = "lift";
 
 }
