@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.util;
 
-public class Config {
+public class CONFIG {
     //drivetrain wheels :OOO
     public static String frontLeftWheel = "fl";
     public static String frontRightWheel = "fr";

@@ -9,7 +9,7 @@ public class Claw {
     public static double closedTSEPos = .4; //closed for TSE
 
     public Claw(HardwareMap hmap) {
-        this.claw = hmap.servo.get(Config.clawServo);
+        this.claw = hmap.servo.get(CONFIG.clawServo);
     }
 
     public boolean isClosedCone() { //check if closed
