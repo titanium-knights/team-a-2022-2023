@@ -11,9 +11,14 @@ public class CONFIG {
     public static String BACK_LEFT = "bl";
     public static String BACK_RIGHT = "br";
 
+    //webcam
+    public static String webcam = "Webcam 1";
+
     //subsystems
     public static String clawServo = "claw";
 
     public static String liftMotor = "lift";
+
+    public static String clawLift = "clawLift";
 
 }

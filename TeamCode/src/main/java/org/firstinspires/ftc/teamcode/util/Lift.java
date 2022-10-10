@@ -17,6 +17,9 @@ public class Lift {
     public void setPower(double power) {
         Lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         Lift.setPower(power);
+
+        Lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //reset pos to 0
+        Lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //use encoder
     }
 
     public void setPosition(int position) {
