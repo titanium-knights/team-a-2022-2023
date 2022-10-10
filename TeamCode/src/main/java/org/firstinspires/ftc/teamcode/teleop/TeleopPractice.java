@@ -21,9 +21,26 @@ public class TeleopPractice extends OpMode {
     }
     public void loop() { //gamepad buttons that call util methods go here
         //there are 2 gamepads (gamepad1 & gamepad2, start typing gamepad1 to see its buttons (it's the same as gamepad2)
-
+        if (gamepad1.right_bumper){ //arm up
+            lift.setPower(1);
+        }
+        if (gamepad1.left_bumper){ //arm down
+            lift.setPower(-1);
+        }
+        if (gamepad1.x) { //lift arm up preset
+            lift.setPower(0.5); //placeholder for preset here. Add ACTUAL preset value!!
+        }
+        if (gamepad1.a) { //lift arm down preset
+            lift.setPower(-0.5); //placeholder for preset here. Add ACTUAL preset value!!
+        }
+        if (gamepad1.y) { //open claw preset
+            lift.setPower(0.5); //placeholder for preset here. Add ACTUAL preset value!!
+        }
+        if (gamepad1.b) {//close claw preset
+            lift.setPower(-0.5); //placeholder for preset here. Add ACTUAL preset value!!
+        }
         //driving
-        drive.teleOpRobotCentric(gamepad1, DRIVE_SPEED); //go drive vroom
+\       drive.teleOpRobotCentric(gamepad1, DRIVE_SPEED); //go drive vroom
 
         //claw
         //[add claw stuff here!]
