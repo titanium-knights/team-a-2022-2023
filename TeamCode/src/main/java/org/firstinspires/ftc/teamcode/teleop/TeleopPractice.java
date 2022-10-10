@@ -10,6 +10,8 @@ import org.firstinspires.ftc.teamcode.util.*;
 public class TeleopPractice extends OpMode {
     MecanumDrive drive; // aidawkfafhiuawf
     Claw claw;
+    ClawLift clawLift;
+    Lift lift;
     //woot
     public static double DRIVE_SPEED = 1; //idk we can play around w this
 
