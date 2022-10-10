@@ -60,6 +60,11 @@ public class SignalParkPipeline {
             ZONE_TWO,
             ZONE_THREE
         }
+        
+        //colors of sleeve
+        //green already created
+        //static final Scalar MAGENTA = new Scalar();
+
 
         /*
          * Some color constants
@@ -70,11 +75,13 @@ public class SignalParkPipeline {
         /*
          * The core values which define the location and size of the sample regions
          */
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(109, 98);
-        static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(181, 98);
-        static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(253, 98);
+
+        //PLACE ALL REGIONS IN THE SAME PLACE (?)
+        static final Point REGION_TOPLEFT_ANCHOR_POINT = new Point(109, 98);
+
         static final int REGION_WIDTH = 20;
-        static final int REGION_HEIGHT = 20;
+        static final int REGION_HEIGHT = 50;
+        //take the average of pixels and match it upn
 
         /*
          * Points which actually define the sample region rectangles, derived from above values
@@ -94,31 +101,20 @@ public class SignalParkPipeline {
          *
          */
         Point region1_pointA = new Point(
-                REGION1_TOPLEFT_ANCHOR_POINT.x,
-                REGION1_TOPLEFT_ANCHOR_POINT.y);
+                REGION_TOPLEFT_ANCHOR_POINT.x,
+                REGION_TOPLEFT_ANCHOR_POINT.y);
         Point region1_pointB = new Point(
-                REGION1_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
-                REGION1_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
-        Point region2_pointA = new Point(
-                REGION2_TOPLEFT_ANCHOR_POINT.x,
-                REGION2_TOPLEFT_ANCHOR_POINT.y);
-        Point region2_pointB = new Point(
-                REGION2_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
-                REGION2_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
-        Point region3_pointA = new Point(
-                REGION3_TOPLEFT_ANCHOR_POINT.x,
-                REGION3_TOPLEFT_ANCHOR_POINT.y);
-        Point region3_pointB = new Point(
-                REGION3_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
-                REGION3_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
+                REGION_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
+                REGION_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
+
 
         /*
          * Working variables
          */
-        Mat region1_Cb, region2_Cb, region3_Cb;
+        Mat region1_Cb;
         Mat YCrCb = new Mat();
         Mat Cb = new Mat();
-        int avg1, avg2, avg3;
+        int avg1;
 
         // Volatile since accessed by OpMode thread w/o synchronization
         private volatile SignalZone position = SignalZone.ZONE_ONE;
@@ -151,8 +147,6 @@ public class SignalParkPipeline {
              * reverse also holds true.
              */
             region1_Cb = Cb.submat(new Rect(region1_pointA, region1_pointB));
-            region2_Cb = Cb.submat(new Rect(region2_pointA, region2_pointB));
-            region3_Cb = Cb.submat(new Rect(region3_pointA, region3_pointB));
         }
 
         @Override
@@ -203,12 +197,14 @@ public class SignalParkPipeline {
              * pixel value of the 3-channel image, and referenced the value
              * at index 2 here.
              */
+
+            //average color of
             avg1 = (int) Core.mean(region1_Cb).val[0];
-            avg2 = (int) Core.mean(region2_Cb).val[0];
-            avg3 = (int) Core.mean(region3_Cb).val[0];
+
+            //matchn colors
 
             /*
-             * Draw a rectangle showing sample region 1 on the screen.
+             * Draw a rectangle showing sample region on the screen.
              * Simply a visual aid. Serves no functional purpose.
              */
             Imgproc.rectangle(
@@ -218,82 +214,54 @@ public class SignalParkPipeline {
                     BLUE, // The color the rectangle is drawn in
                     2); // Thickness of the rectangle lines
 
-            /*
-             * Draw a rectangle showing sample region 2 on the screen.
-             * Simply a visual aid. Serves no functional purpose.
-             */
-            Imgproc.rectangle(
-                    input, // Buffer to draw on
-                    region2_pointA, // First point which defines the rectangle
-                    region2_pointB, // Second point which defines the rectangle
-                    BLUE, // The color the rectangle is drawn in
-                    2); // Thickness of the rectangle lines
-
-            /*
-             * Draw a rectangle showing sample region 3 on the screen.
-             * Simply a visual aid. Serves no functional purpose.
-             */
-            Imgproc.rectangle(
-                    input, // Buffer to draw on
-                    region3_pointA, // First point which defines the rectangle
-                    region3_pointB, // Second point which defines the rectangle
-                    BLUE, // The color the rectangle is drawn in
-                    2); // Thickness of the rectangle lines
-
-
-            /*
-             * Find the max of the 3 averages
-             */
-            int maxOneTwo = Math.max(avg1, avg2);
-            int max = Math.max(maxOneTwo, avg3);
 
             /*
              * Now that we found the max, we actually need to go and
              * figure out which sample region that value was from
              */
-            if (max == avg1) // Was it from region 1?
-            {
-                position = SignalZone.ZONE_ONE; // Record our analysis
-
-                /*
-                 * Draw a solid rectangle on top of the chosen region.
-                 * Simply a visual aid. Serves no functional purpose.
-                 */
-                Imgproc.rectangle(
-                        input, // Buffer to draw on
-                        region1_pointA, // First point which defines the rectangle
-                        region1_pointB, // Second point which defines the rectangle
-                        GREEN, // The color the rectangle is drawn in
-                        -1); // Negative thickness means solid fill
-            } else if (max == avg2) // Was it from region 2?
-            {
-                position = SignalZone.ZONE_TWO; // Record our analysis
-
-                /*
-                 * Draw a solid rectangle on top of the chosen region.
-                 * Simply a visual aid. Serves no functional purpose.
-                 */
-                Imgproc.rectangle(
-                        input, // Buffer to draw on
-                        region2_pointA, // First point which defines the rectangle
-                        region2_pointB, // Second point which defines the rectangle
-                        GREEN, // The color the rectangle is drawn in
-                        -1); // Negative thickness means solid fill
-            } else if (max == avg3) // Was it from region 3?
-            {
-                position = SignalZone.ZONE_THREE; // Record our analysis
-
-                /*
-                 * Draw a solid rectangle on top of the chosen region.
-                 * Simply a visual aid. Serves no functional purpose.
-                 */
-                Imgproc.rectangle(
-                        input, // Buffer to draw on
-                        region3_pointA, // First point which defines the rectangle
-                        region3_pointB, // Second point which defines the rectangle
-                        GREEN, // The color the rectangle is drawn in
-                        -1); // Negative thickness means solid fill
-            }
+//            if (avg1 == avg1) // Was it from region 1?
+//            {
+//                position = SignalZone.ZONE_ONE; // Record our analysis
+//
+//                /*
+//                 * Draw a solid rectangle on top of the chosen region.
+//                 * Simply a visual aid. Serves no functional purpose.
+//                 */
+//                Imgproc.rectangle(
+//                        input, // Buffer to draw on
+//                        region1_pointA, // First point which defines the rectangle
+//                        region1_pointB, // Second point which defines the rectangle
+//                        GREEN, // The color the rectangle is drawn in
+//                        -1); // Negative thickness means solid fill
+//            } else if (max == avg2) // Was it from region 2?
+//            {
+//                position = SignalZone.ZONE_TWO; // Record our analysis
+//
+//                /*
+//                 * Draw a solid rectangle on top of the chosen region.
+//                 * Simply a visual aid. Serves no functional purpose.
+//                 */
+//                Imgproc.rectangle(
+//                        input, // Buffer to draw on
+//                        region2_pointA, // First point which defines the rectangle
+//                        region2_pointB, // Second point which defines the rectangle
+//                        GREEN, // The color the rectangle is drawn in
+//                        -1); // Negative thickness means solid fill
+//            } else if (max == avg3) // Was it from region 3?
+//            {
+//                position = SignalZone.ZONE_THREE; // Record our analysis
+//
+//                /*
+//                 * Draw a solid rectangle on top of the chosen region.
+//                 * Simply a visual aid. Serves no functional purpose.
+//                 */
+//                Imgproc.rectangle(
+//                        input, // Buffer to draw on
+//                        region3_pointA, // First point which defines the rectangle
+//                        region3_pointB, // Second point which defines the rectangle
+//                        GREEN, // The color the rectangle is drawn in
+//                        -1); // Negative thickness means solid fill
+//            }
 
             /*
              * Render the 'input' buffer to the viewport. But note this is not
