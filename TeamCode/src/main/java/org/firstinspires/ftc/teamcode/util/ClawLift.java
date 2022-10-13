@@ -12,5 +12,7 @@ public class ClawLift {
         this.liftMotor = hmap.servo.get(CONFIG.clawLift);
     }
 
+//    public setPosition()
+
 
 }
