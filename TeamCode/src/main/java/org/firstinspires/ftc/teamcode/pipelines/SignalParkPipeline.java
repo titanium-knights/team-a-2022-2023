@@ -22,7 +22,6 @@ package org.firstinspires.ftc.teamcode.pipelines;
      * the sample regions over the first 3 stones.
      */
 
-@TeleOp
 
 public class SignalParkPipeline {
     OpenCvInternalCamera phoneCam;

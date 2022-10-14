@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.util;
 import com.qualcomm.robotcore.hardware.*;
 
 public class Lift {
-    public DcMotor Lift; //servo or motor???
+    public DcMotor lift; //servo or motor???
 
 
     public static int HIGH_POSITION = 1000;
@@ -11,19 +11,20 @@ public class Lift {
     public static int GROUND_POSITION = 50;
 
     public Lift(HardwareMap hmap) {
-        this.Lift = hmap.dcMotor.get(CONFIG.liftMotor);
+
+        this.lift = hmap.dcMotor.get(CONFIG.liftMotor);
+        this.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //reset pos to 0
+        this.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //use encoder
+
     }
 
     public void setPower(double power) {
-        Lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        Lift.setPower(power);
-
-        Lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //reset pos to 0
-        Lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //use encoder
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lift.setPower(power);
     }
 
-    public void setPosition(int position) {
-
+    public void setPositionMid() {
+        lift.setTargetPosition(MID_POSITION);
     }
 
 }
