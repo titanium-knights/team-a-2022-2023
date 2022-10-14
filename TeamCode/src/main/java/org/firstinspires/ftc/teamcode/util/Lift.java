@@ -28,6 +28,9 @@ public class Lift {
     public void setPositionMid() {
         lift.setTargetPosition(MID_POSITION);
     }
+    public void setPositionGround() {lift.setTargetPosition(GROUND_POSITION);}
+
+    //public void runToPosition()
 
     public void setPosition(int i) {
         lift.setTargetPosition(i);
