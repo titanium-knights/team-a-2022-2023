@@ -23,8 +23,8 @@ public class Lift {
         lift.setPower(power);
     }
 
-    public void setPosition(int position) {
-
+    public void setPositionMid() {
+        lift.setTargetPosition(MID_POSITION);
     }
 
 }

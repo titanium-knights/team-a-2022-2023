@@ -34,24 +34,31 @@ public class TeleopPractice extends OpMode {
             claw.closeCone();
         }
 
-        //lift
-        //[add lift stuff here!]
-
         //there are 2 gamepads (gamepad1 & gamepad2, start typing gamepad1 to see its buttons (it's the same as gamepad2)
+        //lift stuff-
         if (gamepad1.right_trigger > 0){ //arm up
-            lift.setPower(gamepad1.right_trigger);
+            lift.setPower(liftSetPower);
         }
-        if (gamepad1.left_trigger >0){ //arm down
-            lift.setPower(gamepad1.right_trigger);
+        else if (gamepad1.left_trigger >0){ //arm down
+            lift.setPower(-liftSetPower);
         }
+        else {
+            lift.setPower(0);
+        }
+
+
         if (gamepad1.x) { //lift arm up preset
-            lift.setPower(0.5); //placeholder for preset here. Add ACTUAL preset value!!
+            lift.setPosition(235); //placeholder for preset here. Add ACTUAL preset value!!
         }
         if (gamepad1.a) { //lift arm down preset
-            lift.setPower(-0.5); //placeholder for preset here. Add ACTUAL preset value!!
+            lift.setPosition(235); //placeholder for preset here. Add ACTUAL preset value!!
         }
         //if (gamepad1.y) { //open claw preset
             //clawLift.setPower(0.5); //placeholder for preset here. Add ACTUAL preset value!!
+
+        if (gamepad1.dpad_down) {
+            clawLift.setPosition(.1);
+        }
         }
         //if (gamepad1.b) {//close claw preset
             //clawLift.setPower(-0.5); //placeholder for preset here. Add ACTUAL preset value!!
