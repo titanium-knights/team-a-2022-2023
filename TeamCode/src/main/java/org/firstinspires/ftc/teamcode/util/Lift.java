@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.util;
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.*;
 
+@Config
 public class Lift {
     public DcMotor lift; //servo or motor???
 
@@ -27,4 +29,7 @@ public class Lift {
         lift.setTargetPosition(MID_POSITION);
     }
 
+    public void setPosition(int i) {
+        lift.setTargetPosition(i);
+    }
 }

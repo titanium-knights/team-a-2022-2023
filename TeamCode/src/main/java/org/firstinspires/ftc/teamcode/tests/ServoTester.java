@@ -27,5 +27,7 @@ public class ServoTester extends OpMode {
     @Override
     public void loop() {
         servo.setPosition(pos);
+        telemetry.addData("Servo position", servo.getPosition());
+        telemetry.update();
     }
 }
