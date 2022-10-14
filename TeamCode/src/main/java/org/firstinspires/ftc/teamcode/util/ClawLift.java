@@ -1,20 +1,22 @@
 package org.firstinspires.ftc.teamcode.util;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.*;
 
+@Config
 public class ClawLift {
     public Servo liftServo;
 
-    public int downPos = 100;
-    public int upPos = 200;
+    public double pickupPos = .5;
+    public double upPos = 1.0;
 
     public ClawLift(HardwareMap hmap) {
-        liftServo = hmap.servo.get(CONFIG.clawLift);}
+        this.liftServo = hmap.servo.get(CONFIG.clawLift);}
 
 
-    public void setPosition(double position) {
-        liftServo.setPosition(position);
-        }
+    public void setPickup () {
+        liftServo.setPosition(pickupPos);
+    }
 
 
     }
