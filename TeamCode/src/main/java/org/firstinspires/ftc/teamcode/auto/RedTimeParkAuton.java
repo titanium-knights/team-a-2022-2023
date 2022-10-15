@@ -18,6 +18,7 @@ public class RedTimeParkAuton extends LinearOpMode {
     protected ClawLift clawLift;
     protected Claw claw;
     public static final Pose2d startPose = new Pose2d(-35, -60, Math.toRadians(90));
+    public static long PARK_TIME = 1500;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -32,7 +33,7 @@ public class RedTimeParkAuton extends LinearOpMode {
         claw.openInit();
 
         drive.strafeLeftWithPower(0.7);
-        sleep(1200);
+        sleep(PARK_TIME);
         drive.stop();
 
 
