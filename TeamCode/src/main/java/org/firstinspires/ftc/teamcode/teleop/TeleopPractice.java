@@ -36,10 +36,10 @@ public class TeleopPractice extends OpMode {
 
         //claw
         if (gamepad1.right_bumper) {
-            claw.open();
+            claw.closeCone();
         }
         if (gamepad1.left_bumper) {
-            claw.closeCone();
+            claw.open();
         }
         telemetry.addData("Current Servo position", claw.getPosition());
 
@@ -48,7 +48,7 @@ public class TeleopPractice extends OpMode {
             if (lift.getPosition() < lift.MAX_LIMIT && Math.abs(gamepad1.right_trigger) > 0.1) { //arm up
                 lift.setPower(-LIFT_SPEED_POWER);
             }
-            else if (lift.getPosition() >= lift.MAX_LIMIT - 50 && Math.abs(gamepad1.left_trigger) > 0.1) { //arm down
+            else if (lift.getPosition() >= lift.INIT_LIMIT + 50 || Math.abs(gamepad1.left_trigger) > 0.1) { //arm down
                 lift.setPower(LIFT_SPEED_POWER);
             } else {
                 lift.setPower(-LIFT_SPEED_POWER * LIFT_NEGATE_MULTIPLIER);

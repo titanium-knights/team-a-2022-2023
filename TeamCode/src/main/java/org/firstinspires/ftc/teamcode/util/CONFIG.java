@@ -17,7 +17,7 @@ public class CONFIG {
     //subsystems
     public static String clawServo = "claw"; //ch 5
 
-    public static String liftMotor = "lift"; //ch 2
+    public static String liftMotor = "lift"; //ch 2, encoder also connected to this port
 
     public static String clawLift = "clawLift"; //eh5
 
