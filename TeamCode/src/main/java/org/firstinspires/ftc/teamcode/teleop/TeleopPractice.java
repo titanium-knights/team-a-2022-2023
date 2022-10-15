@@ -32,6 +32,7 @@ public class TeleopPractice extends OpMode {
     public void loop() { //gamepad buttons that call util methods go here
         //driving
         drive.teleOpRobotCentric(gamepad1, DRIVE_SPEED); //go drive vroom
+        telemetry.addData("Speed", DRIVE_SPEED);
 
         //claw
         if (gamepad1.right_bumper) {
@@ -44,18 +45,16 @@ public class TeleopPractice extends OpMode {
 
         //there are 2 gamepads (gamepad1 & gamepad2, start typing gamepad1 to see its buttons (it's the same as gamepad2)
         //lift stuff-
-        if (lift.getPosition() < lift.MAX_LIMIT) {
-            if (Math.abs(gamepad1.right_trigger) > 0.1) { //arm up
+            if (lift.getPosition() < lift.MAX_LIMIT || Math.abs(gamepad1.right_trigger) > 0.1) { //arm up
                 lift.setPower(-LIFT_SPEED_POWER);
-            } else if (Math.abs(gamepad1.left_trigger) > 0.1) { //arm down
+            }
+            else if (lift.getPosition() >= lift.MAX_LIMIT - 50 || Math.abs(gamepad1.left_trigger) > 0.1) { //arm down
                 lift.setPower(LIFT_SPEED_POWER);
             } else {
                 lift.setPower(-LIFT_SPEED_POWER * LIFT_NEGATE_MULTIPLIER);
             }
-        }
 
-        //if (gamepad1.y) { //open claw preset
-            //clawLift.setPower(0.5); //placeholder for preset here. Add ACTUAL preset value!!
+        telemetry.addData("Current Lift Encoder Val", lift.getPosition());
 
         if (gamepad1.dpad_down) {
             clawLift.setPickup();
