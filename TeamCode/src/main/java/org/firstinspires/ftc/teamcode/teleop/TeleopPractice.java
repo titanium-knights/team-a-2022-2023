@@ -14,7 +14,10 @@ public class TeleopPractice extends OpMode {
     Lift lift;
     //woot
     public static double DRIVE_SPEED = 1; //idk we can play around w this
-    public static double liftSetPower = .8;
+
+    public static double LIFT_SPEED_POWER = .8;
+    public static double LIFT_NEGATE_MULTIPLIER = .005;
+
 
     public void init() { //everything when you press the play button before u start goes here (INITialize, get it?)
         drive = new MecanumDrive(hardwareMap);
@@ -23,8 +26,8 @@ public class TeleopPractice extends OpMode {
         clawLift = new ClawLift(hardwareMap);
 
         claw.openInit();
+        lift.setInit();
 
-        lift.setPosition(200);
     }
     public void loop() { //gamepad buttons that call util methods go here
         //driving
@@ -37,27 +40,20 @@ public class TeleopPractice extends OpMode {
         if (gamepad1.left_bumper) {
             claw.closeCone();
         }
-        telemetry.addData("Servo position", claw.getPosition());
+        telemetry.addData("Current Servo position", claw.getPosition());
 
         //there are 2 gamepads (gamepad1 & gamepad2, start typing gamepad1 to see its buttons (it's the same as gamepad2)
         //lift stuff-
-        if (gamepad1.right_trigger > 0){ //arm up
-            lift.setPower(-liftSetPower);
-        }
-        else if (gamepad1.left_trigger >0){ //arm down
-            lift.setPower(liftSetPower);
-        }
-        else {
-            lift.setPower(-liftSetPower*.05);
+        if (lift.getPosition() < lift.MAX_LIMIT) {
+            if (Math.abs(gamepad1.right_trigger) > 0.1) { //arm up
+                lift.setPower(-LIFT_SPEED_POWER);
+            } else if (Math.abs(gamepad1.left_trigger) > 0.1) { //arm down
+                lift.setPower(LIFT_SPEED_POWER);
+            } else {
+                lift.setPower(-LIFT_SPEED_POWER * LIFT_NEGATE_MULTIPLIER);
+            }
         }
 
-
-        if (gamepad1.x) { //lift arm up preset
-            lift.setPosition(235); //placeholder for preset here. Add ACTUAL preset value!!
-        }
-        if (gamepad1.a) { //lift arm down preset
-            lift.setPosition(235); //placeholder for preset here. Add ACTUAL preset value!!
-        }
         //if (gamepad1.y) { //open claw preset
             //clawLift.setPower(0.5); //placeholder for preset here. Add ACTUAL preset value!!
 

@@ -12,6 +12,9 @@ public class Lift {
     public static int LOW_POSITION = 200;
     public static int GROUND_POSITION = 50;
 
+    public static int MAX_LIMIT = 720;
+    public static int INIT_LIMIT = 120;
+
     public Lift(HardwareMap hmap) {
 
         this.lift = hmap.dcMotor.get(CONFIG.liftMotor);
@@ -28,11 +31,16 @@ public class Lift {
     public void setPositionMid() {
         lift.setTargetPosition(MID_POSITION);
     }
-    public void setPositionGround() {lift.setTargetPosition(GROUND_POSITION);}
+    public void setPositionGround() {
+        lift.setTargetPosition(GROUND_POSITION);}
 
     //public void runToPosition()
 
-    public void setPosition(int i) {
-        lift.setTargetPosition(i);
+    public void setInit() {
+        lift.setTargetPosition(INIT_LIMIT);
+    }
+
+    public int getPosition() {
+        return lift.getCurrentPosition();
     }
 }
