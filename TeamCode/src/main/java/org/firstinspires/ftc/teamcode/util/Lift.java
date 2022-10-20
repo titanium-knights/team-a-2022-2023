@@ -7,9 +7,9 @@ public class Lift {
     public DcMotor lift; //servo or motor???
 
 
-    public static int HIGH_POSITION = 1000;
-    public static int MID_POSITION = 500;
-    public static int LOW_POSITION = 200;
+    public static int HIGH_POSITION = 850;
+    public static int MID_POSITION = 800;
+    public static int LOW_POSITION = 650;
     public static int GROUND_POSITION = 50;
 
     public static int MAX_LIMIT = 850;
@@ -29,6 +29,7 @@ public class Lift {
     }
 
     public void setPositionMid() {
+        this.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION); //run to pos
         lift.setTargetPosition(MID_POSITION);
     }
     public void setPositionGround() {
