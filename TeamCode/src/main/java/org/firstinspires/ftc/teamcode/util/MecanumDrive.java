@@ -384,7 +384,7 @@ public class MecanumDrive {
      * @param power power that the drivetrain should strafe right at
      */
     public void strafeRightWithPower(double power) {
-        setPower(new Pose2d(-power, 0, 0));
+        setPower(new Pose2d(power, 0, 0));
     }
 
     /**
@@ -393,7 +393,7 @@ public class MecanumDrive {
      * @param power power that the drivetrain should strafe left at
      */
     public void strafeLeftWithPower(double power) {
-        setPower(new Pose2d(power, 0, 0));
+        setPower(new Pose2d(-power, 0, 0));
     }
 
     /**

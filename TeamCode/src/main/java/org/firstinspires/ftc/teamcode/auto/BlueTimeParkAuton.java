@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -10,7 +11,7 @@ import org.firstinspires.ftc.teamcode.util.ClawLift;
 import org.firstinspires.ftc.teamcode.util.Lift;
 import org.firstinspires.ftc.teamcode.util.MecanumDrive;
 
-@TeleOp(name="BlueTimeParkAuton", group="Linear Opmode")
+@Autonomous(name="BlueTimeParkAuton", group="Linear Opmode")
 @Config
 public class BlueTimeParkAuton extends LinearOpMode {
     protected MecanumDrive drive;
