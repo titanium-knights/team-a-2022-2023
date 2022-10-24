@@ -25,7 +25,6 @@ package org.firstinspires.ftc.teamcode.pipelines;
 
 public class SignalParkPipeline {
     OpenCvInternalCamera phoneCam;
-    SignalParkPipeline_1 pipeline;
 
     public void runOpMode() {
         /**
@@ -53,8 +52,7 @@ public class SignalParkPipeline {
 
     }
 
-    public static class SignalParkPipeline_1 extends OpenCvPipeline {
-        public enum SignalZone {
+    public enum SignalZone {
             ZONE_ONE,
             ZONE_TWO,
             ZONE_THREE
@@ -70,6 +68,7 @@ public class SignalParkPipeline {
          */
         static final Scalar BLUE = new Scalar(0, 0, 255);
         static final Scalar GREEN = new Scalar(0, 255, 0);
+        static final Scalar MAGENTA = new Scalar(0,0,0);
 
         /*
          * The core values which define the location and size of the sample regions
@@ -127,7 +126,6 @@ public class SignalParkPipeline {
             Core.extractChannel(YCrCb, Cb, 2);
         }
 
-        @Override
         public void init(Mat firstFrame) {
             /*
              * We need to call this in order to make sure the 'Cb'
@@ -148,7 +146,6 @@ public class SignalParkPipeline {
             region1_Cb = Cb.submat(new Rect(region1_pointA, region1_pointB));
         }
 
-        @Override
         public Mat processFrame(Mat input) {
             /*
              * Overview of what we're doing:
@@ -198,9 +195,10 @@ public class SignalParkPipeline {
              */
 
             //average color of
-            avg1 = (int) Core.mean(region1_Cb).val[0];
+            //Scalar avg1 = (int) Core.mean(region1_Cb).val[0];
 
             //matchn colors
+
 
             /*
              * Draw a rectangle showing sample region on the screen.
@@ -213,60 +211,6 @@ public class SignalParkPipeline {
                     BLUE, // The color the rectangle is drawn in
                     2); // Thickness of the rectangle lines
 
-
-            /*
-             * Now that we found the max, we actually need to go and
-             * figure out which sample region that value was from
-             */
-//            if (avg1 == avg1) // Was it from region 1?
-//            {
-//                position = SignalZone.ZONE_ONE; // Record our analysis
-//
-//                /*
-//                 * Draw a solid rectangle on top of the chosen region.
-//                 * Simply a visual aid. Serves no functional purpose.
-//                 */
-//                Imgproc.rectangle(
-//                        input, // Buffer to draw on
-//                        region1_pointA, // First point which defines the rectangle
-//                        region1_pointB, // Second point which defines the rectangle
-//                        GREEN, // The color the rectangle is drawn in
-//                        -1); // Negative thickness means solid fill
-//            } else if (max == avg2) // Was it from region 2?
-//            {
-//                position = SignalZone.ZONE_TWO; // Record our analysis
-//
-//                /*
-//                 * Draw a solid rectangle on top of the chosen region.
-//                 * Simply a visual aid. Serves no functional purpose.
-//                 */
-//                Imgproc.rectangle(
-//                        input, // Buffer to draw on
-//                        region2_pointA, // First point which defines the rectangle
-//                        region2_pointB, // Second point which defines the rectangle
-//                        GREEN, // The color the rectangle is drawn in
-//                        -1); // Negative thickness means solid fill
-//            } else if (max == avg3) // Was it from region 3?
-//            {
-//                position = SignalZone.ZONE_THREE; // Record our analysis
-//
-//                /*
-//                 * Draw a solid rectangle on top of the chosen region.
-//                 * Simply a visual aid. Serves no functional purpose.
-//                 */
-//                Imgproc.rectangle(
-//                        input, // Buffer to draw on
-//                        region3_pointA, // First point which defines the rectangle
-//                        region3_pointB, // Second point which defines the rectangle
-//                        GREEN, // The color the rectangle is drawn in
-//                        -1); // Negative thickness means solid fill
-//            }
-
-            /*
-             * Render the 'input' buffer to the viewport. But note this is not
-             * simply rendering the raw camera feed, because we called functions
-             * to add some annotations to this buffer earlier up.
-             */
             return input;
         }
 
