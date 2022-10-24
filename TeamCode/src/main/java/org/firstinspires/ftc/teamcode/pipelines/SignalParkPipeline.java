@@ -23,9 +23,8 @@ package org.firstinspires.ftc.teamcode.pipelines;
      */
 
 
-public class SignalParkPipeline {
+public class SignalParkPipeline extends OpenCvPipeline{
     OpenCvInternalCamera phoneCam;
-    SignalParkPipeline_1 pipeline;
 
     public void runOpMode() {
         /**
@@ -53,13 +52,12 @@ public class SignalParkPipeline {
 
     }
 
-    public static class SignalParkPipeline_1 extends OpenCvPipeline {
-        public enum SignalZone {
+     public enum SignalZone {
             ZONE_ONE,
             ZONE_TWO,
             ZONE_THREE
         }
-        
+
         //colors of sleeve
         //green already created
         //static final Scalar MAGENTA = new Scalar();
@@ -277,4 +275,3 @@ public class SignalParkPipeline {
             return position;
         }
     }
-}
