@@ -16,7 +16,6 @@ import org.firstinspires.ftc.teamcode.util.SignalParkVision;
 @Autonomous(name="RedSingleCycleTimeAuton", group="Linear Opmode")
 @Config
 public class RedSingleCycleTimeAuton extends LinearOpMode {
-public class RedOct15TimeAuton extends LinearOpMode {
     public static int FORWARD1_TIME = 600;
     public static int TURNR_1_TIME = 350;
     public static int DUMP_TIME = 800;
@@ -102,13 +101,10 @@ public class RedOct15TimeAuton extends LinearOpMode {
 //        }
 
         //turn and go back to park
-        drive.turnLeftWithPower(0.8);
-        sleep(TURNR_2_TIME);
-        //temporary only if color vision doesnt work
         drive.turnRightWithPower(0.8);
         sleep(300);
         drive.backwardWithPower(0.8);
-        sleep(BACKWARD_TIME);
+        sleep(1000);
         drive.stop();
 
     }
