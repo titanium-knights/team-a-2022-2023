@@ -4,23 +4,25 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.util.Claw;
 import org.firstinspires.ftc.teamcode.util.ClawLift;
 import org.firstinspires.ftc.teamcode.util.Lift;
 import org.firstinspires.ftc.teamcode.util.MecanumDrive;
+import org.firstinspires.ftc.teamcode.util.SignalParkVision;
 
-@Autonomous(name="RedOct15TimeAuton", group="Linear Opmode")
+@Autonomous(name="RedSingleCycleTimeAuton", group="Linear Opmode")
 @Config
-public class RedOct15TimeAuton extends LinearOpMode {
+public class RedSingleCycleTimeAuton extends LinearOpMode {
     protected MecanumDrive drive;
     protected ElapsedTime elapsedTime;
     protected Claw claw;
     protected ClawLift clawLift;
     protected Lift lift;
     public static final Pose2d startPose = new Pose2d(-35, -60, Math.toRadians(90));
+    protected SignalParkVision vision;
+
 //    public static double MOVEMENT_FACTOR = 0.025;
 //    public static double TURN_TIME = 0.43;
 
@@ -37,6 +39,15 @@ public class RedOct15TimeAuton extends LinearOpMode {
 //        }
 //    }
 
+    protected void setupDevices(){
+        drive = new MecanumDrive(hardwareMap);
+        claw = new Claw(hardwareMap);
+        clawLift = new ClawLift(hardwareMap);
+        lift = new Lift(hardwareMap);
+        elapsedTime = new ElapsedTime();
+        vision = new SignalParkVision(hardwareMap, null);
+    }
+
     private void dumpAndLower() {
         lift.setPositionMid();
         sleep(1000);
@@ -50,11 +61,7 @@ public class RedOct15TimeAuton extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        drive = new MecanumDrive(hardwareMap);
-        claw = new Claw(hardwareMap);
-        clawLift = new ClawLift(hardwareMap);
-        lift = new Lift(hardwareMap);
-        elapsedTime = new ElapsedTime();
+        setupDevices();
 
         waitForStart();
         elapsedTime.reset();
@@ -71,7 +78,16 @@ public class RedOct15TimeAuton extends LinearOpMode {
         dumpAndLower();
         sleep(1000);
 
+//        if(vision.getPosition() == 1){
+//            //go first zone
+//        } else if (vision.getPosition() == 2){
+//            //go second zone
+//        } else{
+//            //go third zone
+//        }
+
         //turn and go back to park
+        //temporary only if color vision doesnt work
         drive.turnRightWithPower(0.8);
         sleep(300);
         drive.backwardWithPower(0.8);
