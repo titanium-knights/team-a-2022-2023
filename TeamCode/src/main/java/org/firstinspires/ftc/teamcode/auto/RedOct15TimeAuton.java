@@ -15,31 +15,24 @@ import org.firstinspires.ftc.teamcode.util.MecanumDrive;
 @Autonomous(name="RedOct15TimeAuton", group="Linear Opmode")
 @Config
 public class RedOct15TimeAuton extends LinearOpMode {
+    public static int FORWARD1_TIME = 600;
+    public static int TURNR_1_TIME = 350;
+    public static int DUMP_TIME = 800;
+    public static int TURNR_2_TIME = 80;
+    public static int BACKWARD_TIME = 800;
+
+    public static int LIFT_POWERUP_TIME = 200;
+
     protected MecanumDrive drive;
     protected ElapsedTime elapsedTime;
     protected Claw claw;
     protected ClawLift clawLift;
     protected Lift lift;
     public static final Pose2d startPose = new Pose2d(-35, -60, Math.toRadians(90));
-//    public static double MOVEMENT_FACTOR = 0.025;
-//    public static double TURN_TIME = 0.43;
-
-//    private void updateDevices() {
-//        if (liftPos != null) {
-//            lift.runToPosition(liftPos, 0.9);
-//        }
-//    }
-//
-//    private void waitSeconds(double seconds) {
-//        double start = elapsedTime.seconds();
-//        while (opModeIsActive() && !Thread.currentThread().isInterrupted() && elapsedTime.seconds() - start < seconds) {
-//            updateDevices();
-//        }
-//    }
 
     private void dumpAndLower() {
-        lift.setPositionMid();
-        sleep(1000);
+        lift.setPower(.5);
+        sleep(200);
         claw.open();
         sleep(500);
         lift.setPositionGround();
@@ -59,23 +52,28 @@ public class RedOct15TimeAuton extends LinearOpMode {
         waitForStart();
         elapsedTime.reset();
 
+        lift.liftUp();
+        sleep(LIFT_POWERUP_TIME);
+
         //go forward to dump
         drive.forwardWithPower(0.8);
-        sleep(800);
+        sleep(FORWARD1_TIME);
         drive.stop();
 
         //dump cone
         drive.turnRightWithPower(0.8);
-        sleep(700);
+        sleep(TURNR_1_TIME);
         drive.stop();
+
         dumpAndLower();
-        sleep(1000);
+
+        sleep(DUMP_TIME);
 
         //turn and go back to park
-        drive.turnRightWithPower(0.8);
-        sleep(300);
+        drive.turnLeftWithPower(0.8);
+        sleep(TURNR_2_TIME);
         drive.backwardWithPower(0.8);
-        sleep(1000);
+        sleep(BACKWARD_TIME);
         drive.stop();
 
     }

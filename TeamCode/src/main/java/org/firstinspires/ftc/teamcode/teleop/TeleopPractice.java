@@ -58,11 +58,6 @@ public class TeleopPractice extends OpMode {
         if (gamepad1.dpad_down) {
             clawLift.setPickup();
         }
-
-        if (gamepad1.b) {
-            lift.setPositionMid();
-
-        }
         }
         //if (gamepad1.b) {//close claw preset
             //clawLift.setPower(-0.5); //placeholder for preset here. Add ACTUAL preset value!!
