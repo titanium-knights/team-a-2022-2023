@@ -15,7 +15,7 @@ public class TeleopPractice extends OpMode {
     //woot
     public static double DRIVE_SPEED = 1; //idk we can play around w this
 
-    public static double LIFT_SPEED_POWER = .6;
+    public static double LIFT_SPEED_POWER = .5;
     public static double LIFT_NEGATE_MULTIPLIER = .05;
 
 
