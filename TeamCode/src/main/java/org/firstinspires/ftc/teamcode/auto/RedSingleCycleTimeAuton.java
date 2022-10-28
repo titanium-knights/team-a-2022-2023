@@ -20,6 +20,7 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
     protected ElapsedTime elapsedTime;
     protected Claw claw;
     protected Lift lift;
+
     public static final Pose2d startPose = new Pose2d(-35, -60, Math.toRadians(90));
 
     public static int FORWARD1_TIME = 600;
@@ -38,7 +39,18 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
 //    public static double MOVEMENT_FACTOR = 0.025;
 //    public static double TURN_TIME = 0.43;
 
+//    private void updateDevices() {
+//        if (liftPos != null) {
+//            lift.runToPosition(liftPos, 0.9);
+//        }
+//    }
 //
+//    private void waitSeconds(double seconds) {
+//        double start = elapsedTime.seconds();
+//        while (opModeIsActive() && !Thread.currentThread().isInterrupted() && elapsedTime.seconds() - start < seconds) {
+//            updateDevices();
+//        }
+//    }
 
     protected void setupDevices(){
         drive = new MecanumDrive(hardwareMap);
@@ -81,6 +93,7 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
 //        claw.closeCone();
 //        sleep(500);
 //    }
+
     @Override
     public void runOpMode() throws InterruptedException {
         setupDevices();
@@ -116,8 +129,14 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
 //        }
 
         //turn and go back to park
+//        drive.turnLeftWithPower(0.8);
+//        sleep(TURNR_2_TIME);
+
+        //temporary only if color vision doesnt work
+        drive.turnRightWithPower(0.8);
+        sleep(300);
         drive.backwardWithPower(0.8);
-        sleep(1000);
+        sleep(BACKWARD_TIME);
         drive.stop();
     }
 }
