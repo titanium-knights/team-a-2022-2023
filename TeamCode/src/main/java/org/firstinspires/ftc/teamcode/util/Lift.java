@@ -28,13 +28,9 @@ public class Lift {
     }
 
     public void setPosition(int pos) {
-        lift.setTargetPosition(pos);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         lift.setPower(LIFT_POWER);
-    }
-
-    public void liftUp() {
-        setPosition(MID_POSITION);
+        lift.setTargetPosition(pos);
     }
 
     public void setPositionGround() {
