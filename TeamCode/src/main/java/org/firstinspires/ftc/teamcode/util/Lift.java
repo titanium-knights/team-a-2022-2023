@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.*;
 public class Lift {
     public DcMotor lift; //servo or motor???
     public static double LIFT_POWER = .5;
-    public static int HIGH_POSITION = 850;
+    public static int HIGH_POSITION = 950;
     public static int MID_POSITION = 800;
     public static int LOW_POSITION = 650;
     public static int GROUND_POSITION = 50;
