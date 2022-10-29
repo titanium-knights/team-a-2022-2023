@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.util.MecanumDrive;
 import org.firstinspires.ftc.teamcode.util.SignalParkVision;
 
 @Config
-@Autonomous(name="RedSingleCycleTimeAuton", group="Linear Opmode")
+@Autonomous(name="RedSingleCycleTimeAutonTEST", group="Linear Opmode")
 public class RedSingleCycleTimeCopy extends LinearOpMode {
     protected MecanumDrive drive;
     protected Lift lift;
