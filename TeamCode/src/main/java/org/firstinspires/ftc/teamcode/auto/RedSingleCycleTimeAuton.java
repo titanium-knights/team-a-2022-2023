@@ -29,7 +29,7 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
     public static int TURNR_2_TIME = 80;
     public static int BACKWARD_TIME = 800;
 
-    public static double LIFT_POWER = .5;
+    public static double LIFT_POWER = -.5;
     public static double LIFT_POWERUP_TIME = 0.5;
 
     Integer liftPos = null;
