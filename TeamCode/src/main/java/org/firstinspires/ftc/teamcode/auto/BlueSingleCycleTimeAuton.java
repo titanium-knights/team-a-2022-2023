@@ -14,6 +14,9 @@ public class BlueSingleCycleTimeAuton extends LinearOpMode {
     public static int FORWARDTIME2 = 100;
     public static int SLEEPLIFT = 100;
     public static int SLEEPCLAW = 100;
+    public static int SLEEPBACKWARD = 100;
+    public static int SLEEPTURNRIGHT = 100;
+    public static int SLEEPPARKING = 100;
     protected MecanumDrive drive;
     protected Claw claw;
     protected Lift lift;
@@ -48,9 +51,17 @@ public class BlueSingleCycleTimeAuton extends LinearOpMode {
         claw.open(); //is this right?
         sleep (SLEEPCLAW);
 
-        //drive backwards to part 2
+        //drive backwards to where cone was
+        drive.backwardWithPower(DRIVEPOWER);
+        sleep (SLEEPBACKWARD);
 
+        //turn right to be in front of parking spot
+        drive.turnRightWithPower(DRIVEPOWER);
+        sleep (SLEEPTURNRIGHT);
 
+        //go straight into parking spot yay
+        drive.forwardWithPower(DRIVEPOWER);
+        sleep (SLEEPPARKING);
 
     }
 }
