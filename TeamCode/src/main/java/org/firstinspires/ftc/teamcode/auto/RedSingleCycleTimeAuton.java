@@ -14,7 +14,8 @@ import org.firstinspires.ftc.teamcode.util.MecanumDrive;
 import org.firstinspires.ftc.teamcode.util.SignalParkVision;
 
 @Autonomous(name="RedSingleCycleTimeAuton", group="Linear Opmode")
-//@Config
+@Config
+
 public class RedSingleCycleTimeAuton extends LinearOpMode {
     protected MecanumDrive drive;
     protected ElapsedTime elapsedTime;
@@ -30,7 +31,7 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
     public static int BACKWARD_TIME = 800;
 
     public static double LIFT_POWER = -.5;
-    public static double LIFT_POWERUP_TIME = 0.5;
+    public static int LIFT_POWERUP_TIME = 500;
 
     Integer liftPos = null;
 
@@ -83,16 +84,17 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
 ////        }
 ////    }
 
-//    private void dumpAndLower() {
-//        lift.setPower(.5);
-//        sleep(200);
-//        claw.open();
-//        sleep(500);
-//        lift.setPositionGround();
-//        sleep(1000);
-//        claw.closeCone();
-//        sleep(500);
-//    }
+    private void dumpAndLower() {
+        //bring lift up, pause, bring lift down
+        lift.setPower(LIFT_POWER);
+        sleep(500);
+        claw.open();
+        sleep(500);
+        lift.setPositionGround();
+        sleep(1000);
+        claw.closeCone();
+        sleep(500);
+    }
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -101,10 +103,9 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
         waitForStart();
         elapsedTime.reset();
 
-        liftPos = lift.MID_POSITION;
+        //liftPos = lift.MID_POSITION;
         //waitSeconds(LIFT_POWERUP_TIME);
-        liftPos = null;
-        lift.setPosition(lift.MID_POSITION);
+        //liftPos = null;
 
         //go forward to dump
         drive.forwardWithPower(0.8);
@@ -116,7 +117,7 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
         sleep(TURNR_1_TIME);
         drive.stop();
 
-        //dumpAndLower();
+        dumpAndLower();
 
         sleep(DUMP_TIME);
 
