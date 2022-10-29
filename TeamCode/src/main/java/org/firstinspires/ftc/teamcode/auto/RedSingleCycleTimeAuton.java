@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.auto;
 
-import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.roadrunner.geometry.Pose2d;
+//import com.acmerobotics.dashboard.config.Config;
+//import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -14,14 +14,14 @@ import org.firstinspires.ftc.teamcode.util.MecanumDrive;
 import org.firstinspires.ftc.teamcode.util.SignalParkVision;
 
 @Autonomous(name="RedSingleCycleTimeAuton", group="Linear Opmode")
-@Config
+//@Config
 public class RedSingleCycleTimeAuton extends LinearOpMode {
     protected MecanumDrive drive;
     protected ElapsedTime elapsedTime;
     protected Claw claw;
     protected Lift lift;
 
-    public static final Pose2d startPose = new Pose2d(-35, -60, Math.toRadians(90));
+    //public static final Pose2d startPose = new Pose2d(-35, -60, Math.toRadians(90));
 
     public static int FORWARD1_TIME = 600;
     public static int TURNR_1_TIME = 350;
@@ -29,7 +29,7 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
     public static int TURNR_2_TIME = 80;
     public static int BACKWARD_TIME = 800;
 
-    public static double LIFT_POWER = .5;
+    public static double LIFT_POWER = -.5;
     public static double LIFT_POWERUP_TIME = 0.5;
 
     Integer liftPos = null;
