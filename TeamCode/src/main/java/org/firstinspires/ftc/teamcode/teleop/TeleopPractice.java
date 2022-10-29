@@ -61,7 +61,7 @@ public class TeleopPractice extends OpMode {
                 lift.setPower(LIFT_SPEED_POWER);
             } else if (lift.getPosition() >= lift.INIT_LIMIT + 50 &&   Math.abs(gamepad1.left_trigger) > 0.1) { //arm down
                 lift.setPower(-LIFT_SPEED_POWER);
-            } else { lift.setPower(-LIFT_SPEED_POWER * LIFT_NEGATE_MULTIPLIER);}
+            } else { lift.setPower(LIFT_SPEED_POWER * LIFT_NEGATE_MULTIPLIER);}
 
         telemetry.addData("Current Lift Encoder Val", lift.getPosition());
 
