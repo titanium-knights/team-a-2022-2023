@@ -86,7 +86,7 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
 
     private void dumpAndLower() {
         //bring lift up, pause, bring lift down
-        lift.setPower(LIFT_POWER);
+        lift.setPosition(Lift.MID_POSITION);
         sleep(500);
         claw.open();
         sleep(500);
