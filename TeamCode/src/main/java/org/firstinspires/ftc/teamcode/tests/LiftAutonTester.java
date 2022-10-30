@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.util.Claw;
@@ -25,17 +26,21 @@ public class LiftAutonTester extends LinearOpMode {
     public static int TURNR_2_TIME = 80;
     public static int BACKWARD_TIME = 800;
 
-    public static int LIFTUP_TIME = 500;
+    public static int LIFT_UP = 500;
+
+    public static int CLAW_OPEN_WAIT = 200;
 
     public static int LIFTDOWN_TIME = 500;
 
-    public static double LIFT_POWER_AUTON = -.01;
+    public static double LIFT_POWER_AUTON = -1;
 
-    private void dumpAndLower() {
-        //bring lift up, pause, bring lift down
-        lift.setPosition(Lift.MID_POSITION);
-        claw.open();
-        claw.closeCone();
+    private void goUp() {
+        if (lift.getPosition() < lift.MID_POSITION) {
+            lift.setPower(-1);
+        }
+        else {
+            lift.setPower(0);
+        }
     }
 
     private void dumpAndLower2() {
@@ -51,10 +56,16 @@ public class LiftAutonTester extends LinearOpMode {
         waitForStart();
         claw = new Claw(hardwareMap);
         lift = new Lift(hardwareMap);
+
         telemetry.addData("Current Lift Encoder Val", lift.getPosition());
 
-        dumpAndLower2();
+        goUp();
 
+        claw.open();
+        sleep(CLAW_OPEN_WAIT);
+        claw.closeCone();
+
+        lift.setPower(0);
         sleep(DUMP_TIME);
 
     }
