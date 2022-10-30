@@ -31,9 +31,10 @@ public class SignalParkAuton extends LinearOpMode  {
 
     @Override
     public void runOpMode() throws InterruptedException {
-
         drive = new MecanumDrive(hardwareMap);
         vision = new SignalParkVision(hardwareMap, null);
+
+        waitForStart();
 
         try {
             if (vision.getPosition() == 2) {
