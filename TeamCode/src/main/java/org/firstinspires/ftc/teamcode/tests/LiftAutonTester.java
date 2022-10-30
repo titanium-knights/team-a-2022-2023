@@ -22,9 +22,12 @@ public class LiftAutonTester extends LinearOpMode {
 
     public static int FORWARD1_TIME = 600;
     public static int TURNR_1_TIME = 350;
-    public static int DUMP_TIME = 800;
+    public static int DUMP_TIME = 500;
     public static int TURNR_2_TIME = 80;
     public static int BACKWARD_TIME = 800;
+    public static int BUFFER_ZONE = 100;
+    public static double P = 0.005;
+    public static int BUFFER_CLAW = 90;
 
     public static int LIFT_UP = 500;
 
@@ -34,21 +37,69 @@ public class LiftAutonTester extends LinearOpMode {
 
     public static double LIFT_POWER_AUTON = -1;
 
-    private void goUp() {
-        if (lift.getPosition() < lift.MID_POSITION) {
-            lift.setPower(-1);
+    public void goToPosition(int targetPos){
+        while (Math.abs(lift.getPosition()-targetPos)>BUFFER_ZONE){
+            int error = targetPos - lift.getPosition();
+            lift.setPower(-error*P);
+
+            telemetry.addData("Lift Motor Pos", lift.getPosition());
+            telemetry.addData("Error", error);
+            telemetry.update();
+
+            if(Math.abs(lift.getPosition()-targetPos) < BUFFER_CLAW && targetPos > 400){
+                claw.open();
+                sleep(200);
+            }
         }
-        else {
-            lift.setPower(0);
+        lift.setPower(0);
+    }
+
+    public void goToPosition2(int targetPos){
+
+        if(lift.getPosition() >= targetPos){
+            targetPos -= 30;
         }
+        else{
+            targetPos += 140;
+        }
+
+        while (Math.abs(lift.getPosition()-targetPos)>20){
+            int error = targetPos - lift.getPosition();
+            lift.setPower(-error*P);
+
+            telemetry.addData("Lift Motor Pos", lift.getPosition());
+            telemetry.addData("Error", error);
+            telemetry.update();
+
+            if(Math.abs(lift.getPosition()-targetPos) < 40 && targetPos > 400){
+                claw.open();
+                sleep(200);
+            }
+        }
+        lift.setPower(0);
+    }
+
+    private void dumpAndLower() {
+        //bring lift up, pause, bring lift down
+        claw.closeCone();
+        sleep(200);
+        goToPosition(Lift.MID_POSITION);
+        sleep(1000);
+
+        goToPosition(Lift.GROUND_POSITION);
+        sleep(1000);
+        claw.closeCone();
+        sleep(500);
     }
 
     private void dumpAndLower2() {
-        //bring lift up, pause, bring lift down
-        lift.setPower(LIFT_POWER_AUTON);
-        sleep(100);
-        claw.open();
+        goToPosition2(Lift.MID_POSITION);
+        sleep(1000);
+
+        goToPosition2(Lift.GROUND_POSITION);
+        sleep(1000);
         claw.closeCone();
+        sleep(500);
     }
 
     @Override
@@ -58,14 +109,13 @@ public class LiftAutonTester extends LinearOpMode {
         lift = new Lift(hardwareMap);
 
         telemetry.addData("Current Lift Encoder Val", lift.getPosition());
+        telemetry.update();
 
-        goUp();
-
-        claw.open();
-        sleep(CLAW_OPEN_WAIT);
         claw.closeCone();
+        sleep(300);
 
-        lift.setPower(0);
+        dumpAndLower();
+
         sleep(DUMP_TIME);
 
     }

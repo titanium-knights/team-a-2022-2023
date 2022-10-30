@@ -11,7 +11,7 @@ public class Lift {
     public static int LOW_POSITION = 650;
     public static int GROUND_POSITION = 50;
 
-    public static int MAX_LIMIT = 950;
+    public static int MAX_LIMIT = 1000;
     public static int INIT_LIMIT = 120;
 
     public Lift(HardwareMap hmap) {

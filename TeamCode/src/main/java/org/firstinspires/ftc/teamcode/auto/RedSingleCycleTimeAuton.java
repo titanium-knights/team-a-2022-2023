@@ -33,7 +33,8 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
     public static double LIFT_POWER = -.5;
     public static int LIFT_POWERUP_TIME = 500;
     public static double P = 0.002;
-    public static int BUFFER_ZONE = 50;
+    public static int BUFFER_ZONE = 25;
+    public static int BUFFER_CLAW = 35;
 
     Integer liftPos = null;
 
@@ -93,6 +94,11 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
             telemetry.addData("Lift Motor Pos", lift.getPosition());
             telemetry.addData("Error", error);
             telemetry.update();
+
+            if(Math.abs(lift.getPosition()-targetPos) < BUFFER_CLAW && targetPos > 400){
+                claw.open();
+                sleep(200);
+            }
         }
         lift.setPower(0);
     }
@@ -101,9 +107,7 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
         //bring lift up, pause, bring lift down
 
         goToPosition(Lift.MID_POSITION);
-        sleep(500);
-        claw.open();
-        sleep(500);
+        sleep(1000);
 
         goToPosition(Lift.GROUND_POSITION);
         sleep(1000);
@@ -118,9 +122,14 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
         waitForStart();
         elapsedTime.reset();
 
+//        claw.openInit();
+//        sleep(200);
         //liftPos = lift.MID_POSITION;
         //waitSeconds(LIFT_POWERUP_TIME);
         //liftPos = null;
+
+        claw.closeCone();
+        sleep(300);
 
         //go forward to dump
         drive.forwardWithPower(0.8);
