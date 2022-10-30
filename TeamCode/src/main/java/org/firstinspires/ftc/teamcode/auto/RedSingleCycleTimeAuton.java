@@ -32,6 +32,8 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
 
     public static double LIFT_POWER = -.5;
     public static int LIFT_POWERUP_TIME = 500;
+    public static double P = 0.002;
+    public static int BUFFER_ZONE = 50;
 
     Integer liftPos = null;
 
@@ -86,7 +88,17 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
 
     private void dumpAndLower() {
         //bring lift up, pause, bring lift down
-        lift.setPosition(-Lift.MID_POSITION);
+
+        while (Math.abs(lift.getPosition()-Lift.MID_POSITION)>BUFFER_ZONE){
+            int error = Lift.MID_POSITION - lift.getPosition();
+            lift.setPower(error*P);
+
+            telemetry.addData("Lift Motor Pos", lift.getPosition());
+            telemetry.addData("Error", error);
+            telemetry.update();
+        }
+        lift.setPower(0);
+
         sleep(500);
         claw.open();
         sleep(500);
@@ -134,8 +146,6 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
 //        sleep(TURNR_2_TIME);
 
         //temporary only if color vision doesnt work
-        drive.turnRightWithPower(0.8);
-        sleep(300);
         drive.backwardWithPower(0.8);
         sleep(BACKWARD_TIME);
         drive.stop();

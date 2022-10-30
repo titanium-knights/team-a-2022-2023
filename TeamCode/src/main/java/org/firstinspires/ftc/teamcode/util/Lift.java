@@ -48,6 +48,7 @@ public class Lift {
         return lift.getCurrentPosition();
     }
 
+
     public void runToPosition(int pos, double multiplier){
         int currentPos = lift.getCurrentPosition();
         //double multiplier = Math.min(1, Math.max(0, Math.abs(pos - currentPos) / 150.0));
