@@ -26,7 +26,7 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
 
     public static int FORWARD1_TIME = 600;
     public static int TURNR_1_TIME = 350;
-    public static int DUMP_TIME = 800;
+    public static int DUMP_TIME = 1300;
     public static int TURNR_2_TIME = 80;
     public static int BACKWARD_TIME = 800;
 
@@ -85,24 +85,27 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
 ////            updateDevices();
 ////        }
 ////    }
-
-    private void dumpAndLower() {
-        //bring lift up, pause, bring lift down
-
-        while (Math.abs(lift.getPosition()-Lift.MID_POSITION)>BUFFER_ZONE){
-            int error = Lift.MID_POSITION - lift.getPosition();
-            lift.setPower(error*P);
+    public void goToPosition(int targetPos){
+        while (Math.abs(lift.getPosition()-targetPos)>BUFFER_ZONE){
+            int error = targetPos - lift.getPosition();
+            lift.setPower(-error*P);
 
             telemetry.addData("Lift Motor Pos", lift.getPosition());
             telemetry.addData("Error", error);
             telemetry.update();
         }
         lift.setPower(0);
+    }
 
+    private void dumpAndLower() {
+        //bring lift up, pause, bring lift down
+
+        goToPosition(Lift.MID_POSITION);
         sleep(500);
         claw.open();
         sleep(500);
-        lift.setPositionGround();
+
+        goToPosition(Lift.GROUND_POSITION);
         sleep(1000);
         claw.closeCone();
         sleep(500);
