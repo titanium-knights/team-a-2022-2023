@@ -10,13 +10,13 @@ import org.firstinspires.ftc.teamcode.util.*;
 public class BlueSingleCycleTimeAuton extends LinearOpMode {
     public static int FORWARD1_T = 500;
     public static double DRIVEPOWER = 0.3;
-    public static int RIGHTTIME = 100;
-    public static int FORWARDTIME2 = 100;
-    public static int SLEEPLIFT = 100;
-    public static int SLEEPCLAW = 100;
-    public static int SLEEPBACKWARD = 100;
-    public static int SLEEPTURNRIGHT = 100;
-    public static int SLEEPPARKING = 100;
+    public static int RIGHTTIME = 500;
+    public static int FORWARDTIME2 = 500;
+    public static int SLEEPLIFT = 500;
+    public static int SLEEPCLAW = 500;
+    public static int SLEEPBACKWARD = 500;
+    public static int SLEEPTURNRIGHT = 500;
+    public static int SLEEPPARKING = 500;
     protected MecanumDrive drive;
     protected Claw claw;
     protected Lift lift;
@@ -27,6 +27,8 @@ public class BlueSingleCycleTimeAuton extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        waitForStart();
+
         //go straight, turn, straight, lift up, open claw, back, turn, straight and park
         drive = new MecanumDrive(hardwareMap);
         claw = new Claw(hardwareMap);

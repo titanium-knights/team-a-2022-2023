@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.auto;
+package org.firstinspires.ftc.teamcode.tests;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -14,9 +14,8 @@ import org.firstinspires.ftc.teamcode.util.MecanumDrive;
 import org.firstinspires.ftc.teamcode.util.SignalParkVision;
 
 @Config
-@Autonomous(name="RedSingleCycleTimeAutonTEST", group="Linear Opmode")
-public class RedSingleCycleTimeCopy extends LinearOpMode {
-    protected MecanumDrive drive;
+@Autonomous(name="LiftAutonTester", group="Linear Opmode")
+public class LiftAutonTester extends LinearOpMode {
     protected Lift lift;
     protected Claw claw;
 
@@ -30,43 +29,34 @@ public class RedSingleCycleTimeCopy extends LinearOpMode {
 
     public static int LIFTDOWN_TIME = 500;
 
-    public static int LIFT_POWERUP_TIME = 500;
+    public static double LIFT_POWER_AUTON = -.01;
 
     private void dumpAndLower() {
         //bring lift up, pause, bring lift down
-        lift.setPosition(-Lift.MID_POSITION);
+        lift.setPosition(Lift.MID_POSITION);
         claw.open();
-        lift.setPosition(-Lift.GROUND_POSITION);
+        claw.closeCone();
+    }
+
+    private void dumpAndLower2() {
+        //bring lift up, pause, bring lift down
+        lift.setPower(LIFT_POWER_AUTON);
+        sleep(100);
+        claw.open();
         claw.closeCone();
     }
 
     @Override
     public void runOpMode() throws InterruptedException {
         waitForStart();
-        drive = new MecanumDrive(hardwareMap);
         claw = new Claw(hardwareMap);
         lift = new Lift(hardwareMap);
+        telemetry.addData("Current Lift Encoder Val", lift.getPosition());
 
-            //go forward to dump
-            drive.forwardWithPower(0.8);
-            sleep(FORWARD1_TIME);
-            drive.stop();
+        dumpAndLower2();
 
-            //dump cone
-            drive.turnRightWithPower(0.8);
-            sleep(TURNR_1_TIME);
-            drive.stop();
+        sleep(DUMP_TIME);
 
-            dumpAndLower();
-
-            sleep(DUMP_TIME);
-
-            //temporary only if color vision doesnt work
-            drive.turnRightWithPower(0.8);
-            sleep(300);
-            drive.backwardWithPower(0.8);
-            sleep(BACKWARD_TIME);
-            drive.stop();
-        }
     }
+}
 
