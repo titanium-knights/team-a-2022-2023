@@ -15,11 +15,19 @@ public class TeleopPractice extends OpMode {
     //woot
     public static double DRIVE_SPEED = 1; //idk we can play around w this
 
-    public static double LIFT_SPEED_POWER = -.5;
-    public static double LIFT_NEGATE_MULTIPLIER = .05;
+    public static double LIFT_SPEED_POWER = 1;
+    public static double LIFT_NEGATE_MULTIPLIER = .07;
 
     public static double DRIVE_SPEED_SLOWMODE = .8;
     boolean isSlowmode = false;
+
+    //new things
+    public static double LIFT_POWER = -.5;
+    public static int LIFT_POWERUP_TIME = 500;
+    public static double P = 0.002;
+    public static int BUFFER_ZONE = 40;
+    public static int BUFFER_CLAW = 90;
+    public static int targetPos = 170;
 
 
     public void init() { //everything when you press the play button before u start goes here (INITialize, get it?)
@@ -32,6 +40,7 @@ public class TeleopPractice extends OpMode {
         lift.setInit();
 
     }
+
     public void loop() { //gamepad buttons that call util methods go here
         if (gamepad1.a) {
             isSlowmode = !isSlowmode;
@@ -39,37 +48,42 @@ public class TeleopPractice extends OpMode {
 
         if (!isSlowmode) {
             drive.teleOpRobotCentric(gamepad1, DRIVE_SPEED); //go drive vroom
-        }
-        else {
+        } else {
             drive.teleOpRobotCentric(gamepad1, DRIVE_SPEED_SLOWMODE);
         }
 
         telemetry.addData("Slow mode on?:", isSlowmode);
 
         //claw
-        if (gamepad1.right_bumper) {
+        if (gamepad1.right_bumper || gamepad1.b) {
             claw.closeCone();
         }
         if (gamepad1.left_bumper) {
-            claw.open();
+            claw.openInit(); //changed to act as a mechanical stop
         }
         telemetry.addData("Current Servo position", claw.getPosition());
 
-        //there are 2 gamepads (gamepad1 & gamepad2, start typing gamepad1 to see its buttons (it's the same as gamepad2)
-        //lift stuff-
+//        there are 2 gamepads (gamepad1 & gamepad2, start typing gamepad1 to see its buttons (it's the same as gamepad2)
+//        lift stuff-
         if (lift.getPosition() < lift.MAX_LIMIT && Math.abs(gamepad1.right_trigger) > 0.1) { //arm up
-                lift.setPower(LIFT_SPEED_POWER);
-            } else if (lift.getPosition() >= lift.INIT_LIMIT + 50 &&   Math.abs(gamepad1.left_trigger) > 0.1) { //arm down
-                lift.setPower(-LIFT_SPEED_POWER);
-            } else { lift.setPower(LIFT_SPEED_POWER * LIFT_NEGATE_MULTIPLIER);}
+            lift.setPower(LIFT_SPEED_POWER);
+        } else if (lift.getPosition() >= lift.INIT_LIMIT + 50 && Math.abs(gamepad1.left_trigger) > 0.1) { //arm down
+            lift.setPower(-LIFT_SPEED_POWER);
+        } else {
+            lift.setPower(LIFT_SPEED_POWER * LIFT_NEGATE_MULTIPLIER);
+        }
 
         telemetry.addData("Current Lift Encoder Val", lift.getPosition());
 
         if (gamepad1.dpad_down) {
             clawLift.setPickup();
         }
+
+        if (gamepad1.b) {
+            claw.openInit();
         }
-        //if (gamepad1.b) {//close claw preset
-            //clawLift.setPower(-0.5); //placeholder for preset here. Add ACTUAL preset value!!
-        }
+        //if (gamepad1b) {//close claw preset
+        //clawLift.setPower(-0.5); //placeholder for preset here. Add ACTUAL preset value!!
+    }
+}
 

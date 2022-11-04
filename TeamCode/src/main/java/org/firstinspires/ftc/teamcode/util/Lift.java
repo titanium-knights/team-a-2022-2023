@@ -5,14 +5,14 @@ import com.qualcomm.robotcore.hardware.*;
 @Config
 public class Lift {
     public DcMotor lift; //servo or motor???
-    public static double LIFT_POWER = -.5;
+    public static double LIFT_POWER = 1;
     public static int HIGH_POSITION = 950;
     public static int MID_POSITION = 800;
     public static int LOW_POSITION = 650;
     public static int GROUND_POSITION = 50;
 
-    public static int MAX_LIMIT = 950;
-    public static int INIT_LIMIT = 120;
+    public static int MAX_LIMIT = 900;
+    public static int INIT_LIMIT = -50;
 
     public Lift(HardwareMap hmap) {
 
@@ -28,10 +28,12 @@ public class Lift {
     }
 
     public void setPosition(int pos) {
-        lift.setPower(LIFT_POWER);
         lift.setTargetPosition(pos);
-        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lift.setPower(LIFT_POWER);
     }
+
+
 
     public void setPositionGround() {
         lift.setTargetPosition(GROUND_POSITION);}
@@ -45,4 +47,22 @@ public class Lift {
     public int getPosition() {
         return lift.getCurrentPosition();
     }
+
+
+    public void runToPosition(int pos, double multiplier){
+        int currentPos = lift.getCurrentPosition();
+        //double multiplier = Math.min(1, Math.max(0, Math.abs(pos - currentPos) / 150.0));
+        if(pos - currentPos > 30){
+            setPower(-1 * multiplier);
+        }
+        else if(pos - currentPos < -30){
+            setPower(1 * multiplier);
+        }
+        else if (pos == 0) {
+            setPower(0);
+        } else {
+            setPower(0);
+        }
+    }
+
 }
