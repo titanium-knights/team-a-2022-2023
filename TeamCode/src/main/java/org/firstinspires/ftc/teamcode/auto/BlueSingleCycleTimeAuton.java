@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.util.*;
 
-@Autonomous(name="BlueSingleCycleTimeAuton", group="Linear Opmode")
+@Autonomous(name="BlueCycleTimeAuton", group="Linear Opmode")
 @Config
 public class BlueSingleCycleTimeAuton extends LinearOpMode {
     protected MecanumDrive drive;
@@ -27,7 +27,7 @@ public class BlueSingleCycleTimeAuton extends LinearOpMode {
     public static int LIFT_POWERUP_TIME = 500;
     public static double P = 0.002;
     public static int BUFFER_ZONE = 40;
-    public static int BUFFER_CLAW = 50;
+    public static int BUFFER_CLAW = 90;
 
     Integer liftPos = null;
 
