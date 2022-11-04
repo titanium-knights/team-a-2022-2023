@@ -21,7 +21,7 @@ public class BlueSingleCycleTimeAuton extends LinearOpMode {
     protected Claw claw;
     protected Lift lift;
     public void raiseDump() {
-        lift.setPosition(lift.MID_POSITION);
+        lift.setPosition(Lift.MID_POSITION);
         sleep(SLEEPLIFT);
     }
 
