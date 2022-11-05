@@ -30,9 +30,6 @@ public class RedTimeParkAuton extends LinearOpMode {
 
         waitForStart();
 
-        lift.setInit();
-        claw.openInit();
-
         drive.strafeLeftWithPower(0.7);
         sleep(PARK_TIME);
         drive.stop();
