@@ -5,7 +5,6 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.util.Claw;
 import org.firstinspires.ftc.teamcode.util.ClawLift;
@@ -13,10 +12,9 @@ import org.firstinspires.ftc.teamcode.util.Lift;
 import org.firstinspires.ftc.teamcode.util.MecanumDrive;
 import org.firstinspires.ftc.teamcode.util.SignalParkVision;
 
+@Autonomous(name="RED_PRAYTOGOD", group="Linear Opmode")
 @Config
-@Autonomous(name = "Blue - PRAYTOGOD", group = "Linear OpMode")
-
-public class Blue_PRAYTOGOD extends LinearOpMode  {
+public class Red_PRAYTOGOD extends LinearOpMode {
     public static double DRIVE_POWER = 0.5;
 
     public static int FORWARD_TIME = 1200;
@@ -28,14 +26,14 @@ public class Blue_PRAYTOGOD extends LinearOpMode  {
     protected MecanumDrive drive;
     protected SignalParkVision vision;
 
-
     @Override
     public void runOpMode() throws InterruptedException {
         drive = new MecanumDrive(hardwareMap);
 
         waitForStart();
 
-        drive.strafeRightWithPower(0.7);
+        drive.strafeLeftWithPower(0.7);
+
         sleep(PARK_TIME);
         drive.stop();
         sleep(STOP_TIME);
@@ -44,5 +42,6 @@ public class Blue_PRAYTOGOD extends LinearOpMode  {
         sleep(FORWARD_TIME);
         drive.stop();
         sleep(STOP_TIME);
+
     }
 }
