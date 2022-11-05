@@ -21,23 +21,11 @@ public class TeleopPractice extends OpMode {
     public static double DRIVE_SPEED_SLOWMODE = .8;
     boolean isSlowmode = false;
 
-    //new things
-    public static double LIFT_POWER = -.5;
-    public static int LIFT_POWERUP_TIME = 500;
-    public static double P = 0.002;
-    public static int BUFFER_ZONE = 40;
-    public static int BUFFER_CLAW = 90;
-    public static int targetPos = 170;
-
-
     public void init() { //everything when you press the play button before u start goes here (INITialize, get it?)
         drive = new MecanumDrive(hardwareMap);
         claw = new Claw(hardwareMap);
         lift = new Lift(hardwareMap);
         clawLift = new ClawLift(hardwareMap);
-
-        claw.openInit();
-        lift.setInit();
 
     }
 
@@ -55,7 +43,7 @@ public class TeleopPractice extends OpMode {
         telemetry.addData("Slow mode on?:", isSlowmode);
 
         //claw
-        if (gamepad1.right_bumper || gamepad1.b) {
+        if (gamepad1.right_bumper) {
             claw.closeCone();
         }
         if (gamepad1.left_bumper) {
@@ -67,23 +55,13 @@ public class TeleopPractice extends OpMode {
 //        lift stuff-
         if (lift.getPosition() < lift.MAX_LIMIT && Math.abs(gamepad1.right_trigger) > 0.1) { //arm up
             lift.setPower(LIFT_SPEED_POWER);
-        } else if (lift.getPosition() >= lift.INIT_LIMIT + 50 && Math.abs(gamepad1.left_trigger) > 0.1) { //arm down
+        } else if (lift.getPosition() >= lift.MIN_LIMIT && Math.abs(gamepad1.left_trigger) > 0.1) { //arm down
             lift.setPower(-LIFT_SPEED_POWER);
         } else {
             lift.setPower(LIFT_SPEED_POWER * LIFT_NEGATE_MULTIPLIER);
         }
 
         telemetry.addData("Current Lift Encoder Val", lift.getPosition());
-
-        if (gamepad1.dpad_down) {
-            clawLift.setPickup();
-        }
-
-        if (gamepad1.b) {
-            claw.openInit();
-        }
-        //if (gamepad1b) {//close claw preset
-        //clawLift.setPower(-0.5); //placeholder for preset here. Add ACTUAL preset value!!
     }
 }
 
