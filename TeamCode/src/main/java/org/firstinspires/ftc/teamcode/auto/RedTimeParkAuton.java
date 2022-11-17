@@ -16,15 +16,12 @@ import org.firstinspires.ftc.teamcode.util.MecanumDrive;
 public class RedTimeParkAuton extends LinearOpMode {
     protected MecanumDrive drive;
     protected Lift lift;
-    protected ClawLift clawLift;
     protected Claw claw;
-    public static final Pose2d startPose = new Pose2d(-35, -60, Math.toRadians(90));
     public static long PARK_TIME = 1500;
 
     @Override
     public void runOpMode() throws InterruptedException {
         drive = new MecanumDrive(hardwareMap);
-        clawLift = new ClawLift(hardwareMap);
         lift = new Lift(hardwareMap);
         claw = new Claw(hardwareMap);
 
