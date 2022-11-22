@@ -21,7 +21,9 @@ public class CONFIG {
 
     public static String clawLift = "clawLift"; //
 
-    public static String liftMotorRight = "lmr"; //exp
-    public static String liftMotorLeft = "lml";  //exp
+    public static String clawUp = "clawUp"; //ch 3, servo to lift the claw up
+
+    public static String liftMotorRight = "r_lift"; //exp 0
+    public static String liftMotorLeft = "l_lift";  //exp 1
 
 }
