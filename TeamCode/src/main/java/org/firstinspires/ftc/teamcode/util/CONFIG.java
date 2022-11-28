@@ -26,4 +26,7 @@ public class CONFIG {
     public static String liftMotorRight = "r_lift"; //exp 0
     public static String liftMotorLeft = "l_lift";  //exp 1
 
+    public static String o_c = "bl"; //center odo, ch 0
+    public static String o_r = "br"; //right odo, ch 1
+    public static String o_l = "fl"; //left odo, ch 3
 }
