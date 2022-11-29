@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.util.*;
 public class TeleOpN extends OpMode {
     MecanumDrive drive; // aidawkfafhiuawf
     //woot
-    public static double DRIVE_SPEED = 1; //idk we can play around w this
+    public static double DRIVE_SPEED = .9; //idk we can play around w this
 
     public static double LIFT_SPEED_POWER = 1;
     public static double LIFT_NEGATE_MULTIPLIER = .07;
