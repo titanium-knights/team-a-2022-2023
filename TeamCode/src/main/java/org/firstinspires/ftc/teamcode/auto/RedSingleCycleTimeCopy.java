@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.util.Claw;
 import org.firstinspires.ftc.teamcode.util.ClawLift;
 import org.firstinspires.ftc.teamcode.util.Lift;
+import org.firstinspires.ftc.teamcode.util.LiftOld;
 import org.firstinspires.ftc.teamcode.util.MecanumDrive;
 import org.firstinspires.ftc.teamcode.util.SignalParkVision;
 
@@ -17,8 +18,9 @@ import org.firstinspires.ftc.teamcode.util.SignalParkVision;
 @Autonomous(name="RedSingleCycleTimeAutonTEST", group="Linear Opmode")
 public class RedSingleCycleTimeCopy extends LinearOpMode {
     protected MecanumDrive drive;
-    protected Lift lift;
+    protected ElapsedTime elapsedTime;
     protected Claw claw;
+    protected LiftOld lift;
 
     public static int FORWARD1_TIME = 600;
     public static int TURNR_1_TIME = 350;
@@ -45,7 +47,7 @@ public class RedSingleCycleTimeCopy extends LinearOpMode {
         waitForStart();
         drive = new MecanumDrive(hardwareMap);
         claw = new Claw(hardwareMap);
-        lift = new Lift(hardwareMap);
+        lift = new LiftOld(hardwareMap);
 
             //go forward to dump
             drive.forwardWithPower(0.8);

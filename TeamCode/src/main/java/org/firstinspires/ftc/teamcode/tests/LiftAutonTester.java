@@ -13,7 +13,7 @@ public class LiftAutonTester extends LinearOpMode {
     protected MecanumDrive drive;
     protected ElapsedTime elapsedTime;
     protected Claw claw;
-    protected Lift lift;
+    protected LiftOld lift;
 
     //public static final Pose2d startPose = new Pose2d(-35, -60, Math.toRadians(90));
 
@@ -52,7 +52,7 @@ public class LiftAutonTester extends LinearOpMode {
     protected void setupDevices(){
         drive = new MecanumDrive(hardwareMap);
         claw = new Claw(hardwareMap);
-        lift = new Lift(hardwareMap);
+        lift = new LiftOld(hardwareMap);
         elapsedTime = new ElapsedTime();
         //vision = new SignalParkVision(hardwareMap, null);
     }
