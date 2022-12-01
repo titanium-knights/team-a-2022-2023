@@ -17,8 +17,6 @@ public class CONFIG {
     //subsystems
     public static String clawServo = "claw"; //ch 0
 
-    public static String liftMotor = "lift"; //
-
     public static String clawLift = "clawLift"; //
 
     public static String clawUp = "clawUp"; //ch 3, servo to lift the claw up
