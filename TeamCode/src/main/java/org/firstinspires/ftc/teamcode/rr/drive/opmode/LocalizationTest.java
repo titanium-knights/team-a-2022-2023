@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.rr.drive.opmode;
 
+import static org.firstinspires.ftc.teamcode.util.CONFIG.O_C;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.util.CONFIG;
 
 /**
  * This is a simple teleop routine for testing localization. Drive the robot around like a normal
@@ -40,6 +43,8 @@ public class LocalizationTest extends LinearOpMode {
             telemetry.addData("y", poseEstimate.getY());
             telemetry.addData("heading", Math.toDegrees(poseEstimate.getHeading()));
             telemetry.update();
+
+
         }
     }
 }
