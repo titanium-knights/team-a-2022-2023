@@ -9,18 +9,19 @@ import org.firstinspires.ftc.teamcode.util.*;
 @TeleOp
 public class TeleOpN extends OpMode {
     MecanumDrive drive; // aidawkfafhiuawf
+    Lift lift;
+    Claw claw;
+
     //woot
     public static double DRIVE_SPEED = .9; //idk we can play around w this
-
-    public static double LIFT_SPEED_POWER = 1;
-    public static double LIFT_NEGATE_MULTIPLIER = .07;
 
     public static double DRIVE_SPEED_SLOWMODE = .8;
     boolean isSlowmode = false;
 
     public void init() { //everything when you press the play button before u start goes here (INITialize, get it?)
         drive = new MecanumDrive(hardwareMap);
-
+        lift = new Lift(hardwareMap);
+        claw = new Claw(hardwareMap);
     }
 
     public void loop() { //gamepad buttons that call util methods go here
@@ -35,6 +36,13 @@ public class TeleOpN extends OpMode {
         }
 
         telemetry.addData("Slow mode on?:", isSlowmode);
+
+        lift.correctMotorPositions();
+        if(Math.abs(gamepad2.left_stick_y)>0.1){
+             lift.setPower(gamepad1.left_stick_y);
+        }
+
+
     }
 }
 

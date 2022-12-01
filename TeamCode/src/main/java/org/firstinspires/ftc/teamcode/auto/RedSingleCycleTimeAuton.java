@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.util.Claw;
 import org.firstinspires.ftc.teamcode.util.ClawLift;
 import org.firstinspires.ftc.teamcode.util.Lift;
+import org.firstinspires.ftc.teamcode.util.LiftOld;
 import org.firstinspires.ftc.teamcode.util.MecanumDrive;
 import org.firstinspires.ftc.teamcode.util.SignalParkVision;
 
@@ -20,7 +21,7 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
     protected MecanumDrive drive;
     protected ElapsedTime elapsedTime;
     protected Claw claw;
-    protected Lift lift;
+    protected LiftOld lift;
 
     //public static final Pose2d startPose = new Pose2d(-35, -60, Math.toRadians(90));
 
@@ -59,7 +60,7 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
     protected void setupDevices(){
         drive = new MecanumDrive(hardwareMap);
         claw = new Claw(hardwareMap);
-        lift = new Lift(hardwareMap);
+        lift = new LiftOld(hardwareMap);
         elapsedTime = new ElapsedTime();
         //vision = new SignalParkVision(hardwareMap, null);
     }

@@ -9,20 +9,21 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.util.Claw;
 import org.firstinspires.ftc.teamcode.util.ClawLift;
 import org.firstinspires.ftc.teamcode.util.Lift;
+import org.firstinspires.ftc.teamcode.util.LiftOld;
 import org.firstinspires.ftc.teamcode.util.MecanumDrive;
 
 @Autonomous(name="RedTimeParkAuton", group="Linear Opmode")
 @Config
 public class RedTimeParkAuton extends LinearOpMode {
     protected MecanumDrive drive;
-    protected Lift lift;
+    protected LiftOld lift;
     protected Claw claw;
     public static long PARK_TIME = 1500;
 
     @Override
     public void runOpMode() throws InterruptedException {
         drive = new MecanumDrive(hardwareMap);
-        lift = new Lift(hardwareMap);
+        lift = new LiftOld(hardwareMap);
         claw = new Claw(hardwareMap);
 
         waitForStart();
