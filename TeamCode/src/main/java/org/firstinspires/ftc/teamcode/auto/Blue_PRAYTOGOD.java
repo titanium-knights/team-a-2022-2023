@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.util.SignalParkVision;
 public class Blue_PRAYTOGOD extends LinearOpMode  {
     public static double DRIVE_POWER = 0.5;
 
-    public static int FORWARD_TIME = 1200;
+    public static int FORWARD_TIME = 1400;
 
     public static int PARK_TIME = 1100;
 
@@ -42,5 +42,7 @@ public class Blue_PRAYTOGOD extends LinearOpMode  {
 
         drive.forwardWithPower(DRIVE_POWER);
         sleep(FORWARD_TIME);
+        drive.stop();
+        sleep(STOP_TIME);
     }
 }

@@ -7,13 +7,10 @@ import org.firstinspires.ftc.teamcode.util.*;
 
 //import com.acmerobotics.dashboard.config.Config;
 @TeleOp
-public class TeleopPractice extends OpMode {
+public class TeleOpN extends OpMode {
     MecanumDrive drive; // aidawkfafhiuawf
-    Claw claw;
-    ClawLift clawLift;
-    Lift lift;
     //woot
-    public static double DRIVE_SPEED = 1; //idk we can play around w this
+    public static double DRIVE_SPEED = .9; //idk we can play around w this
 
     public static double LIFT_SPEED_POWER = 1;
     public static double LIFT_NEGATE_MULTIPLIER = .07;
@@ -23,9 +20,6 @@ public class TeleopPractice extends OpMode {
 
     public void init() { //everything when you press the play button before u start goes here (INITialize, get it?)
         drive = new MecanumDrive(hardwareMap);
-        claw = new Claw(hardwareMap);
-        lift = new Lift(hardwareMap);
-        clawLift = new ClawLift(hardwareMap);
 
     }
 
@@ -41,27 +35,6 @@ public class TeleopPractice extends OpMode {
         }
 
         telemetry.addData("Slow mode on?:", isSlowmode);
-
-        //claw
-        if (gamepad1.right_bumper) {
-            claw.closeCone();
-        }
-        if (gamepad1.left_bumper) {
-            claw.openInit(); //changed to act as a mechanical stop
-        }
-        telemetry.addData("Current Servo position", claw.getPosition());
-
-//        there are 2 gamepads (gamepad1 & gamepad2, start typing gamepad1 to see its buttons (it's the same as gamepad2)
-//        lift stuff-
-        if (lift.getPosition() < lift.MAX_LIMIT && Math.abs(gamepad1.right_trigger) > 0.1) { //arm up
-            lift.setPower(LIFT_SPEED_POWER);
-        } else if (lift.getPosition() >= lift.MIN_LIMIT && Math.abs(gamepad1.left_trigger) > 0.1) { //arm down
-            lift.setPower(-LIFT_SPEED_POWER);
-        } else {
-            lift.setPower(LIFT_SPEED_POWER * LIFT_NEGATE_MULTIPLIER);
-        }
-
-        telemetry.addData("Current Lift Encoder Val", lift.getPosition());
     }
 }
 

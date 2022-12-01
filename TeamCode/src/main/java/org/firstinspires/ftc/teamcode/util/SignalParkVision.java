@@ -52,7 +52,7 @@ public class SignalParkVision {
         else if (signalZone == SignalParkPipeline.SignalZone.ZONE_TWO) {
             return 2;
         }
-        else{
+        else {
             return 3;
         }
     }

@@ -10,29 +10,28 @@ import org.firstinspires.ftc.teamcode.util.Claw;
 import org.firstinspires.ftc.teamcode.util.ClawLift;
 import org.firstinspires.ftc.teamcode.util.Lift;
 import org.firstinspires.ftc.teamcode.util.MecanumDrive;
+import org.firstinspires.ftc.teamcode.util.SignalParkVision;
 
 @Autonomous(name="BlueTimeParkAuton", group="Linear Opmode")
 @Config
 public class BlueTimeParkAuton extends LinearOpMode {
+    public static double DRIVE_POWER = 0.5;
+
+    public static int FORWARD_TIME = 1200;
+
+    public static int PARK_TIME = 1100;
+
+    public static int STOP_TIME = 200;
+
     protected MecanumDrive drive;
-    protected Lift lift;
-    protected ClawLift clawLift;
-    protected Claw claw;
-    public static final Pose2d startPose = new Pose2d(-35, 60, Math.toRadians(-90));
-    public static long PARK_TIME = 1500;
+    protected SignalParkVision vision;
+
 
     @Override
     public void runOpMode() throws InterruptedException {
         drive = new MecanumDrive(hardwareMap);
-        clawLift = new ClawLift(hardwareMap);
-        lift = new Lift(hardwareMap);
-        claw = new Claw(hardwareMap);
 
         waitForStart();
-
-        lift.setInit();
-        claw.openInit();
-
 
         drive.strafeRightWithPower(0.7);
         sleep(PARK_TIME);
