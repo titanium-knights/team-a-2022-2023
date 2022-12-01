@@ -11,7 +11,9 @@ public class TeleopPractice extends OpMode {
     MecanumDrive drive; // aidawkfafhiuawf
     Claw claw;
     ClawLift clawLift;
-    Lift lift;
+    //Lift lift;
+    LiftServo lift;
+
     //woot
     public static double DRIVE_SPEED = 1; //idk we can play around w this
 
@@ -33,11 +35,11 @@ public class TeleopPractice extends OpMode {
     public void init() { //everything when you press the play button before u start goes here (INITialize, get it?)
         drive = new MecanumDrive(hardwareMap);
         claw = new Claw(hardwareMap);
-        lift = new Lift(hardwareMap);
+        lift = new LiftServo(hardwareMap);
         clawLift = new ClawLift(hardwareMap);
 
         claw.openInit();
-        lift.setInit();
+        //lift.setInit();
 
     }
 
