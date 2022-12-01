@@ -61,8 +61,8 @@ public class Lift {
     }
 
     public void correctMotorPositions() {
-        int r_currentPos = lmr.getCurrentPosition();
-        int l_currentPos = lml.getCurrentPosition();
+        int r_currentPos = getPositionR();
+        int l_currentPos = getPositionL();
 
         int avg_targetPos = (r_currentPos + l_currentPos)/2;
 

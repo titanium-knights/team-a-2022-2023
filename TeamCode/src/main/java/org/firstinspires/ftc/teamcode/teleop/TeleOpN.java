@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode.teleop;
-//import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -44,5 +44,29 @@ public class TeleOpN extends OpMode {
 
 
     }
+    //we decided that right trigger would be lift up, left trigger lift down, a claw open, b claw close
+
+    public void loop() { //gamepad buttons that call util methods go here
+       if (gamepad1.a) {
+            isSlowmode = !isSlowmode;
+        }
+
+        if (!isSlowmode) {
+            drive.teleOpRobotCentric(gamepad1, DRIVE_SPEED); //go drive vroom
+        } else {
+            drive.teleOpRobotCentric(gamepad1, DRIVE_SPEED_SLOWMODE);
+        }
+
+        telemetry.addData("Slow mode on?:", isSlowmode);
+
+    //claw
+        if (gamepad1.a) {
+        claw.open();
+    }
+        if (gamepad1.y){
+            claw.closeCone();
+        }
+        // lift stuff
+        }
 }
 
