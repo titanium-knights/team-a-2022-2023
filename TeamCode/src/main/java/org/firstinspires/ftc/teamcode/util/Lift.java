@@ -47,7 +47,6 @@ public class Lift {
     //public void runToPosition()
 
     public void setInit() {
-
         lmr.setTargetPosition(INIT_LIMIT);
         lml.setTargetPosition(INIT_LIMIT);
     }

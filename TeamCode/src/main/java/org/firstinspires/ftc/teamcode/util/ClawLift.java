@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.*;
 @Config
 public class ClawLift {
     public DcMotor clawLift;
+
+    public double clawLiftPOWER = .5;
     public int FRONT_PICKUP_POS = 400;
     public int BACK_PICKUP_POS = -1200;
 
@@ -16,6 +18,10 @@ public class ClawLift {
 
     public void setPower(double power) {
         clawLift.setPower(power);
+    }
+
+    public void setPower() {
+        clawLift.setPower(clawLiftPOWER);
     }
 
     public void runToPosition(int pos, double multiplier){

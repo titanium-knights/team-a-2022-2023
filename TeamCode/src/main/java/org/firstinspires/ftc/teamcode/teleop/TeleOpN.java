@@ -11,6 +11,7 @@ public class TeleOpN extends OpMode {
     MecanumDrive drive; // aidawkfafhiuawf
     Lift lift;
     Claw claw;
+    ClawLift clawLift;
 
     //woot
     public static double DRIVE_SPEED = .9; //idk we can play around w this
@@ -22,6 +23,7 @@ public class TeleOpN extends OpMode {
         drive = new MecanumDrive(hardwareMap);
         lift = new Lift(hardwareMap);
         claw = new Claw(hardwareMap);
+        clawLift = new ClawLift(hardwareMap);
     }
 
     public void loop() { //gamepad buttons that call util methods go here
@@ -38,9 +40,21 @@ public class TeleOpN extends OpMode {
         telemetry.addData("Slow mode on?:", isSlowmode);
 
         lift.correctMotorPositions();
+        telemetry.addData("lmr", lift.getPositionR());
+        telemetry.addData("lml", lift.getPositionL());
+
         if(Math.abs(gamepad2.left_stick_y)>0.1){
              lift.setPower(gamepad1.left_stick_y);
         }
+
+        if(Math.abs(gamepad2.left_stick_y)<0.1){
+            lift.setPower(-gamepad1.left_stick_y);
+        }
+
+        if(gamepad2.right_bumper) {
+            clawLift.setPower();
+        }
+
 
 
     }
