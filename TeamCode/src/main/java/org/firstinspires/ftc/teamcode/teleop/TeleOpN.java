@@ -38,7 +38,7 @@ public class TeleOpN extends OpMode {
         telemetry.addData("lmr", lift.getPositionR());
         telemetry.addData("lml", lift.getPositionL());
 
-        lift.correctMotorPositions();
+        //lift.correctMotorPositions();
         if(Math.abs(gamepad2.left_stick_y)>0.1){
             lift.setPower(gamepad2.left_stick_y);
         }
@@ -49,9 +49,7 @@ public class TeleOpN extends OpMode {
         telemetry.addData("clawLift", clawLift.getPosition());
 
         //clawLift PLZZZ
-        if (Math.abs(gamepad2.right_stick_y) < .1) {
-            clawLift.setPower(gamepad2.right_stick_y);
-        }
+        clawLift.setPower(gamepad2.right_stick_y);
 
         //Code for opening and closing claw
 

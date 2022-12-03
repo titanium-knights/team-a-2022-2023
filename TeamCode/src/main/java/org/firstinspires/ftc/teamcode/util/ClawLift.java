@@ -24,9 +24,12 @@ public class ClawLift {
 
     public void setPower(double power) {
         if (power == 0) {
+            clawLift.setPower(0);
             clawLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
-        clawLift.setPower(power);
+        else {
+            clawLift.setPower(power);
+        }
     }
 
     public int getPosition() {
