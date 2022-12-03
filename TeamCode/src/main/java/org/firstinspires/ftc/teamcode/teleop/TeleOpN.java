@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.teleop;
 //import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.util.*;
@@ -19,6 +18,9 @@ public class TeleOpN extends OpMode {
 
     boolean isSlowmode = false;
     boolean clawClosed = false;
+
+    boolean lastState = true;
+    boolean state = false;
 
     public void init() { //everything when you press the play button before u start goes here (INITialize, get it?)
         drive = new MecanumDrive(hardwareMap);
@@ -44,13 +46,11 @@ public class TeleOpN extends OpMode {
             lift.setPower(0);
         }
 
-        telemetry.addData("clawLift", clawLift.getCurrentPosition());
+        telemetry.addData("clawLift", clawLift.getPosition());
 
-        if(Math.abs(gamepad2.right_stick_y)>0.1) {
-            clawLift.setPower(gamepad2.right_stick_y, 0.07);
-        }
-        else {
-            clawLift.setPower(0, 0);
+        //clawLift PLZZZ
+        if (Math.abs(gamepad2.right_stick_y) < .1) {
+            clawLift.setPower(gamepad2.right_stick_y);
         }
 
         //Code for opening and closing claw

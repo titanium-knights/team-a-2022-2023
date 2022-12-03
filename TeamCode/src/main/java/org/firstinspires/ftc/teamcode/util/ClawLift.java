@@ -7,28 +7,31 @@ import com.qualcomm.robotcore.hardware.*;
 public class ClawLift {
     public DcMotor clawLift;
 
+    public int MIDDLE_POSITION = 500;
+    public int MIDDLE_POSITION_BUFFER = 150;
+
+    public int RUN_BUFFER = 50;
+
     public double clawLiftPOWER = .75;
-    public double MIDDLE_POSITION = 500;
-    public double MIDDLE_POSITION_BUFFER = 50;
+    public int targetPos = 300;
+
+    public double P = 0.002;
 
     public ClawLift(HardwareMap hmap) {
         this.clawLift = hmap.dcMotor.get(CONFIG.clawLift);
     }
 
 
-    public void setPower(double power, double negator) {
-        if (clawLift.getCurrentPosition() > MIDDLE_POSITION + MIDDLE_POSITION_BUFFER) {
-            clawLift.setPower(power);
+    public void setPower(double power) {
+        if (power == 0) {
+            clawLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
-        else if (clawLift.getCurrentPosition() < MIDDLE_POSITION + MIDDLE_POSITION_BUFFER) {
-            clawLift.setPower(power * negator);
-        }
+        clawLift.setPower(power);
     }
 
-    public int getCurrentPosition() {
+    public int getPosition() {
         return clawLift.getCurrentPosition();
     }
-
 }
 
 
