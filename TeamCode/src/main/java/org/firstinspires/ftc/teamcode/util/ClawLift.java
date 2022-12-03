@@ -7,7 +7,9 @@ import com.qualcomm.robotcore.hardware.*;
 public class ClawLift {
     public DcMotor clawLift;
 
-    public double clawLiftPOWER = .5;
+    public double clawLiftPOWER = .75;
+    public double MIDDLE_POSITION = 500;
+    public double MIDDLE_POSITION_BUFFER = 50;
     public int FRONT_PICKUP_POS = 400;
     public int BACK_PICKUP_POS = -1200;
 
@@ -16,31 +18,18 @@ public class ClawLift {
     }
 
 
-    public void setPower(double power) {
-        clawLift.setPower(power);
-    }
-
-    public void setPower() {
-        clawLift.setPower(clawLiftPOWER);
-    }
-
-    public void runToPosition(int pos, double multiplier){
-        int currentPos = clawLift.getCurrentPosition();
-        //double multiplier = Math.min(1, Math.max(0, Math.abs(pos - currentPos) / 150.0));
-        if(pos - currentPos > 30){
-            setPower(-1 * multiplier);
+    public void setPower(double power, double negator) {
+        if (clawLift.getCurrentPosition() > MIDDLE_POSITION + MIDDLE_POSITION_BUFFER) {
+            clawLift.setPower(power * negator);
         }
-        else if(pos - currentPos < -30){
-            setPower(1 * multiplier);
-        }
-        else if (pos == 0) {
-            setPower(0);
-        } else {
-            setPower(0);
+        else if (clawLift.getCurrentPosition() < MIDDLE_POSITION + MIDDLE_POSITION_BUFFER) {
+            clawLift.setPower(power * -negator);
         }
     }
 
-
+    public int getCurrentPosition() {
+        return clawLift.getCurrentPosition();
+    }
 
 }
 

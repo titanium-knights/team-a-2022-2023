@@ -17,7 +17,7 @@ public class Lift {
     public static int MIN_LIMIT = 0;
     public static int INIT_LIMIT = 300;
 
-    public static int AVERAGE_BUFFER = 100;
+    public static int AVERAGE_BUFFER = 150;
 
     public Lift(HardwareMap hmap) {
 
@@ -25,7 +25,7 @@ public class Lift {
         this.lml = hmap.dcMotor.get(CONFIG.liftMotorLeft);
 
         this.lmr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //reset pos to 0
-        this.lml.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //use encoder
+        this.lml.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //use encoder
 
     }
 
