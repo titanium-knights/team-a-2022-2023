@@ -17,7 +17,7 @@ public class CONFIG {
     //subsystems
     public static String clawServo = "claw"; //exp 5
 
-    public static String clawLift = "clawLift"; //exp 2
+    public static String clawLift = "clawLift"; //exp 2 | Motor
 
     public static String clawSpin = "clawSpin"; //exp 4
 

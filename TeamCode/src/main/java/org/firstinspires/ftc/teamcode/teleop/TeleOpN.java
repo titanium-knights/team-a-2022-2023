@@ -17,12 +17,8 @@ public class TeleOpN extends OpMode {
     //woot
     public static double DRIVE_SPEED = .9; //idk we can play around w this
 
-    public static double DRIVE_SPEED_SLOWMODE = .8;
     boolean isSlowmode = false;
     boolean clawClosed = false;
-    boolean clawLiftUsed = false;
-
-    int clawLiftLastPos = 0;
 
     public void init() { //everything when you press the play button before u start goes here (INITialize, get it?)
         drive = new MecanumDrive(hardwareMap);
@@ -61,11 +57,12 @@ public class TeleOpN extends OpMode {
 
         if(gamepad2.a){
             clawClosed = !clawClosed;
-        }
-        if(clawClosed){
-            claw.closeCone();
-        } else {
-            claw.open();
+
+            if(clawClosed){
+                claw.closeCone();
+            } else {
+                claw.open();
+            }
         }
 
         //Code for spinning claw
