@@ -21,6 +21,8 @@ public class CONFIG {
 
     public static String clawSpin = "clawSpin"; //exp 4
 
+    public static String tester = "tester";
+
     public static String liftMotorRight = "lml"; //exp 0
     public static String liftMotorLeft = "lmr";  //exp 1
 
