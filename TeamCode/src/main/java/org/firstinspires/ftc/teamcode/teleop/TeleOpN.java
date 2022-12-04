@@ -53,15 +53,13 @@ public class TeleOpN extends OpMode {
 
         //Code for opening and closing claw
 
-        if(gamepad2.a){
-            clawClosed = !clawClosed;
-
-            if(clawClosed){
-                claw.closeCone();
-            } else {
-                claw.open();
-            }
+        if(gamepad2.a) {
+            claw.closeCone();
         }
+        if(gamepad2.y) {
+            claw.open();
+        }
+
 
         //Code for spinning claw
         if(gamepad2.right_stick_x>0.1){
