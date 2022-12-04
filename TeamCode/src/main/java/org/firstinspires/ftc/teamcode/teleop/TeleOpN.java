@@ -37,8 +37,9 @@ public class TeleOpN extends OpMode {
 
         telemetry.addData("lmr", lift.getPositionR());
         telemetry.addData("lml", lift.getPositionL());
+        telemetry.addData("liftAverage", lift.getAverage());
 
-        //lift.correctMotorPositions();
+        lift.correctMotorPositions();
         if(Math.abs(gamepad2.left_stick_y)>0.1){
             lift.setPower(gamepad2.left_stick_y);
         }

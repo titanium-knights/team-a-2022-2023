@@ -7,7 +7,9 @@ public class Lift {
     public DcMotor lmr; //lift right
     public DcMotor lml; //lift left
 
-    public static double LIFT_POWER = 1;
+    public static double LIFT_POWER = .8;
+    public static double LIFT_POWER_MULTIPLYER = .5;
+
     public static int HIGH_POSITION = 950;
     public static int MID_POSITION = 800;
     public static int LOW_POSITION = 650;
@@ -17,21 +19,16 @@ public class Lift {
     public static int MIN_LIMIT = 0;
     public static int INIT_LIMIT = 300;
 
-    public static int AVERAGE_BUFFER = 150;
+    public static int AVERAGE_BUFFER = 50;
 
     public Lift(HardwareMap hmap) {
-
         this.lmr = hmap.dcMotor.get(CONFIG.liftMotorRight);
         this.lml = hmap.dcMotor.get(CONFIG.liftMotorLeft);
-
-        this.lmr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //reset pos to 0
-        this.lml.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //use encoder
-
     }
 
     public void setPower(double power) {
-        lmr.setPower(power);
-        lml.setPower(power);
+        lmr.setPower(-power * LIFT_POWER_MULTIPLYER);
+        lml.setPower(-power * LIFT_POWER_MULTIPLYER);
     }
 
     public void setPosition(int pos) {
@@ -52,33 +49,33 @@ public class Lift {
     }
 
     public int getPositionR() {
-        return lmr.getCurrentPosition();
+        return -lmr.getCurrentPosition();
     }
 
     public int getPositionL() {
         return lml.getCurrentPosition();
     }
+    
+    public int getAverage() {
+        return (getPositionL() + getPositionR())/2;
+    }
 
     public void correctMotorPositions() {
-        int r_currentPos = lmr.getCurrentPosition();
-        int l_currentPos = lml.getCurrentPosition();
-
-        int avg_targetPos = (r_currentPos + l_currentPos)/2;
-
+        
         //if the difference between the two motors is larger than the difference
-        if (Math.abs(r_currentPos - avg_targetPos) > AVERAGE_BUFFER) {
-            if (r_currentPos > avg_targetPos) {
+        if (Math.abs(getPositionR() - getAverage()) > AVERAGE_BUFFER) {
+            if (getPositionR() > getAverage()) {
                 lmr.setPower(-LIFT_POWER);
             }
-            if (r_currentPos < avg_targetPos) {
+            if (getPositionR() < getAverage()) {
                 lmr.setPower(LIFT_POWER);
             }
         }
-        if (Math.abs(l_currentPos - avg_targetPos) > AVERAGE_BUFFER) {
-            if (l_currentPos > avg_targetPos) {
+        if (Math.abs(getPositionL() - getAverage()) > AVERAGE_BUFFER) {
+            if (getPositionL() > getAverage()) {
                 lml.setPower(-LIFT_POWER);
             }
-            if (l_currentPos < avg_targetPos) {
+            if (getPositionL() < getAverage()) {
                 lml.setPower(LIFT_POWER);
             }
         }
