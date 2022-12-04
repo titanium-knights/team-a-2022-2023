@@ -6,10 +6,13 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.internal.opmode.TelemetryImpl;
 import org.firstinspires.ftc.teamcode.rr.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
 
@@ -32,6 +35,7 @@ public class MaxVelocityTuner extends LinearOpMode {
     private double maxVelocity = 0.0;
 
     private VoltageSensor batteryVoltageSensor;
+    public Telemetry telemetry = new TelemetryImpl((OpMode) this);
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -41,7 +45,7 @@ public class MaxVelocityTuner extends LinearOpMode {
 
         batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
 
-        //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         telemetry.addLine("Your bot will go at full speed for " + RUNTIME + " seconds.");
         telemetry.addLine("Please ensure you have enough space cleared.");
