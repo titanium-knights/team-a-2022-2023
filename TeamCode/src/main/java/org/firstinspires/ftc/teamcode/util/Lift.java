@@ -53,7 +53,7 @@ public class Lift {
     }
 
     public int getPositionL() {
-        return lml.getCurrentPosition();
+        return -lml.getCurrentPosition();
     }
     
     public int getAverage() {
