@@ -8,7 +8,7 @@ public class Lift {
     public DcMotor lml; //lift left
 
     public static double LIFT_POWER = .8;
-    public static double LIFT_POWER_MULTIPLYER = .5;
+    public static double LIFT_POWER_MULTIPLYER = 1;
 
     public static int HIGH_POSITION = 950;
     public static int MID_POSITION = 800;
@@ -19,7 +19,11 @@ public class Lift {
     public static int MIN_LIMIT = 0;
     public static int INIT_LIMIT = 300;
 
-    public static int AVERAGE_BUFFER = 50;
+    public static int AVERAGE_BUFFER = 20;
+
+    public static double DIFFERENCE = 0;
+
+    public static double ADJUSTER = 0;
 
     public Lift(HardwareMap hmap) {
         this.lmr = hmap.dcMotor.get(CONFIG.liftMotorRight);
@@ -44,8 +48,12 @@ public class Lift {
     //public void runToPosition()
 
     public void setInit() {
-        lmr.setTargetPosition(INIT_LIMIT);
-        lml.setTargetPosition(INIT_LIMIT);
+        lmr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lml.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        lmr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lml.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
     }
 
     public int getPositionR() {
@@ -57,11 +65,10 @@ public class Lift {
     }
     
     public int getAverage() {
-        return (getPositionL() + getPositionR())/2;
+        return getPositionL() + getPositionR()/2;
     }
 
     public void correctMotorPositions() {
-        
         //if the difference between the two motors is larger than the difference
         if (Math.abs(getPositionR() - getAverage()) > AVERAGE_BUFFER) {
             if (getPositionR() > getAverage()) {
@@ -79,11 +86,38 @@ public class Lift {
                 lml.setPower(LIFT_POWER);
             }
         }
+
+        else {
+            setPower(0);
+        }
+    }
+
+    public void correctMotorVed(double gamepadVal) {
+        if(Math.abs(gamepadVal)>0.1) {
+
+            DIFFERENCE = (0.1 * (getPositionR() - getPositionL()));
+
+            if (DIFFERENCE < 0.05) {
+                ADJUSTER = 0;
+            }
+            else {
+                ADJUSTER = (0.1 * (getPositionR() - getPositionL()));
+            }
+
+            lmr.setPower(-ADJUSTER + (0.9 * -gamepadVal));
+            lml.setPower(ADJUSTER + (0.9 * -gamepadVal));
+
+        }
+
+        else{
+            lmr.setPower(0);
+            lml.setPower(0);
+        }
     }
 
 
     public void runToPosition(int pos, double multiplier){
-        int currentPos = lml.getCurrentPosition();
+        int currentPos =             lml.getCurrentPosition();
         //double multiplier = Math.min(1, Math.max(0, Math.abs(pos - currentPos) / 150.0));
         if(pos - currentPos > 30){
             setPower(-1 * multiplier);
