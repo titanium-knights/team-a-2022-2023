@@ -27,6 +27,10 @@ public class Lift {
 
     public static double Y = 0;
 
+    public static double SENSITIVITY = 0.1;
+
+    public static double TOLERANCE = 20;
+
     public Lift(HardwareMap hmap) {
         this.lmr = hmap.dcMotor.get(CONFIG.liftMotorRight);
         this.lml = hmap.dcMotor.get(CONFIG.liftMotorLeft);
@@ -87,24 +91,29 @@ public class Lift {
 
 
     public void correctMotorVed(double gamepadVal) {
-            if(Math.abs(gamepadVal)>0.1)
+
+        DIFFERENCE = (getPositionR() - getPositionL());
+
+        if(Math.abs(gamepadVal)>0.1)
+        {
+            lmr.setPower((SENSITIVITY * -DIFFERENCE) + (0.9 * Y));
+            lml.setPower((SENSITIVITY * DIFFERENCE) + (0.9 * Y));
+        }
+
+        else
+        {
+            if (DIFFERENCE > TOLERANCE)
             {
-                Y = -gamepadVal;
-            } else {
-                Y = 0;
+                lmr.setPower((SENSITIVITY * -DIFFERENCE));
+                lml.setPower((SENSITIVITY * DIFFERENCE));
             }
-
-            DIFFERENCE = (0.25 * (getPositionR() - getPositionL()));
-
-            if (DIFFERENCE < 0.05) {
-                ADJUSTER = 0;
+            else
+            {
+                lmr.setPower(0);
+                lml.setPower(0);
             }
-            else {
-                ADJUSTER = (0.1 * (getPositionR() - getPositionL()));
-            }
+        }
 
-            lmr.setPower(ADJUSTER + (0.9 * Y));
-            lml.setPower(-ADJUSTER + (0.85 * Y));
     }
 
 
