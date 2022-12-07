@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.util.SignalParkVision;
 
 @Autonomous(name="RedSingleCycleTimeAuton", group="Linear Opmode")
 @Config
-public class RedSingleCycleTimeAuton extends LinearOpMode {
+public class    RedSingleCycleTimeAuton extends LinearOpMode {
     protected MecanumDrive drive;
     protected ElapsedTime elapsedTime;
     protected Claw claw;
