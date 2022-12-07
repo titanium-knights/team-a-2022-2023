@@ -25,6 +25,8 @@ public class TeleOpN extends OpMode {
         public void init() { //everything when you press the play button before u start goes here (INITialize, get it?)
         drive = new MecanumDrive(hardwareMap);
         lift = new Lift(hardwareMap);
+        lift.setInit();
+
         claw = new Claw(hardwareMap);
         clawLift = new ClawLift(hardwareMap);
         clawSpin = new ClawSpin(hardwareMap);
@@ -38,13 +40,13 @@ public class TeleOpN extends OpMode {
         telemetry.addData("lmr", lift.getPositionR());
         telemetry.addData("lml", lift.getPositionL());
         telemetry.addData("liftAverage", lift.getAverage());
+        telemetry.addData("LiftDif", lift.getDIFFERENCE());
 
         lift.correctMotorPositions();
 
         if(Math.abs(gamepad2.left_stick_y)>0.1){
             lift.setPower(gamepad2.left_stick_y);
-        }
-        else{
+        } else{
             lift.setPower(0);
         }
 

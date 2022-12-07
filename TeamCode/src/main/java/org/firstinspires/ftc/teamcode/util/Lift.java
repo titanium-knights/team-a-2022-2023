@@ -19,11 +19,13 @@ public class Lift {
     public static int MIN_LIMIT = 0;
     public static int INIT_LIMIT = 300;
 
-    public static int AVERAGE_BUFFER = 20;
+    public static int AVERAGE_BUFFER = 10;
 
     public static double DIFFERENCE = 0;
 
     public static double ADJUSTER = 0;
+
+    public static double Y = 0;
 
     public Lift(HardwareMap hmap) {
         this.lmr = hmap.dcMotor.get(CONFIG.liftMotorRight);
@@ -57,45 +59,42 @@ public class Lift {
     }
 
     public int getPositionR() {
-        return -lmr.getCurrentPosition();
+        return lmr.getCurrentPosition();
     }
 
     public int getPositionL() {
-        return -lml.getCurrentPosition();
+        return lml.getCurrentPosition();
     }
     
     public int getAverage() {
-        return getPositionL() + getPositionR()/2;
+        return (getPositionL() + getPositionR())/2;
     }
 
     public void correctMotorPositions() {
         //if the difference between the two motors is larger than the difference
-        if (Math.abs(getPositionR() - getAverage()) > AVERAGE_BUFFER) {
-            if (getPositionR() > getAverage()) {
-                lmr.setPower(-LIFT_POWER);
+            if (Math.abs(getPositionR() - Math.abs(getPositionL())) < AVERAGE_BUFFER) {
+                lmr.setPower(0);
             }
-            if (getPositionR() < getAverage()) {
-                lmr.setPower(LIFT_POWER);
-            }
-        }
-        if (Math.abs(getPositionL() - getAverage()) > AVERAGE_BUFFER) {
-            if (getPositionL() > getAverage()) {
-                lml.setPower(-LIFT_POWER);
-            }
-            if (getPositionL() < getAverage()) {
-                lml.setPower(LIFT_POWER);
-            }
-        }
-
-        else {
-            setPower(0);
-        }
+            else if (Math.abs(getPositionR() - Math.abs(getPositionL())) > AVERAGE_BUFFER) {
+                if (getPositionR() > getPositionL()) {
+                    lmr.setPower(-LIFT_POWER * .4); //multiply by .8 since gracity helps
+                }
+                if (getPositionR() < getPositionL())
+                    lmr.setPower(LIFT_POWER * .6);
+                }
     }
 
-    public void correctMotorVed(double gamepadVal) {
-        if(Math.abs(gamepadVal)>0.1) {
 
-            DIFFERENCE = (0.1 * (getPositionR() - getPositionL()));
+
+    public void correctMotorVed(double gamepadVal) {
+            if(Math.abs(gamepadVal)>0.1)
+            {
+                Y = -gamepadVal;
+            } else {
+                Y = 0;
+            }
+
+            DIFFERENCE = (0.25 * (getPositionR() - getPositionL()));
 
             if (DIFFERENCE < 0.05) {
                 ADJUSTER = 0;
@@ -104,15 +103,13 @@ public class Lift {
                 ADJUSTER = (0.1 * (getPositionR() - getPositionL()));
             }
 
-            lmr.setPower(-ADJUSTER + (0.9 * -gamepadVal));
-            lml.setPower(ADJUSTER + (0.9 * -gamepadVal));
+            lmr.setPower(ADJUSTER + (0.9 * Y));
+            lml.setPower(-ADJUSTER + (0.85 * Y));
+    }
 
-        }
 
-        else{
-            lmr.setPower(0);
-            lml.setPower(0);
-        }
+    public double getDIFFERENCE() {
+        return DIFFERENCE;
     }
 
 
