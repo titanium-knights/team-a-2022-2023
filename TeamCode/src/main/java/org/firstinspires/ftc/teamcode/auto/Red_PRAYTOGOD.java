@@ -9,29 +9,39 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.util.Claw;
 import org.firstinspires.ftc.teamcode.util.ClawLift;
 import org.firstinspires.ftc.teamcode.util.Lift;
-import org.firstinspires.ftc.teamcode.util.LiftOld;
 import org.firstinspires.ftc.teamcode.util.MecanumDrive;
+import org.firstinspires.ftc.teamcode.util.SignalParkVision;
 
-@Autonomous(name="RedTimeParkAuton", group="Linear Opmode")
+@Autonomous(name="RED_PRAYTOGOD", group="Linear Opmode")
 @Config
-public class RedTimeParkAuton extends LinearOpMode {
+public class Red_PRAYTOGOD extends LinearOpMode {
+    public static double DRIVE_POWER = 0.5;
+
+    public static int FORWARD_TIME = 1400;
+
+    public static int PARK_TIME = 1100;
+
+    public static int STOP_TIME = 200;
+
     protected MecanumDrive drive;
-    protected LiftOld lift;
-    protected Claw claw;
-    public static long PARK_TIME = 1500;
+    protected SignalParkVision vision;
 
     @Override
     public void runOpMode() throws InterruptedException {
         drive = new MecanumDrive(hardwareMap);
-        lift = new LiftOld(hardwareMap);
-        claw = new Claw(hardwareMap);
 
         waitForStart();
 
         drive.strafeLeftWithPower(0.7);
+
         sleep(PARK_TIME);
         drive.stop();
+        sleep(STOP_TIME);
 
+        drive.forwardWithPower(DRIVE_POWER);
+        sleep(FORWARD_TIME);
+        drive.stop();
+        sleep(STOP_TIME);
 
     }
 }

@@ -5,9 +5,11 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.internal.opmode.TelemetryImpl;
 import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
 
 /**
@@ -43,6 +45,7 @@ import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
 @TeleOp(group = "drive")
 public class MotorDirectionDebugger extends LinearOpMode {
     public static double MOTOR_POWER = 0.7;
+    public Telemetry telemetry = new TelemetryImpl((OpMode) this);
 
     @Override
     public void runOpMode() throws InterruptedException {

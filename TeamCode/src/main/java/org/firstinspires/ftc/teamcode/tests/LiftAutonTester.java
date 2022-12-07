@@ -1,23 +1,15 @@
-package org.firstinspires.ftc.teamcode.auto;
+package org.firstinspires.ftc.teamcode.tests;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.util.Claw;
-import org.firstinspires.ftc.teamcode.util.ClawLift;
-import org.firstinspires.ftc.teamcode.util.Lift;
-import org.firstinspires.ftc.teamcode.util.LiftOld;
-import org.firstinspires.ftc.teamcode.util.MecanumDrive;
-import org.firstinspires.ftc.teamcode.util.SignalParkVision;
+import org.firstinspires.ftc.teamcode.util.*;
 
-@Autonomous(name="RedSingleCycleTimeAuton", group="Linear Opmode")
+@Autonomous(name="LiftsAutonTester", group="Linear Opmode")
 @Config
-
-public class RedSingleCycleTimeAuton extends LinearOpMode {
+public class LiftAutonTester extends LinearOpMode {
     protected MecanumDrive drive;
     protected ElapsedTime elapsedTime;
     protected Claw claw;
@@ -34,8 +26,8 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
     public static double LIFT_POWER = -.5;
     public static int LIFT_POWERUP_TIME = 500;
     public static double P = 0.002;
-    public static int BUFFER_ZONE = 25;
-    public static int BUFFER_CLAW = 35;
+    public static int BUFFER_ZONE = 40;
+    public static int BUFFER_CLAW = 50;
 
     Integer liftPos = null;
 
@@ -65,7 +57,7 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
         //vision = new SignalParkVision(hardwareMap, null);
     }
 
-//    private void dumpAndLower() {
+    //    private void dumpAndLower() {
 //        lift.liftUp();
 //        sleep(LIFT_POWERUP_TIME);
 //
@@ -110,6 +102,7 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
         goToPosition(Lift.MID_POSITION);
         sleep(1000);
 
+
         goToPosition(Lift.GROUND_POSITION);
         sleep(1000);
         claw.closeCone();
@@ -128,17 +121,15 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
         //liftPos = lift.MID_POSITION;
         //waitSeconds(LIFT_POWERUP_TIME);
         //liftPos = null;
-
         claw.closeCone();
         sleep(300);
-
         //go forward to dump
         drive.forwardWithPower(0.8);
         sleep(FORWARD1_TIME);
         drive.stop();
 
         //dump cone
-        drive.turnRightWithPower(0.8);
+        drive.turnLeftWithPower(0.8);
         sleep(TURNR_1_TIME);
         drive.stop();
 
@@ -146,21 +137,5 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
 
         sleep(DUMP_TIME);
 
-//        if(vision.getPosition() == 1){
-//            //go first zone
-//        } else if (vision.getPosition() == 2){
-//            //go second zone
-//        } else{
-//            //go third zone
-//        }
-
-        //turn and go back to park
-//        drive.turnLeftWithPower(0.8);
-//        sleep(TURNR_2_TIME);
-
-        //temporary only if color vision doesnt work
-        drive.backwardWithPower(0.8);
-        sleep(BACKWARD_TIME);
-        drive.stop();
     }
 }
