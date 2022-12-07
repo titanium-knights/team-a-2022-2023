@@ -43,6 +43,7 @@ public class TeleOpTEST extends OpMode {
         lift.correctMotorVed(gamepad2.left_stick_y);
 
         telemetry.addData("clawLift", clawLift.getPosition());
+        telemetry.addData("LiftDif", lift.getDIFFERENCE());
 
         //clawLift PLZZZ
         clawLift.setPower(gamepad2.right_stick_y);
