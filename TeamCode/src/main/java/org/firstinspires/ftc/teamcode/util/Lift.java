@@ -23,7 +23,8 @@ public class Lift {
 
     public static double DIFFERENCE = 0;
 
-    public static double ADJUSTER = 0;
+    public static double SENSITIVITY = 0.05;
+    public static double TOLERANCE = 20;
 
     public static double Y = 0;
 
@@ -70,8 +71,13 @@ public class Lift {
         return (getPositionL() + getPositionR())/2;
     }
 
-    public void correctMotorPositions() {
+    public void correctMotorPositions(double pressedVal) {
         //if the difference between the two motors is larger than the difference
+        if (Math.abs(pressedVal) > 0.1) {
+            setPower(pressedVal);
+        }
+        else {
+            setPower(0);
             if (Math.abs(getPositionR() - Math.abs(getPositionL())) < AVERAGE_BUFFER) {
                 lmr.setPower(0);
             }
@@ -82,30 +88,37 @@ public class Lift {
                 if (getPositionR() < getPositionL())
                     lmr.setPower(LIFT_POWER * .6);
                 }
+        }
     }
 
 
 
-    public void correctMotorVed(double gamepadVal) {
+        public void correctMotorVed(double gamepadVal) {
+
+            DIFFERENCE = (getPositionR() - getPositionL());
+
             if(Math.abs(gamepadVal)>0.1)
             {
-                Y = -gamepadVal;
-            } else {
-                Y = 0;
+                lmr.setPower((SENSITIVITY * -DIFFERENCE) + (0.9 * Y));
+                lml.setPower((SENSITIVITY * DIFFERENCE) + (0.9 * Y));
             }
 
-            DIFFERENCE = (0.25 * (getPositionR() - getPositionL()));
-
-            if (DIFFERENCE < 0.05) {
-                ADJUSTER = 0;
+            else
+            {
+                if (DIFFERENCE > TOLERANCE)
+                {
+                    lmr.setPower((SENSITIVITY * -DIFFERENCE));
+                    lml.setPower((SENSITIVITY * DIFFERENCE));
+                }
+                else
+                {
+                    lmr.setPower(0);
+                    lml.setPower(0);
+                }
             }
-            else {
-                ADJUSTER = (0.1 * (getPositionR() - getPositionL()));
-            }
 
-            lmr.setPower(ADJUSTER + (0.9 * Y));
-            lml.setPower(-ADJUSTER + (0.85 * Y));
-    }
+        }
+
 
 
     public double getDIFFERENCE() {
