@@ -31,7 +31,7 @@ public class SignalParkVision {
             public void onOpened()
             {
                 // Usually this is where you'll want to start streaming from the camera (see section 4)
-                camera.startStreaming(1920, 1080, OpenCvCameraRotation.UPRIGHT);
+                camera.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
                 FtcDashboard.getInstance().startCameraStream(camera, 0);
                 camera.setPipeline(pipeline);
             }

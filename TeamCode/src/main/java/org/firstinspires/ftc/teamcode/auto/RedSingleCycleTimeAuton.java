@@ -34,8 +34,9 @@ public class RedSingleCycleTimeAuton extends LinearOpMode {
     public static double LIFT_POWER = -.5;
     public static int LIFT_POWERUP_TIME = 500;
     public static double P = 0.002;
-    public static int BUFFER_ZONE = 25;
-    public static int BUFFER_CLAW = 35;
+    public static int BUFFER_ZONE = 40;
+    public static int BUFFER_CLAW = 90;
+    public static int CLAW_OPEN_TIME = 200;
 
     Integer liftPos = null;
 
