@@ -21,8 +21,8 @@ public class CONFIG {
 
     public static String clawSpin = "clawSpin"; //
 
-    public static String liftMotorRight = "r_lift"; //exp 0
-    public static String liftMotorLeft = "l_lift";  //exp 1
+    public static String liftMotorRight = "lmr"; //exp 0
+    public static String liftMotorLeft = "lml";  //exp 1
 
     public static String O_C = "fl"; //center odo, ch 0
     public static String O_L = "fr"; //right odo, ch 1

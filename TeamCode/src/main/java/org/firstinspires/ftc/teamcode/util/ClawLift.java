@@ -34,6 +34,10 @@ public class ClawLift {
         }
     }
 
+    public int getPosition() {
+        return clawLift.getCurrentPosition();
+    }
+
 
 
 }
