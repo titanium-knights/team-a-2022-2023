@@ -37,8 +37,10 @@ public class TeleOpN extends OpMode {
 
         telemetry.addData("Slow mode on?:", isSlowmode);
 
+        if
+
         lift.correctMotorPositions();
-        if(Math.abs(gamepad2.left_stick_y)>0.1){
+        if(Math.abs(gamepad2.left_stick_y)>0.1 && (lift.MIN_LIMIT < lift.getPositionL() < lift.MAX_LIMIT)){
              lift.setPower(gamepad1.left_stick_y);
         }
         //claw
@@ -51,7 +53,6 @@ public class TeleOpN extends OpMode {
 
 
     }
-    //we decided that right trigger would be lift up, left trigger lift down, a claw open, b claw close
 
 }
 
