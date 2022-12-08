@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.util.*;
 
 //import com.acmerobotics.dashboard.config.Config;
 @TeleOp
-public class TeleOpN extends OpMode {
+public class TeleOpTEST extends OpMode {
     MecanumDrive drive; // aidawkfafhiuawf
     Lift lift;
     Claw claw;
@@ -22,11 +22,10 @@ public class TeleOpN extends OpMode {
     boolean lastState = true;
     boolean state = false;
 
-        public void init() { //everything when you press the play button before u start goes here (INITialize, get it?)
+    public void init() { //everything when you press the play button before u start goes here (INITialize, get it?)
         drive = new MecanumDrive(hardwareMap);
         lift = new Lift(hardwareMap);
         lift.setInit();
-
         claw = new Claw(hardwareMap);
         clawLift = new ClawLift(hardwareMap);
         clawSpin = new ClawSpin(hardwareMap);
@@ -40,11 +39,11 @@ public class TeleOpN extends OpMode {
         telemetry.addData("lmr", lift.getPositionR());
         telemetry.addData("lml", lift.getPositionL());
         telemetry.addData("liftAverage", lift.getAverage());
-        telemetry.addData("LiftDif", lift.getDIFFERENCE());
 
-        lift.correctMotorPositions(gamepad2.left_stick_y);
+        lift.correctMotorVed(gamepad2.left_stick_y);
 
         telemetry.addData("clawLift", clawLift.getPosition());
+        telemetry.addData("LiftDif", lift.getDIFFERENCE());
 
         //clawLift PLZZZ
         clawLift.setPower(gamepad2.right_stick_y);
