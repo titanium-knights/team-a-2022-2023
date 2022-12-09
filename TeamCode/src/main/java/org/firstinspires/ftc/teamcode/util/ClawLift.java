@@ -13,25 +13,13 @@ public class ClawLift {
         this.clawLift = hmap.dcMotor.get(CONFIG.clawLift);
     }
 
-
-    public void setPower(double power) {
-        clawLift.setPower(power);
+    public void setInit() {
+        clawLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        clawLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
-    public void runToPosition(int pos, double multiplier){
-        int currentPos = clawLift.getCurrentPosition();
-        //double multiplier = Math.min(1, Math.max(0, Math.abs(pos - currentPos) / 150.0));
-        if(pos - currentPos > 30){
-            setPower(-1 * multiplier);
-        }
-        else if(pos - currentPos < -30){
-            setPower(1 * multiplier);
-        }
-        else if (pos == 0) {
-            setPower(0);
-        } else {
-            setPower(0);
-        }
+    public void setPower(double power) {
+        clawLift.setPower(-power);
     }
 
     public int getPosition() {

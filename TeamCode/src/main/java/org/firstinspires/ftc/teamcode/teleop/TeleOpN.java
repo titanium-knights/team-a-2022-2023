@@ -29,6 +29,9 @@ public class TeleOpN extends OpMode {
 
         claw = new Claw(hardwareMap);
         clawLift = new ClawLift(hardwareMap);
+
+        clawLift.setInit();
+
         clawSpin = new ClawSpin(hardwareMap);
     }
 
