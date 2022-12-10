@@ -37,12 +37,14 @@ public class TeleOpN extends OpMode {
 
         telemetry.addData("Slow mode on?:", isSlowmode);
 
-        telemetry.addData("lmr", lift.getPositionR());
-        telemetry.addData("lml", lift.getPositionL());
-        telemetry.addData("liftAverage", lift.getAverage());
-        telemetry.addData("LiftDif", lift.getDIFFERENCE());
+            telemetry.addData("lmr", lift.getPositionR());
+            telemetry.addData("lml", lift.getPositionL());
+            telemetry.addData("liftAverage", lift.getAverage());
+            telemetry.addData("LiftDif", lift.getDIFFERENCE());
+        if (lift.MIN_LIMIT < lift.getPositionL() && lift.getPositionL()< lift.MAX_LIMIT){
+            lift.correctMotorPositions(gamepad2.left_stick_y);
+        }
 
-        lift.correctMotorPositions(gamepad2.left_stick_y);
 
         telemetry.addData("clawLift", clawLift.getPosition());
 
@@ -51,18 +53,18 @@ public class TeleOpN extends OpMode {
 
         //Code for opening and closing claw
 
-        if(gamepad2.a) {
+        if(gamepad2.a || gamepad1.a) {
             claw.closeCone();
         }
-        if(gamepad2.y) {
+        if(gamepad2.y || gamepad1.y) {
             claw.open();
         }
 
 
         //Code for spinning claw
-        if(gamepad2.right_stick_x>0.1){
+        if(gamepad2.right_stick_x>0.1 && gamepad1.right_stick_x > 0.1){
             clawSpin.setPosition(clawSpin.FRONTPOS);
-        } else if(gamepad2.right_stick_x<-0.1){
+        } else if(gamepad2.right_stick_x<-0.1 && gamepad1.right_stick_x < -0.1){
             clawSpin.setPosition(clawSpin.BACKPOS);
         }
 
