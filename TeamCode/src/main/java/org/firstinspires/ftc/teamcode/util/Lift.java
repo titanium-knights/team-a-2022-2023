@@ -27,7 +27,7 @@ public class Lift {
 
     public static double Y = 0;
 
-    public static double SENSITIVITY = 0.1;
+    public static double SENSITIVITY = 0.05;
 
     public static double TOLERANCE = 20;
 
