@@ -53,7 +53,7 @@ public class TeleOpN extends OpMode {
         telemetry.addData("clawLift", clawLift.getPosition());
 
         //clawLift PLZZZ
-        clawLift.setPower(gamepad2.right_stick_x);
+        clawLift.setPower(gamepad2.right_stick_y);
 
         //Code for opening and closing claw
 
