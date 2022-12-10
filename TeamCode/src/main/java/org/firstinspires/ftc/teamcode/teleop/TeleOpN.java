@@ -50,8 +50,11 @@ public class TeleOpN extends OpMode {
         telemetry.addData("clawLift", clawLift.getPosition());
 
         //clawLift PLZZZ
-        if (clawLift.FRONT_PICKUP_POS < clawLift.getPosition() && clawLift.getPosition() < clawLift.BACK_PICKUP_POS){
-            clawLift.setPower(gamepad2.right_stick_y);
+        if(Math.abs(gamepad1.right_stick_y)>0.1){
+            clawLift.setPower(gamepad1.right_stick_y);
+        }
+        else{
+            clawLift.setPower(0);
         }
 
 

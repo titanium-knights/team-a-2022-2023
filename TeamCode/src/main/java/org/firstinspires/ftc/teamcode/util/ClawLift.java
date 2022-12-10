@@ -19,7 +19,7 @@ public class ClawLift {
     }
 
     public void setPower(double power) {
-        clawLift.setPower(-power);
+        clawLift.setPower(power);
     }
 
     public int getPosition() {
