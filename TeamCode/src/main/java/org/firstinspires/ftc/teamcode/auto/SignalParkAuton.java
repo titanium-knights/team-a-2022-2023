@@ -47,6 +47,7 @@ public class SignalParkAuton extends LinearOpMode  {
     public static Vector2d Z2_S2 = new Vector2d(-24,0);
     public static Vector2d Z1_S2 = new Vector2d(-24,-24);
 
+    public static Vector2d zoneAnalysis = Z1_S2;
 
     protected SampleMecanumDrive drive;
     protected SignalParkVision vision;
@@ -58,11 +59,17 @@ public class SignalParkAuton extends LinearOpMode  {
     }
 
     public void initTraj() {
+        if (vision.getPosition() == 1) {
+            zoneAnalysis = Z1_S2;
+        } else if (vision.getPosition() == 2) {
+            zoneAnalysis = Z2_S2;
+        } else {
+            zoneAnalysis = Z3_S2;
+        }
+
         TrajectorySequenceBuilder build = drive.trajectorySequenceBuilder(new Pose2d())
                 .lineToConstantHeading(ZONE_START_DROP_RIGHT)
-                .lineToConstantHeading(Z3_S2)
-                .lineToConstantHeading(Z2_S2)
-                .lineToConstantHeading(Z1_S2);
+                .lineToConstantHeading(zoneAnalysis);
 
         detectPark = build.build();
     }
