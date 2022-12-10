@@ -44,10 +44,10 @@ public class SignalParkPipeline extends OpenCvPipeline {
      */
 
     //PLACE ALL REGIONS IN THE SAME PLACE (?)
-    static final Point REGION_TOPLEFT_ANCHOR_POINT = new Point(125, 98);
+    static final Point REGION_TOPLEFT_ANCHOR_POINT = new Point(425, 100);
 
-    static final int REGION_WIDTH = 50;
-    static final int REGION_HEIGHT = 50;
+    static final int REGION_WIDTH = 300;
+    static final int REGION_HEIGHT = 400;
     //take the average of pixels and match it upn
 
     /*
@@ -160,7 +160,7 @@ public class SignalParkPipeline extends OpenCvPipeline {
          * Find which hue each region is closest to
          * Draw a rectangle in that color
          */
-        double[] hues = {138, 60, 15};
+        double[] hues = {138, 100, 50};
 
 //            double closestHue = Arrays.stream(hues).map(hue -> {
 //                return Math.min(Math.abs(avg1-hue), 180-Math.abs(avg1-hue));
