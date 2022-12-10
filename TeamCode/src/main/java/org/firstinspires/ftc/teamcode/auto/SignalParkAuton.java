@@ -32,14 +32,6 @@ import java.util.Vector;
 public class SignalParkAuton extends LinearOpMode  {
     TrajectorySequence detectPark;
 
-    public static final Pose2d startPose = new Pose2d(-12, 63,Math.toRadians(90));
-
-    public static double DRIVE_POWER = 0.5;
-
-    public static int FORWARD_TIME = 400;
-    public static int STRAFE_TIME = 1000;
-    public static int PARK_TIME = 1500;
-
     public static Vector2d ZONE_START_DROP_RIGHT = new Vector2d(0,24); //up at the corner
     public static Vector2d ZONE_START_DROP_LEFT = new Vector2d(0,24); //up at the corner
 
