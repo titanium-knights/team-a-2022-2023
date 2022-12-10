@@ -15,16 +15,14 @@ public class CONFIG {
     public static String webcam = "Webcam 1";
 
     //subsystems
-    public static String clawServo = "claw"; //exp 5
+    public static String clawServo = "claw"; //
 
-    public static String clawLift = "clawLift"; //exp 2 | Motor
+    public static String clawLift = "clawLift"; //
 
-    public static String clawSpin = "clawSpin"; //exp 4
+    public static String clawSpin = "clawSpin"; //
 
-    public static String tester = "tester";
-
-    public static String liftMotorRight = "lml"; //exp 0
-    public static String liftMotorLeft = "lmr";  //exp 1
+    public static String liftMotorRight = "lmr"; //exp 0
+    public static String liftMotorLeft = "lml";  //exp 1
 
     public static String O_C = "fl"; //center odo, ch 0
     public static String O_L = "fr"; //right odo, ch 1

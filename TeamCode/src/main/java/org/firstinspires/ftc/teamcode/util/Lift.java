@@ -15,21 +15,17 @@ public class Lift {
     public static int LOW_POSITION = 650;
     public static int GROUND_POSITION = 50;
 
-    public static int MAX_LIMIT = 4000;
-    public static int MIN_LIMIT = 0;
-    public static int INIT_LIMIT = 300;
+    public static int MAX_LIMIT = 1000;
+    public static int MIN_LIMIT = -348;
 
     public static int AVERAGE_BUFFER = 10;
 
     public static double DIFFERENCE = 0;
 
-    public static double ADJUSTER = 0;
+    public static double SENSITIVITY = 0.05;
+    public static double TOLERANCE = 20;
 
     public static double Y = 0;
-
-    public static double SENSITIVITY = 0.05;
-
-    public static double TOLERANCE = 20;
 
     public Lift(HardwareMap hmap) {
         this.lmr = hmap.dcMotor.get(CONFIG.liftMotorRight);
@@ -74,8 +70,16 @@ public class Lift {
         return (getPositionL() + getPositionR())/2;
     }
 
-    public void correctMotorPositions() {
+    public void correctMotorPositions(double pressedVal) {
         //if the difference between the two motors is larger than the difference
+
+        if (Math.abs(pressedVal) > 0.1) {
+            if ((getPositionL() < MAX_LIMIT && pressedVal > 0) || (getPositionL() > MIN_LIMIT && pressedVal < 0)) {
+                setPower(pressedVal);
+            }
+        }
+        else {
+            setPower(0);
             if (Math.abs(getPositionR() - Math.abs(getPositionL())) < AVERAGE_BUFFER) {
                 lmr.setPower(0);
             }
@@ -86,35 +90,36 @@ public class Lift {
                 if (getPositionR() < getPositionL())
                     lmr.setPower(LIFT_POWER * .6);
                 }
+        }
     }
 
 
 
-    public void correctMotorVed(double gamepadVal) {
+        public void correctMotorVed(double gamepadVal) {
 
-        DIFFERENCE = (getPositionR() - getPositionL());
+            DIFFERENCE = (getPositionR() - getPositionL());
 
-        if(Math.abs(gamepadVal)>0.1)
-        {
-            lmr.setPower((SENSITIVITY * -DIFFERENCE) + (0.9 * Y));
-            lml.setPower((SENSITIVITY * DIFFERENCE) + (0.9 * Y));
-        }
-
-        else
-        {
-            if (DIFFERENCE > TOLERANCE)
+            if(Math.abs(gamepadVal)>0.1)
             {
-                lmr.setPower((SENSITIVITY * -DIFFERENCE));
-                lml.setPower((SENSITIVITY * DIFFERENCE));
+                lmr.setPower((SENSITIVITY * -DIFFERENCE) + (0.9 * Y));
+                lml.setPower((SENSITIVITY * DIFFERENCE) + (0.9 * Y));
             }
+
             else
             {
-                lmr.setPower(0);
-                lml.setPower(0);
+                if (DIFFERENCE > TOLERANCE)
+                {
+                    lmr.setPower((SENSITIVITY * -DIFFERENCE));
+                    lml.setPower((SENSITIVITY * DIFFERENCE));
+                }
+                else
+                {
+                    lmr.setPower(0);
+                    lml.setPower(0);
+                }
             }
-        }
 
-    }
+        }
 
 
     public double getDIFFERENCE() {

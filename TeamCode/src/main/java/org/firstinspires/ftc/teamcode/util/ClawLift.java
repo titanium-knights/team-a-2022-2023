@@ -6,35 +6,28 @@ import com.qualcomm.robotcore.hardware.*;
 @Config
 public class ClawLift {
     public DcMotor clawLift;
-
-    public int MIDDLE_POSITION = 500;
-    public int MIDDLE_POSITION_BUFFER = 150;
-
-    public int RUN_BUFFER = 50;
-
-    public double clawLiftPOWER = .75;
-    public int targetPos = 300;
-
-    public double P = 0.002;
+    public int FRONT_PICKUP_POS = -920;
+    public int BACK_PICKUP_POS = 0;
 
     public ClawLift(HardwareMap hmap) {
         this.clawLift = hmap.dcMotor.get(CONFIG.clawLift);
     }
 
+    public void setInit() {
+        clawLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        clawLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
 
     public void setPower(double power) {
-        if (power == 0) {
-            clawLift.setPower(0);
-            clawLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        }
-        else {
-            clawLift.setPower(power);
-        }
+        clawLift.setPower(-power);
     }
 
     public int getPosition() {
         return clawLift.getCurrentPosition();
     }
+
+
+
 }
 
 

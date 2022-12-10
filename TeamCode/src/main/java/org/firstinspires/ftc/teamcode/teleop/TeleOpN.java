@@ -29,6 +29,9 @@ public class TeleOpN extends OpMode {
 
         claw = new Claw(hardwareMap);
         clawLift = new ClawLift(hardwareMap);
+
+        clawLift.setInit();
+
         clawSpin = new ClawSpin(hardwareMap);
     }
 
@@ -42,25 +45,22 @@ public class TeleOpN extends OpMode {
         telemetry.addData("liftAverage", lift.getAverage());
         telemetry.addData("LiftDif", lift.getDIFFERENCE());
 
-        lift.correctMotorPositions();
-
-        if(Math.abs(gamepad2.left_stick_y)>0.1){
-            lift.setPower(gamepad2.left_stick_y);
-        } else{
-            lift.setPower(0);
-        }
+        lift.correctMotorPositions(gamepad2.left_stick_y);
 
         telemetry.addData("clawLift", clawLift.getPosition());
 
         //clawLift PLZZZ
-        clawLift.setPower(gamepad2.right_stick_y);
+        if (clawLift.FRONT_PICKUP_POS < clawLift.getPosition() && clawLift.getPosition() < clawLift.BACK_PICKUP_POS){
+            clawLift.setPower(gamepad2.right_stick_y);
+        }
+
 
         //Code for opening and closing claw
 
-        if(gamepad2.a) {
+        if(gamepad2.a || gamepad1.a) {
             claw.closeCone();
         }
-        if(gamepad2.y) {
+        if(gamepad2.y || gamepad1.y) {
             claw.open();
         }
 

@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class ClawSpin {
     public Servo clawSpin; //servo
 
-    public static double FRONTPOS = 1;
-    public static double BACKPOS = .35;
+    public static double FRONTPOS = 0;
+    public static double BACKPOS = 0;
 
     public ClawSpin(HardwareMap hmap) {
 

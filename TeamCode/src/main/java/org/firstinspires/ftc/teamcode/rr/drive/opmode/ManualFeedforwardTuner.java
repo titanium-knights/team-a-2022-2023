@@ -11,11 +11,8 @@ import com.acmerobotics.roadrunner.profile.MotionState;
 import com.acmerobotics.roadrunner.util.NanoClock;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.RobotLog;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.internal.opmode.TelemetryImpl;
 import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.rr.drive.DriveConstants;
 
@@ -58,8 +55,6 @@ public class ManualFeedforwardTuner extends LinearOpMode {
         return MotionProfileGenerator.generateSimpleMotionProfile(start, goal, DriveConstants.MAX_VEL, DriveConstants.MAX_ACCEL);
     }
 
-    public Telemetry telemetry = new TelemetryImpl((OpMode) this);
-
     @Override
     public void runOpMode() {
         if (DriveConstants.RUN_USING_ENCODER) {
@@ -67,7 +62,7 @@ public class ManualFeedforwardTuner extends LinearOpMode {
                     "when using the built-in drive motor velocity PID.");
         }
 
-        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+        //telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
 
         drive = new SampleMecanumDrive(hardwareMap);
 

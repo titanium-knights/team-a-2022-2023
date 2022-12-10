@@ -9,23 +9,19 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.util.MecanumDrive;
 
-/*
- * This is a simple routine to test translational drive capabilities.
- */
-@Config
 @Autonomous(group = "drive")
-public class StrafeTest extends LinearOpMode {
-    public static double DISTANCE = 60; // in
+public class SignalLocationOne extends LinearOpMode {
+
+    public final static double TILE_LENGTH  = 24;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-
         Trajectory trajectory = drive.trajectoryBuilder(new Pose2d())
-                .strafeRight(DISTANCE)
+                .forward(TILE_LENGTH*1.5)
+                .strafeLeft(TILE_LENGTH* 1.15)
                 .build();
 
         waitForStart();
@@ -42,4 +38,5 @@ public class StrafeTest extends LinearOpMode {
 
         while (!isStopRequested() && opModeIsActive()) ;
     }
+
 }

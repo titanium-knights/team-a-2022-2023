@@ -1,0 +1,713 @@
+Index: TeamCode/src/main/java/org/firstinspires/ftc/teamcode/teleop/TeleOpN.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.firstinspires.ftc.teamcode.teleop;\r\nimport com.acmerobotics.dashboard.FtcDashboard;\r\nimport com.acmerobotics.dashboard.telemetry.MultipleTelemetry;\r\nimport com.qualcomm.robotcore.eventloop.opmode.OpMode;\r\nimport com.qualcomm.robotcore.eventloop.opmode.TeleOp;\r\nimport org.firstinspires.ftc.teamcode.util.*;\r\n\r\n//import com.acmerobotics.dashboard.config.Config;\r\n@TeleOp\r\npublic class TeleOpN extends OpMode {\r\n    MecanumDrive drive; // aidawkfafhiuawf\r\n    Lift lift;\r\n    Claw claw;\r\n\r\n    //woot\r\n    public static double DRIVE_SPEED = .9; //idk we can play around w this\r\n\r\n    public static double DRIVE_SPEED_SLOWMODE = .8;\r\n    boolean isSlowmode = false;\r\n\r\n    public void init() { //everything when you press the play button before u start goes here (INITialize, get it?)\r\n        drive = new MecanumDrive(hardwareMap);\r\n        lift = new Lift(hardwareMap);\r\n        claw = new Claw(hardwareMap);\r\n    }\r\n\r\n    public void loop() { //gamepad buttons that call util methods go here\r\n        if (gamepad1.a) {\r\n            isSlowmode = !isSlowmode;\r\n        }\r\n\r\n        if (!isSlowmode) {\r\n            drive.teleOpRobotCentric(gamepad1, DRIVE_SPEED); //go drive vroom\r\n        } else {\r\n            drive.teleOpRobotCentric(gamepad1, DRIVE_SPEED_SLOWMODE);\r\n        }\r\n\r\n        telemetry.addData(\"Slow mode on?:\", isSlowmode);\r\n\r\n        lift.correctMotorPositions();\r\n        if(Math.abs(gamepad2.left_stick_y)>0.1){\r\n             lift.setPower(gamepad1.left_stick_y);\r\n        }\r\n\r\n\r\n    }\r\n    //we decided that right trigger would be lift up, left trigger lift down, a claw open, b claw close\r\n\r\n    public void loop() { //gamepad buttons that call util methods go here\r\n       if (gamepad1.a) {\r\n            isSlowmode = !isSlowmode;\r\n        }\r\n\r\n        if (!isSlowmode) {\r\n            drive.teleOpRobotCentric(gamepad1, DRIVE_SPEED); //go drive vroom\r\n        } else {\r\n            drive.teleOpRobotCentric(gamepad1, DRIVE_SPEED_SLOWMODE);\r\n        }\r\n\r\n        telemetry.addData(\"Slow mode on?:\", isSlowmode);\r\n\r\n    //claw\r\n        if (gamepad1.a) {\r\n        claw.open();\r\n    }\r\n        if (gamepad1.y){\r\n            claw.closeCone();\r\n        }\r\n        // lift stuff\r\n        }\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/teleop/TeleOpN.java b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/teleop/TeleOpN.java
+--- a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/teleop/TeleOpN.java	(revision b5005e111e2efca067758869e7d8b3d4ae7bc698)
++++ b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/teleop/TeleOpN.java	(date 1670276307160)
+@@ -1,6 +1,10 @@
+ package org.firstinspires.ftc.teamcode.teleop;
++<<<<<<< HEAD
+ import com.acmerobotics.dashboard.FtcDashboard;
+ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
++=======
++//import com.acmerobotics.dashboard.FtcDashboard;
++>>>>>>> f0ee45ea6b66315f9000d53bc4c6997a5e03a544
+ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+ import org.firstinspires.ftc.teamcode.util.*;
+@@ -11,36 +15,65 @@
+     MecanumDrive drive; // aidawkfafhiuawf
+     Lift lift;
+     Claw claw;
++    ClawLift clawLift;
++    ClawSpin clawSpin;
+ 
+     //woot
+     public static double DRIVE_SPEED = .9; //idk we can play around w this
+ 
+-    public static double DRIVE_SPEED_SLOWMODE = .8;
+     boolean isSlowmode = false;
++    boolean clawClosed = false;
++
++    boolean lastState = true;
++    boolean state = false;
+ 
+     public void init() { //everything when you press the play button before u start goes here (INITialize, get it?)
+         drive = new MecanumDrive(hardwareMap);
+         lift = new Lift(hardwareMap);
+         claw = new Claw(hardwareMap);
++        clawLift = new ClawLift(hardwareMap);
++        clawSpin = new ClawSpin(hardwareMap);
+     }
+ 
+     public void loop() { //gamepad buttons that call util methods go here
+-        if (gamepad1.a) {
+-            isSlowmode = !isSlowmode;
+-        }
+-
+-        if (!isSlowmode) {
+-            drive.teleOpRobotCentric(gamepad1, DRIVE_SPEED); //go drive vroom
+-        } else {
+-            drive.teleOpRobotCentric(gamepad1, DRIVE_SPEED_SLOWMODE);
+-        }
++        drive.teleOpRobotCentric(gamepad1, DRIVE_SPEED); //go drive vroom
+ 
+         telemetry.addData("Slow mode on?:", isSlowmode);
+ 
++        telemetry.addData("lmr", lift.getPositionR());
++        telemetry.addData("lml", lift.getPositionL());
++        telemetry.addData("liftAverage", lift.getAverage());
++
+         lift.correctMotorPositions();
+         if(Math.abs(gamepad2.left_stick_y)>0.1){
+-             lift.setPower(gamepad1.left_stick_y);
++            lift.setPower(gamepad2.left_stick_y);
++        }
++        else{
++            lift.setPower(0);
++        }
++
++        telemetry.addData("clawLift", clawLift.getPosition());
++
++        //clawLift PLZZZ
++        clawLift.setPower(gamepad2.right_stick_y);
++
++        //Code for opening and closing claw
++
++        if(gamepad2.a) {
++            claw.closeCone();
++        }
++        if(gamepad2.y) {
++            claw.open();
+         }
++
++
++        //Code for spinning claw
++        if(gamepad2.right_stick_x>0.1){
++            clawSpin.setPosition(clawSpin.FRONTPOS);
++        } else if(gamepad2.right_stick_x<-0.1){
++            clawSpin.setPosition(clawSpin.BACKPOS);
++        }
++
+ 
+ 
+     }
+Index: TeamCode/src/main/java/org/firstinspires/ftc/teamcode/util/ClawSpin.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.firstinspires.ftc.teamcode.util;\r\n\r\nimport com.qualcomm.robotcore.hardware.HardwareMap;\r\nimport com.qualcomm.robotcore.hardware.Servo;\r\n\r\npublic class ClawSpin {\r\n    public Servo clawSpin; //servo\r\n\r\n    public static double FRONTPOS = 0;\r\n    public static double BACKPOS = 0;\r\n\r\n    public ClawSpin(HardwareMap hmap) {\r\n\r\n        this.clawSpin = hmap.servo.get(CONFIG.clawSpin);\r\n    }\r\n\r\n    public void setPosition(double pos) {\r\n        clawSpin.setPosition(pos);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/util/ClawSpin.java b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/util/ClawSpin.java
+--- a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/util/ClawSpin.java	(revision b5005e111e2efca067758869e7d8b3d4ae7bc698)
++++ b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/util/ClawSpin.java	(date 1670276266501)
+@@ -6,8 +6,8 @@
+ public class ClawSpin {
+     public Servo clawSpin; //servo
+ 
+-    public static double FRONTPOS = 0;
+-    public static double BACKPOS = 0;
++    public static double FRONTPOS = 1;
++    public static double BACKPOS = .35;
+ 
+     public ClawSpin(HardwareMap hmap) {
+ 
+Index: TeamCode/src/main/java/org/firstinspires/ftc/teamcode/util/ClawLift.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.firstinspires.ftc.teamcode.util;\r\n\r\nimport com.acmerobotics.dashboard.config.Config;\r\nimport com.qualcomm.robotcore.hardware.*;\r\n\r\n@Config\r\npublic class ClawLift {\r\n    public DcMotor clawLift;\r\n    public int FRONT_PICKUP_POS = 400;\r\n    public int BACK_PICKUP_POS = -1200;\r\n\r\n    public ClawLift(HardwareMap hmap) {\r\n        this.clawLift = hmap.dcMotor.get(CONFIG.clawLift);\r\n    }\r\n\r\n\r\n    public void setPower(double power) {\r\n        clawLift.setPower(power);\r\n    }\r\n\r\n    public void runToPosition(int pos, double multiplier){\r\n        int currentPos = clawLift.getCurrentPosition();\r\n        //double multiplier = Math.min(1, Math.max(0, Math.abs(pos - currentPos) / 150.0));\r\n        if(pos - currentPos > 30){\r\n            setPower(-1 * multiplier);\r\n        }\r\n        else if(pos - currentPos < -30){\r\n            setPower(1 * multiplier);\r\n        }\r\n        else if (pos == 0) {\r\n            setPower(0);\r\n        } else {\r\n            setPower(0);\r\n        }\r\n    }\r\n\r\n\r\n\r\n}\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/util/ClawLift.java b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/util/ClawLift.java
+--- a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/util/ClawLift.java	(revision b5005e111e2efca067758869e7d8b3d4ae7bc698)
++++ b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/util/ClawLift.java	(date 1670276266501)
+@@ -6,8 +6,16 @@
+ @Config
+ public class ClawLift {
+     public DcMotor clawLift;
+-    public int FRONT_PICKUP_POS = 400;
+-    public int BACK_PICKUP_POS = -1200;
++
++    public int MIDDLE_POSITION = 500;
++    public int MIDDLE_POSITION_BUFFER = 150;
++
++    public int RUN_BUFFER = 50;
++
++    public double clawLiftPOWER = .75;
++    public int targetPos = 300;
++
++    public double P = 0.002;
+ 
+     public ClawLift(HardwareMap hmap) {
+         this.clawLift = hmap.dcMotor.get(CONFIG.clawLift);
+@@ -15,27 +23,18 @@
+ 
+ 
+     public void setPower(double power) {
+-        clawLift.setPower(power);
+-    }
+-
+-    public void runToPosition(int pos, double multiplier){
+-        int currentPos = clawLift.getCurrentPosition();
+-        //double multiplier = Math.min(1, Math.max(0, Math.abs(pos - currentPos) / 150.0));
+-        if(pos - currentPos > 30){
+-            setPower(-1 * multiplier);
++        if (power == 0) {
++            clawLift.setPower(0);
++            clawLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
++        }
++        else {
++            clawLift.setPower(power);
+         }
+-        else if(pos - currentPos < -30){
+-            setPower(1 * multiplier);
+-        }
+-        else if (pos == 0) {
+-            setPower(0);
+-        } else {
+-            setPower(0);
+-        }
++    }
++
++    public int getPosition() {
++        return clawLift.getCurrentPosition();
+     }
+-
+-
+-
+ }
+ 
+ 
+Index: TeamCode/src/main/java/org/firstinspires/ftc/teamcode/util/CONFIG.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.firstinspires.ftc.teamcode.util;\r\n\r\n\r\nimport com.acmerobotics.dashboard.config.Config;\r\n\r\n@Config\r\npublic class CONFIG {\r\n    //drivetrain wheels :OOO\r\n    public static String FRONT_LEFT = \"fl\"; //ch 0\r\n    public static String FRONT_RIGHT = \"fr\"; //ch 1\r\n    public static String BACK_LEFT = \"bl\"; //ch 3\r\n    public static String BACK_RIGHT = \"br\"; //ch 2\r\n\r\n    //webcam\r\n    public static String webcam = \"Webcam 1\";\r\n\r\n    //subsystems\r\n    public static String clawServo = \"claw\"; //\r\n\r\n    public static String clawLift = \"clawLift\"; //\r\n\r\n    public static String clawSpin = \"clawSpin\"; //\r\n\r\n    public static String liftMotorRight = \"r_lift\"; //exp 0\r\n    public static String liftMotorLeft = \"l_lift\";  //exp 1\r\n\r\n    public static String O_C = \"fl\"; //center odo, ch 0\r\n    public static String O_L = \"fr\"; //right odo, ch 1\r\n    public static String O_R = \"bl\"; //left odo, ch 3\r\n\r\n    //OLD\r\n    public static String liftMotor = \"lm\"; //\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/util/CONFIG.java b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/util/CONFIG.java
+--- a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/util/CONFIG.java	(revision b5005e111e2efca067758869e7d8b3d4ae7bc698)
++++ b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/util/CONFIG.java	(date 1670276266499)
+@@ -15,14 +15,16 @@
+     public static String webcam = "Webcam 1";
+ 
+     //subsystems
+-    public static String clawServo = "claw"; //
++    public static String clawServo = "claw"; //exp 5
+ 
+-    public static String clawLift = "clawLift"; //
++    public static String clawLift = "clawLift"; //exp 2 | Motor
+ 
+-    public static String clawSpin = "clawSpin"; //
++    public static String clawSpin = "clawSpin"; //exp 4
+ 
+-    public static String liftMotorRight = "r_lift"; //exp 0
+-    public static String liftMotorLeft = "l_lift";  //exp 1
++    public static String tester = "tester";
++
++    public static String liftMotorRight = "lml"; //exp 0
++    public static String liftMotorLeft = "lmr";  //exp 1
+ 
+     public static String O_C = "fl"; //center odo, ch 0
+     public static String O_L = "fr"; //right odo, ch 1
+Index: TeamCode/src/main/java/org/firstinspires/ftc/teamcode/util/Lift.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.firstinspires.ftc.teamcode.util;\r\nimport com.acmerobotics.dashboard.config.Config;\r\nimport com.qualcomm.robotcore.hardware.*;\r\n\r\n@Config\r\npublic class Lift {\r\n    public DcMotor lmr; //lift right\r\n    public DcMotor lml; //lift left\r\n\r\n    public static double LIFT_POWER = 1;\r\n    public static int HIGH_POSITION = 950;\r\n    public static int MID_POSITION = 800;\r\n    public static int LOW_POSITION = 650;\r\n    public static int GROUND_POSITION = 50;\r\n\r\n    public static int MAX_LIMIT = 4000;\r\n    public static int MIN_LIMIT = 0;\r\n    public static int INIT_LIMIT = 300;\r\n\r\n    public static int AVERAGE_BUFFER = 100;\r\n\r\n    public Lift(HardwareMap hmap) {\r\n\r\n        this.lmr = hmap.dcMotor.get(CONFIG.liftMotorRight);\r\n        this.lml = hmap.dcMotor.get(CONFIG.liftMotorLeft);\r\n\r\n        this.lmr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //reset pos to 0\r\n        this.lml.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //use encoder\r\n\r\n    }\r\n\r\n    public void setPower(double power) {\r\n        lmr.setPower(power);\r\n        lml.setPower(power);\r\n    }\r\n\r\n    public void setPosition(int pos) {\r\n        lmr.setTargetPosition(pos);\r\n        lmr.setMode(DcMotor.RunMode.RUN_TO_POSITION);\r\n        lmr.setPower(LIFT_POWER);\r\n\r\n        lml.setTargetPosition(pos);\r\n        lml.setMode(DcMotor.RunMode.RUN_TO_POSITION);\r\n        lml.setPower(LIFT_POWER);\r\n    }\r\n\r\n    //public void runToPosition()\r\n\r\n    public void setInit() {\r\n\r\n        lmr.setTargetPosition(INIT_LIMIT);\r\n        lml.setTargetPosition(INIT_LIMIT);\r\n    }\r\n\r\n    public int getPositionR() {\r\n        return lmr.getCurrentPosition();\r\n    }\r\n\r\n    public int getPositionL() {\r\n        return lml.getCurrentPosition();\r\n    }\r\n\r\n    public void correctMotorPositions() {\r\n        int r_currentPos = getPositionR();\r\n        int l_currentPos = getPositionL();\r\n\r\n        int avg_targetPos = (r_currentPos + l_currentPos)/2;\r\n\r\n        //if the difference between the two motors is larger than the difference\r\n        if (Math.abs(r_currentPos - avg_targetPos) > AVERAGE_BUFFER) {\r\n            if (r_currentPos > avg_targetPos) {\r\n                lmr.setPower(-LIFT_POWER);\r\n            }\r\n            if (r_currentPos < avg_targetPos) {\r\n                lmr.setPower(LIFT_POWER);\r\n            }\r\n        }\r\n        if (Math.abs(l_currentPos - avg_targetPos) > AVERAGE_BUFFER) {\r\n            if (l_currentPos > avg_targetPos) {\r\n                lml.setPower(-LIFT_POWER);\r\n            }\r\n            if (l_currentPos < avg_targetPos) {\r\n                lml.setPower(LIFT_POWER);\r\n            }\r\n        }\r\n    }\r\n\r\n\r\n    public void runToPosition(int pos, double multiplier){\r\n        int currentPos = lml.getCurrentPosition();\r\n        //double multiplier = Math.min(1, Math.max(0, Math.abs(pos - currentPos) / 150.0));\r\n        if(pos - currentPos > 30){\r\n            setPower(-1 * multiplier);\r\n        }\r\n        else if(pos - currentPos < -30){\r\n            setPower(1 * multiplier);\r\n        }\r\n        else if (pos == 0) {\r\n            setPower(0);\r\n        } else {\r\n            setPower(0);\r\n        }\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/util/Lift.java b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/util/Lift.java
+--- a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/util/Lift.java	(revision b5005e111e2efca067758869e7d8b3d4ae7bc698)
++++ b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/util/Lift.java	(date 1670276294196)
+@@ -7,7 +7,9 @@
+     public DcMotor lmr; //lift right
+     public DcMotor lml; //lift left
+ 
+-    public static double LIFT_POWER = 1;
++    public static double LIFT_POWER = .8;
++    public static double LIFT_POWER_MULTIPLYER = .5;
++
+     public static int HIGH_POSITION = 950;
+     public static int MID_POSITION = 800;
+     public static int LOW_POSITION = 650;
+@@ -17,21 +19,16 @@
+     public static int MIN_LIMIT = 0;
+     public static int INIT_LIMIT = 300;
+ 
+-    public static int AVERAGE_BUFFER = 100;
++    public static int AVERAGE_BUFFER = 50;
+ 
+     public Lift(HardwareMap hmap) {
+-
+         this.lmr = hmap.dcMotor.get(CONFIG.liftMotorRight);
+         this.lml = hmap.dcMotor.get(CONFIG.liftMotorLeft);
+-
+-        this.lmr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //reset pos to 0
+-        this.lml.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //use encoder
+-
+     }
+ 
+     public void setPower(double power) {
+-        lmr.setPower(power);
+-        lml.setPower(power);
++        lmr.setPower(-power * LIFT_POWER_MULTIPLYER);
++        lml.setPower(-power * LIFT_POWER_MULTIPLYER);
+     }
+ 
+     public void setPosition(int pos) {
+@@ -47,39 +44,46 @@
+     //public void runToPosition()
+ 
+     public void setInit() {
+-
+         lmr.setTargetPosition(INIT_LIMIT);
+         lml.setTargetPosition(INIT_LIMIT);
+     }
+ 
+     public int getPositionR() {
+-        return lmr.getCurrentPosition();
++        return -lmr.getCurrentPosition();
+     }
+ 
+     public int getPositionL() {
+         return lml.getCurrentPosition();
+     }
++    
++    public int getAverage() {
++        return (getPositionL() + getPositionR())/2;
++    }
+ 
+     public void correctMotorPositions() {
++<<<<<<< HEAD
+         int r_currentPos = getPositionR();
+         int l_currentPos = getPositionL();
+ 
+         int avg_targetPos = (r_currentPos + l_currentPos)/2;
+ 
++=======
++        
++>>>>>>> f0ee45ea6b66315f9000d53bc4c6997a5e03a544
+         //if the difference between the two motors is larger than the difference
+-        if (Math.abs(r_currentPos - avg_targetPos) > AVERAGE_BUFFER) {
+-            if (r_currentPos > avg_targetPos) {
++        if (Math.abs(getPositionR() - getAverage()) > AVERAGE_BUFFER) {
++            if (getPositionR() > getAverage()) {
+                 lmr.setPower(-LIFT_POWER);
+             }
+-            if (r_currentPos < avg_targetPos) {
++            if (getPositionR() < getAverage()) {
+                 lmr.setPower(LIFT_POWER);
+             }
+         }
+-        if (Math.abs(l_currentPos - avg_targetPos) > AVERAGE_BUFFER) {
+-            if (l_currentPos > avg_targetPos) {
++        if (Math.abs(getPositionL() - getAverage()) > AVERAGE_BUFFER) {
++            if (getPositionL() > getAverage()) {
+                 lml.setPower(-LIFT_POWER);
+             }
+-            if (l_currentPos < avg_targetPos) {
++            if (getPositionL() < getAverage()) {
+                 lml.setPower(LIFT_POWER);
+             }
+         }
+Index: TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/AutomaticFeedforwardTuner.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.firstinspires.ftc.teamcode.rr.drive.opmode;\r\n\r\nimport com.acmerobotics.dashboard.FtcDashboard;\r\nimport com.acmerobotics.dashboard.config.Config;\r\nimport com.acmerobotics.dashboard.telemetry.MultipleTelemetry;\r\nimport com.acmerobotics.roadrunner.geometry.Pose2d;\r\nimport com.acmerobotics.roadrunner.util.NanoClock;\r\nimport com.qualcomm.robotcore.eventloop.opmode.Autonomous;\r\nimport com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;\r\nimport com.qualcomm.robotcore.util.RobotLog;\r\n\r\nimport org.firstinspires.ftc.robotcore.internal.system.Misc;\r\nimport org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;\r\nimport org.firstinspires.ftc.teamcode.rr.drive.DriveConstants;\r\nimport org.firstinspires.ftc.teamcode.rr.util.LoggingUtil;\r\nimport org.firstinspires.ftc.teamcode.rr.util.RegressionUtil;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\n/*\r\n * Op mode for computing kV, kStatic, and kA from various drive routines. For the curious, here's an\r\n * outline of the procedure:\r\n *   1. Slowly ramp the motor power and record encoder values along the way.\r\n *   2. Run a linear regression on the encoder velocity vs. motor power plot to obtain a slope (kV)\r\n *      and an optional intercept (kStatic).\r\n *   3. Accelerate the robot (apply constant power) and record the encoder counts.\r\n *   4. Adjust the encoder data based on the velocity tuning data and find kA with another linear\r\n *      regression.\r\n */\r\n@Config\r\n@Autonomous(group = \"drive\")\r\npublic class AutomaticFeedforwardTuner extends LinearOpMode {\r\n    public static double MAX_POWER = 0.7;\r\n    public static double DISTANCE = 100; // in\r\n\r\n    @Override\r\n    public void runOpMode() throws InterruptedException {\r\n        if (DriveConstants.RUN_USING_ENCODER) {\r\n            RobotLog.setGlobalErrorMsg(\"Feedforward constants usually don't need to be tuned \" +\r\n                    \"when using the built-in drive motor velocity PID.\");\r\n        }\r\n\r\n        //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());\r\n\r\n        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);\r\n\r\n        NanoClock clock = NanoClock.system();\r\n\r\n        telemetry.addLine(\"Press play to begin the feedforward tuning routine\");\r\n        telemetry.update();\r\n\r\n        waitForStart();\r\n\r\n        if (isStopRequested()) return;\r\n\r\n        telemetry.clearAll();\r\n        telemetry.addLine(\"Would you like to fit kStatic?\");\r\n        telemetry.addLine(\"Press (Y/Δ) for yes, (B/O) for no\");\r\n        telemetry.update();\r\n\r\n        boolean fitIntercept = false;\r\n        while (!isStopRequested()) {\r\n            if (gamepad1.y) {\r\n                fitIntercept = true;\r\n                while (!isStopRequested() && gamepad1.y) {\r\n                    idle();\r\n                }\r\n                break;\r\n            } else if (gamepad1.b) {\r\n                while (!isStopRequested() && gamepad1.b) {\r\n                    idle();\r\n                }\r\n                break;\r\n            }\r\n            idle();\r\n        }\r\n\r\n        telemetry.clearAll();\r\n        telemetry.addLine(Misc.formatInvariant(\r\n                \"Place your robot on the field with at least %.2f in of room in front\", DISTANCE));\r\n        telemetry.addLine(\"Press (Y/Δ) to begin\");\r\n        telemetry.update();\r\n\r\n        while (!isStopRequested() && !gamepad1.y) {\r\n            idle();\r\n        }\r\n        while (!isStopRequested() && gamepad1.y) {\r\n            idle();\r\n        }\r\n\r\n        telemetry.clearAll();\r\n        telemetry.addLine(\"Running...\");\r\n        telemetry.update();\r\n\r\n        double maxVel = DriveConstants.rpmToVelocity(DriveConstants.MAX_RPM);\r\n        double finalVel = MAX_POWER * maxVel;\r\n        double accel = (finalVel * finalVel) / (2.0 * DISTANCE);\r\n        double rampTime = Math.sqrt(2.0 * DISTANCE / accel);\r\n\r\n        List<Double> timeSamples = new ArrayList<>();\r\n        List<Double> positionSamples = new ArrayList<>();\r\n        List<Double> powerSamples = new ArrayList<>();\r\n\r\n        drive.setPoseEstimate(new Pose2d());\r\n\r\n        double startTime = clock.seconds();\r\n        while (!isStopRequested()) {\r\n            double elapsedTime = clock.seconds() - startTime;\r\n            if (elapsedTime > rampTime) {\r\n                break;\r\n            }\r\n            double vel = accel * elapsedTime;\r\n            double power = vel / maxVel;\r\n\r\n            timeSamples.add(elapsedTime);\r\n            positionSamples.add(drive.getPoseEstimate().getX());\r\n            powerSamples.add(power);\r\n\r\n            drive.setDrivePower(new Pose2d(power, 0.0, 0.0));\r\n            drive.updatePoseEstimate();\r\n        }\r\n        drive.setDrivePower(new Pose2d(0.0, 0.0, 0.0));\r\n\r\n        RegressionUtil.RampResult rampResult = RegressionUtil.fitRampData(\r\n                timeSamples, positionSamples, powerSamples, fitIntercept,\r\n                LoggingUtil.getLogFile(Misc.formatInvariant(\r\n                        \"DriveRampRegression-%d.csv\", System.currentTimeMillis())));\r\n\r\n        telemetry.clearAll();\r\n        telemetry.addLine(\"Quasi-static ramp up test complete\");\r\n        if (fitIntercept) {\r\n            telemetry.addLine(Misc.formatInvariant(\"kV = %.5f, kStatic = %.5f (R^2 = %.2f)\",\r\n                    rampResult.kV, rampResult.kStatic, rampResult.rSquare));\r\n        } else {\r\n            telemetry.addLine(Misc.formatInvariant(\"kV = %.5f (R^2 = %.2f)\",\r\n                    rampResult.kStatic, rampResult.rSquare));\r\n        }\r\n        telemetry.addLine(\"Would you like to fit kA?\");\r\n        telemetry.addLine(\"Press (Y/Δ) for yes, (B/O) for no\");\r\n        telemetry.update();\r\n\r\n        boolean fitAccelFF = false;\r\n        while (!isStopRequested()) {\r\n            if (gamepad1.y) {\r\n                fitAccelFF = true;\r\n                while (!isStopRequested() && gamepad1.y) {\r\n                    idle();\r\n                }\r\n                break;\r\n            } else if (gamepad1.b) {\r\n                while (!isStopRequested() && gamepad1.b) {\r\n                    idle();\r\n                }\r\n                break;\r\n            }\r\n            idle();\r\n        }\r\n\r\n        if (fitAccelFF) {\r\n            telemetry.clearAll();\r\n            telemetry.addLine(\"Place the robot back in its starting position\");\r\n            telemetry.addLine(\"Press (Y/Δ) to continue\");\r\n            telemetry.update();\r\n\r\n            while (!isStopRequested() && !gamepad1.y) {\r\n                idle();\r\n            }\r\n            while (!isStopRequested() && gamepad1.y) {\r\n                idle();\r\n            }\r\n\r\n            telemetry.clearAll();\r\n            telemetry.addLine(\"Running...\");\r\n            telemetry.update();\r\n\r\n            double maxPowerTime = DISTANCE / maxVel;\r\n\r\n            timeSamples.clear();\r\n            positionSamples.clear();\r\n            powerSamples.clear();\r\n\r\n            drive.setPoseEstimate(new Pose2d());\r\n            drive.setDrivePower(new Pose2d(MAX_POWER, 0.0, 0.0));\r\n\r\n            startTime = clock.seconds();\r\n            while (!isStopRequested()) {\r\n                double elapsedTime = clock.seconds() - startTime;\r\n                if (elapsedTime > maxPowerTime) {\r\n                    break;\r\n                }\r\n\r\n                timeSamples.add(elapsedTime);\r\n                positionSamples.add(drive.getPoseEstimate().getX());\r\n                powerSamples.add(MAX_POWER);\r\n\r\n                drive.updatePoseEstimate();\r\n            }\r\n            drive.setDrivePower(new Pose2d(0.0, 0.0, 0.0));\r\n\r\n            RegressionUtil.AccelResult accelResult = RegressionUtil.fitAccelData(\r\n                    timeSamples, positionSamples, powerSamples, rampResult,\r\n                    LoggingUtil.getLogFile(Misc.formatInvariant(\r\n                            \"DriveAccelRegression-%d.csv\", System.currentTimeMillis())));\r\n\r\n            telemetry.clearAll();\r\n            telemetry.addLine(\"Constant power test complete\");\r\n            telemetry.addLine(Misc.formatInvariant(\"kA = %.5f (R^2 = %.2f)\",\r\n                    accelResult.kA, accelResult.rSquare));\r\n            telemetry.update();\r\n        }\r\n\r\n        while (!isStopRequested()) {\r\n            idle();\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/AutomaticFeedforwardTuner.java b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/AutomaticFeedforwardTuner.java
+--- a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/AutomaticFeedforwardTuner.java	(revision b5005e111e2efca067758869e7d8b3d4ae7bc698)
++++ b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/AutomaticFeedforwardTuner.java	(date 1670276266482)
+@@ -7,8 +7,11 @@
+ import com.acmerobotics.roadrunner.util.NanoClock;
+ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
++import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+ import com.qualcomm.robotcore.util.RobotLog;
+ 
++import org.firstinspires.ftc.robotcore.external.Telemetry;
++import org.firstinspires.ftc.robotcore.internal.opmode.TelemetryImpl;
+ import org.firstinspires.ftc.robotcore.internal.system.Misc;
+ import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
+ import org.firstinspires.ftc.teamcode.rr.drive.DriveConstants;
+@@ -34,6 +37,8 @@
+     public static double MAX_POWER = 0.7;
+     public static double DISTANCE = 100; // in
+ 
++    public Telemetry telemetry = new TelemetryImpl((OpMode) this);
++
+     @Override
+     public void runOpMode() throws InterruptedException {
+         if (DriveConstants.RUN_USING_ENCODER) {
+@@ -41,7 +46,7 @@
+                     "when using the built-in drive motor velocity PID.");
+         }
+ 
+-        //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
++        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+ 
+         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+ 
+Index: TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/DriveVelocityPIDTuner.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.firstinspires.ftc.teamcode.rr.drive.opmode;\r\n\r\nimport com.acmerobotics.dashboard.FtcDashboard;\r\nimport com.acmerobotics.dashboard.config.Config;\r\nimport com.acmerobotics.dashboard.telemetry.MultipleTelemetry;\r\nimport com.acmerobotics.roadrunner.geometry.Pose2d;\r\nimport com.acmerobotics.roadrunner.profile.MotionProfile;\r\nimport com.acmerobotics.roadrunner.profile.MotionProfileGenerator;\r\nimport com.acmerobotics.roadrunner.profile.MotionState;\r\nimport com.acmerobotics.roadrunner.util.NanoClock;\r\nimport com.qualcomm.robotcore.eventloop.opmode.Autonomous;\r\nimport com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;\r\nimport com.qualcomm.robotcore.hardware.DcMotor;\r\nimport com.qualcomm.robotcore.util.RobotLog;\r\n\r\nimport org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;\r\nimport org.firstinspires.ftc.teamcode.rr.drive.DriveConstants;\r\n\r\nimport java.util.List;\r\n\r\n/*\r\n * This routine is designed to tune the PID coefficients used by the REV Expansion Hubs for closed-\r\n * loop velocity control. Although it may seem unnecessary, tuning these coefficients is just as\r\n * important as the positional parameters. Like the other manual tuning routines, this op mode\r\n * relies heavily upon the dashboard. To access the dashboard, connect your computer to the RC's\r\n * WiFi network. In your browser, navigate to https://192.168.49.1:8080/dash if you're using the RC\r\n * phone or https://192.168.43.1:8080/dash if you are using the Control Hub. Once you've successfully\r\n * connected, start the program, and your robot will begin moving forward and backward according to\r\n * a motion profile. Your job is to graph the velocity errors over time and adjust the PID\r\n * coefficients (note: the tuning variable will not appear until the op mode finishes initializing).\r\n * Once you've found a satisfactory set of gains, add them to the DriveConstants.java file under the\r\n * MOTOR_VELO_PID field.\r\n *\r\n * Recommended tuning process:\r\n *\r\n * 1. Increase kP until any phase lag is eliminated. Concurrently increase kD as necessary to\r\n *    mitigate oscillations.\r\n * 2. Add kI (or adjust kF) until the steady state/constant velocity plateaus are reached.\r\n * 3. Back off kP and kD a little until the response is less oscillatory (but without lag).\r\n *\r\n * Pressing Y/Δ (Xbox/PS4) will pause the tuning process and enter driver override, allowing the\r\n * user to reset the position of the bot in the event that it drifts off the path.\r\n * Pressing B/O (Xbox/PS4) will cede control back to the tuning process.\r\n */\r\n@Config\r\n@Autonomous(group = \"drive\")\r\npublic class DriveVelocityPIDTuner extends LinearOpMode {\r\n    public static double DISTANCE = 72; // in\r\n\r\n    enum Mode {\r\n        DRIVER_MODE,\r\n        TUNING_MODE\r\n    }\r\n\r\n    private static MotionProfile generateProfile(boolean movingForward) {\r\n        MotionState start = new MotionState(movingForward ? 0 : DISTANCE, 0, 0, 0);\r\n        MotionState goal = new MotionState(movingForward ? DISTANCE : 0, 0, 0, 0);\r\n        return MotionProfileGenerator.generateSimpleMotionProfile(start, goal, DriveConstants.MAX_VEL, DriveConstants.MAX_ACCEL);\r\n    }\r\n\r\n    @Override\r\n    public void runOpMode() {\r\n        if (!DriveConstants.RUN_USING_ENCODER) {\r\n            RobotLog.setGlobalErrorMsg(\"%s does not need to be run if the built-in motor velocity\" +\r\n                    \"PID is not in use\", getClass().getSimpleName());\r\n        }\r\n\r\n        //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());\r\n\r\n        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);\r\n\r\n        Mode mode = Mode.TUNING_MODE;\r\n\r\n        double lastKp = DriveConstants.MOTOR_VELO_PID.p;\r\n        double lastKi = DriveConstants.MOTOR_VELO_PID.i;\r\n        double lastKd = DriveConstants.MOTOR_VELO_PID.d;\r\n        double lastKf = DriveConstants.MOTOR_VELO_PID.f;\r\n\r\n        drive.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, DriveConstants.MOTOR_VELO_PID);\r\n\r\n        NanoClock clock = NanoClock.system();\r\n\r\n        telemetry.addLine(\"Ready!\");\r\n        telemetry.update();\r\n        telemetry.clearAll();\r\n\r\n        waitForStart();\r\n\r\n        if (isStopRequested()) return;\r\n\r\n        boolean movingForwards = true;\r\n        MotionProfile activeProfile = generateProfile(true);\r\n        double profileStart = clock.seconds();\r\n\r\n\r\n        while (!isStopRequested()) {\r\n            telemetry.addData(\"mode\", mode);\r\n\r\n            switch (mode) {\r\n                case TUNING_MODE:\r\n                    if (gamepad1.y) {\r\n                        mode = Mode.DRIVER_MODE;\r\n                        drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);\r\n                    }\r\n\r\n                    // calculate and set the motor power\r\n                    double profileTime = clock.seconds() - profileStart;\r\n\r\n                    if (profileTime > activeProfile.duration()) {\r\n                        // generate a new profile\r\n                        movingForwards = !movingForwards;\r\n                        activeProfile = generateProfile(movingForwards);\r\n                        profileStart = clock.seconds();\r\n                    }\r\n\r\n                    MotionState motionState = activeProfile.get(profileTime);\r\n                    double targetPower = DriveConstants.kV * motionState.getV();\r\n                    drive.setDrivePower(new Pose2d(targetPower, 0, 0));\r\n\r\n                    List<Double> velocities = drive.getWheelVelocities();\r\n\r\n                    // update telemetry\r\n                    telemetry.addData(\"targetVelocity\", motionState.getV());\r\n                    for (int i = 0; i < velocities.size(); i++) {\r\n                        telemetry.addData(\"measuredVelocity\" + i, velocities.get(i));\r\n                        telemetry.addData(\r\n                                \"error\" + i,\r\n                                motionState.getV() - velocities.get(i)\r\n                        );\r\n                    }\r\n                    break;\r\n                case DRIVER_MODE:\r\n                    if (gamepad1.b) {\r\n                        drive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);\r\n\r\n                        mode = Mode.TUNING_MODE;\r\n                        movingForwards = true;\r\n                        activeProfile = generateProfile(movingForwards);\r\n                        profileStart = clock.seconds();\r\n                    }\r\n\r\n                    drive.setWeightedDrivePower(\r\n                            new Pose2d(\r\n                                    -gamepad1.left_stick_y,\r\n                                    -gamepad1.left_stick_x,\r\n                                    -gamepad1.right_stick_x\r\n                            )\r\n                    );\r\n                    break;\r\n            }\r\n\r\n            if (lastKp != DriveConstants.MOTOR_VELO_PID.p || lastKd != DriveConstants.MOTOR_VELO_PID.d\r\n                    || lastKi != DriveConstants.MOTOR_VELO_PID.i || lastKf != DriveConstants.MOTOR_VELO_PID.f) {\r\n                drive.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, DriveConstants.MOTOR_VELO_PID);\r\n\r\n                lastKp = DriveConstants.MOTOR_VELO_PID.p;\r\n                lastKi = DriveConstants.MOTOR_VELO_PID.i;\r\n                lastKd = DriveConstants.MOTOR_VELO_PID.d;\r\n                lastKf = DriveConstants.MOTOR_VELO_PID.f;\r\n            }\r\n\r\n            telemetry.update();\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/DriveVelocityPIDTuner.java b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/DriveVelocityPIDTuner.java
+--- a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/DriveVelocityPIDTuner.java	(revision b5005e111e2efca067758869e7d8b3d4ae7bc698)
++++ b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/DriveVelocityPIDTuner.java	(date 1670276266483)
+@@ -10,9 +10,12 @@
+ import com.acmerobotics.roadrunner.util.NanoClock;
+ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
++import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+ import com.qualcomm.robotcore.hardware.DcMotor;
+ import com.qualcomm.robotcore.util.RobotLog;
+ 
++import org.firstinspires.ftc.robotcore.external.Telemetry;
++import org.firstinspires.ftc.robotcore.internal.opmode.TelemetryImpl;
+ import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
+ import org.firstinspires.ftc.teamcode.rr.drive.DriveConstants;
+ 
+@@ -46,6 +49,8 @@
+ @Autonomous(group = "drive")
+ public class DriveVelocityPIDTuner extends LinearOpMode {
+     public static double DISTANCE = 72; // in
++    public Telemetry telemetry = new TelemetryImpl((OpMode) this);
++
+ 
+     enum Mode {
+         DRIVER_MODE,
+@@ -65,7 +70,7 @@
+                     "PID is not in use", getClass().getSimpleName());
+         }
+ 
+-        //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
++        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+ 
+         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+ 
+Index: TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/MaxAngularVeloTuner.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.firstinspires.ftc.teamcode.rr.drive.opmode;\r\n\r\nimport com.acmerobotics.dashboard.FtcDashboard;\r\nimport com.acmerobotics.dashboard.config.Config;\r\nimport com.acmerobotics.dashboard.telemetry.MultipleTelemetry;\r\nimport com.acmerobotics.roadrunner.geometry.Pose2d;\r\nimport com.qualcomm.robotcore.eventloop.opmode.Autonomous;\r\nimport com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;\r\nimport com.qualcomm.robotcore.hardware.DcMotor;\r\nimport com.qualcomm.robotcore.util.ElapsedTime;\r\n\r\nimport org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;\r\n\r\nimport java.util.Objects;\r\n\r\n/**\r\n * This routine is designed to calculate the maximum angular velocity your bot can achieve under load.\r\n * <p>\r\n * Upon pressing start, your bot will turn at max power for RUNTIME seconds.\r\n * <p>\r\n * Further fine tuning of MAX_ANG_VEL may be desired.\r\n */\r\n\r\n@Config\r\n@Autonomous(group = \"drive\")\r\npublic class MaxAngularVeloTuner extends LinearOpMode {\r\n    public static double RUNTIME = 4.0;\r\n\r\n    private ElapsedTime timer;\r\n    private double maxAngVelocity = 0.0;\r\n\r\n    @Override\r\n    public void runOpMode() throws InterruptedException {\r\n        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);\r\n\r\n        drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);\r\n\r\n        //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());\r\n\r\n        telemetry.addLine(\"Your bot will turn at full speed for \" + RUNTIME + \" seconds.\");\r\n        telemetry.addLine(\"Please ensure you have enough space cleared.\");\r\n        telemetry.addLine(\"\");\r\n        telemetry.addLine(\"Press start when ready.\");\r\n        telemetry.update();\r\n\r\n        waitForStart();\r\n\r\n        telemetry.clearAll();\r\n        telemetry.update();\r\n\r\n        drive.setDrivePower(new Pose2d(0, 0, 1));\r\n        timer = new ElapsedTime();\r\n\r\n        while (!isStopRequested() && timer.seconds() < RUNTIME) {\r\n            drive.updatePoseEstimate();\r\n\r\n            Pose2d poseVelo = Objects.requireNonNull(drive.getPoseVelocity(), \"poseVelocity() must not be null. Ensure that the getWheelVelocities() method has been overridden in your localizer.\");\r\n\r\n            maxAngVelocity = Math.max(poseVelo.getHeading(), maxAngVelocity);\r\n        }\r\n\r\n        drive.setDrivePower(new Pose2d());\r\n\r\n        telemetry.addData(\"Max Angular Velocity (rad)\", maxAngVelocity);\r\n        telemetry.addData(\"Max Angular Velocity (deg)\", Math.toDegrees(maxAngVelocity));\r\n        telemetry.update();\r\n\r\n        while (!isStopRequested()) idle();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/MaxAngularVeloTuner.java b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/MaxAngularVeloTuner.java
+--- a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/MaxAngularVeloTuner.java	(revision b5005e111e2efca067758869e7d8b3d4ae7bc698)
++++ b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/MaxAngularVeloTuner.java	(date 1670276266487)
+@@ -6,9 +6,12 @@
+ import com.acmerobotics.roadrunner.geometry.Pose2d;
+ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
++import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+ import com.qualcomm.robotcore.hardware.DcMotor;
+ import com.qualcomm.robotcore.util.ElapsedTime;
+ 
++import org.firstinspires.ftc.robotcore.external.Telemetry;
++import org.firstinspires.ftc.robotcore.internal.opmode.TelemetryImpl;
+ import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
+ 
+ import java.util.Objects;
+@@ -29,13 +32,15 @@
+     private ElapsedTime timer;
+     private double maxAngVelocity = 0.0;
+ 
++    public Telemetry telemetry = new TelemetryImpl((OpMode) this);
++
+     @Override
+     public void runOpMode() throws InterruptedException {
+         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+ 
+         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+ 
+-        //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
++        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+ 
+         telemetry.addLine("Your bot will turn at full speed for " + RUNTIME + " seconds.");
+         telemetry.addLine("Please ensure you have enough space cleared.");
+Index: TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/ManualFeedforwardTuner.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.firstinspires.ftc.teamcode.rr.drive.opmode;\r\n\r\nimport com.acmerobotics.dashboard.FtcDashboard;\r\nimport com.acmerobotics.dashboard.config.Config;\r\nimport com.acmerobotics.dashboard.telemetry.MultipleTelemetry;\r\nimport com.acmerobotics.roadrunner.geometry.Pose2d;\r\nimport com.acmerobotics.roadrunner.kinematics.Kinematics;\r\nimport com.acmerobotics.roadrunner.profile.MotionProfile;\r\nimport com.acmerobotics.roadrunner.profile.MotionProfileGenerator;\r\nimport com.acmerobotics.roadrunner.profile.MotionState;\r\nimport com.acmerobotics.roadrunner.util.NanoClock;\r\nimport com.qualcomm.robotcore.eventloop.opmode.Autonomous;\r\nimport com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;\r\nimport com.qualcomm.robotcore.util.RobotLog;\r\n\r\nimport org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;\r\nimport org.firstinspires.ftc.teamcode.rr.drive.DriveConstants;\r\n\r\nimport java.util.Objects;\r\n\r\n/*\r\n * This routine is designed to tune the open-loop feedforward coefficients. Although it may seem unnecessary,\r\n * tuning these coefficients is just as important as the positional parameters. Like the other\r\n * manual tuning routines, this op mode relies heavily upon the dashboard. To access the dashboard,\r\n * connect your computer to the RC's WiFi network. In your browser, navigate to\r\n * https://192.168.49.1:8080/dash if you're using the RC phone or https://192.168.43.1:8080/dash if\r\n * you are using the Control Hub. Once you've successfully connected, start the program, and your\r\n * robot will begin moving forward and backward according to a motion profile. Your job is to graph\r\n * the velocity errors over time and adjust the feedforward coefficients. Once you've found a\r\n * satisfactory set of gains, add them to the appropriate fields in the DriveConstants.java file.\r\n *\r\n * Pressing Y/Δ (Xbox/PS4) will pause the tuning process and enter driver override, allowing the\r\n * user to reset the position of the bot in the event that it drifts off the path.\r\n * Pressing B/O (Xbox/PS4) will cede control back to the tuning process.\r\n */\r\n@Config\r\n@Autonomous(group = \"drive\")\r\npublic class ManualFeedforwardTuner extends LinearOpMode {\r\n    public static double DISTANCE = 72; // in\r\n\r\n    private FtcDashboard dashboard = FtcDashboard.getInstance();\r\n\r\n    private SampleMecanumDrive drive;\r\n\r\n    enum Mode {\r\n        DRIVER_MODE,\r\n        TUNING_MODE\r\n    }\r\n\r\n    private Mode mode;\r\n\r\n    private static MotionProfile generateProfile(boolean movingForward) {\r\n        MotionState start = new MotionState(movingForward ? 0 : DISTANCE, 0, 0, 0);\r\n        MotionState goal = new MotionState(movingForward ? DISTANCE : 0, 0, 0, 0);\r\n        return MotionProfileGenerator.generateSimpleMotionProfile(start, goal, DriveConstants.MAX_VEL, DriveConstants.MAX_ACCEL);\r\n    }\r\n\r\n    @Override\r\n    public void runOpMode() {\r\n        if (DriveConstants.RUN_USING_ENCODER) {\r\n            RobotLog.setGlobalErrorMsg(\"Feedforward constants usually don't need to be tuned \" +\r\n                    \"when using the built-in drive motor velocity PID.\");\r\n        }\r\n\r\n        //telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());\r\n\r\n        drive = new SampleMecanumDrive(hardwareMap);\r\n\r\n        mode = Mode.TUNING_MODE;\r\n\r\n        NanoClock clock = NanoClock.system();\r\n\r\n        telemetry.addLine(\"Ready!\");\r\n        telemetry.update();\r\n        telemetry.clearAll();\r\n\r\n        waitForStart();\r\n\r\n        if (isStopRequested()) return;\r\n\r\n        boolean movingForwards = true;\r\n        MotionProfile activeProfile = generateProfile(true);\r\n        double profileStart = clock.seconds();\r\n\r\n\r\n        while (!isStopRequested()) {\r\n            telemetry.addData(\"mode\", mode);\r\n\r\n            switch (mode) {\r\n                case TUNING_MODE:\r\n                    if (gamepad1.y) {\r\n                        mode = Mode.DRIVER_MODE;\r\n                    }\r\n\r\n                    // calculate and set the motor power\r\n                    double profileTime = clock.seconds() - profileStart;\r\n\r\n                    if (profileTime > activeProfile.duration()) {\r\n                        // generate a new profile\r\n                        movingForwards = !movingForwards;\r\n                        activeProfile = generateProfile(movingForwards);\r\n                        profileStart = clock.seconds();\r\n                    }\r\n\r\n                    MotionState motionState = activeProfile.get(profileTime);\r\n                    double targetPower = Kinematics.calculateMotorFeedforward(motionState.getV(), motionState.getA(), DriveConstants.kV, DriveConstants.kA, DriveConstants.kStatic);\r\n\r\n                    drive.setDrivePower(new Pose2d(targetPower, 0, 0));\r\n                    drive.updatePoseEstimate();\r\n\r\n                    Pose2d poseVelo = Objects.requireNonNull(drive.getPoseVelocity(), \"poseVelocity() must not be null. Ensure that the getWheelVelocities() method has been overridden in your localizer.\");\r\n                    double currentVelo = poseVelo.getX();\r\n\r\n                    // update telemetry\r\n                    telemetry.addData(\"targetVelocity\", motionState.getV());\r\n                    telemetry.addData(\"measuredVelocity\", currentVelo);\r\n                    telemetry.addData(\"error\", motionState.getV() - currentVelo);\r\n                    break;\r\n                case DRIVER_MODE:\r\n                    if (gamepad1.b) {\r\n                        mode = Mode.TUNING_MODE;\r\n                        movingForwards = true;\r\n                        activeProfile = generateProfile(movingForwards);\r\n                        profileStart = clock.seconds();\r\n                    }\r\n\r\n                    drive.setWeightedDrivePower(\r\n                            new Pose2d(\r\n                                    -gamepad1.left_stick_y,\r\n                                    -gamepad1.left_stick_x,\r\n                                    -gamepad1.right_stick_x\r\n                            )\r\n                    );\r\n                    break;\r\n            }\r\n\r\n            telemetry.update();\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/ManualFeedforwardTuner.java b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/ManualFeedforwardTuner.java
+--- a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/ManualFeedforwardTuner.java	(revision b5005e111e2efca067758869e7d8b3d4ae7bc698)
++++ b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/ManualFeedforwardTuner.java	(date 1670276266486)
+@@ -11,8 +11,11 @@
+ import com.acmerobotics.roadrunner.util.NanoClock;
+ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
++import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+ import com.qualcomm.robotcore.util.RobotLog;
+ 
++import org.firstinspires.ftc.robotcore.external.Telemetry;
++import org.firstinspires.ftc.robotcore.internal.opmode.TelemetryImpl;
+ import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
+ import org.firstinspires.ftc.teamcode.rr.drive.DriveConstants;
+ 
+@@ -55,6 +58,8 @@
+         return MotionProfileGenerator.generateSimpleMotionProfile(start, goal, DriveConstants.MAX_VEL, DriveConstants.MAX_ACCEL);
+     }
+ 
++    public Telemetry telemetry = new TelemetryImpl((OpMode) this);
++
+     @Override
+     public void runOpMode() {
+         if (DriveConstants.RUN_USING_ENCODER) {
+@@ -62,7 +67,7 @@
+                     "when using the built-in drive motor velocity PID.");
+         }
+ 
+-        //telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
++        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+ 
+         drive = new SampleMecanumDrive(hardwareMap);
+ 
+Index: TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/MotorDirectionDebugger.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.firstinspires.ftc.teamcode.rr.drive.opmode;\r\n\r\nimport com.acmerobotics.dashboard.FtcDashboard;\r\nimport com.acmerobotics.dashboard.config.Config;\r\nimport com.acmerobotics.dashboard.telemetry.MultipleTelemetry;\r\nimport com.qualcomm.robotcore.eventloop.opmode.Disabled;\r\nimport com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;\r\nimport com.qualcomm.robotcore.eventloop.opmode.TeleOp;\r\n\r\nimport org.firstinspires.ftc.robotcore.external.Telemetry;\r\nimport org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;\r\n\r\n/**\r\n * This is a simple teleop routine for debugging your motor configuration.\r\n * Pressing each of the buttons will power its respective motor.\r\n *\r\n * Button Mappings:\r\n *\r\n * Xbox/PS4 Button - Motor\r\n *   X / ▢         - Front Left\r\n *   Y / Δ         - Front Right\r\n *   B / O         - Rear  Right\r\n *   A / X         - Rear  Left\r\n *                                    The buttons are mapped to match the wheels spatially if you\r\n *                                    were to rotate the gamepad 45deg°. x/square is the front left\r\n *                    ________        and each button corresponds to the wheel as you go clockwise\r\n *                   / ______ \\\r\n *     ------------.-'   _  '-..+              Front of Bot\r\n *              /   _  ( Y )  _  \\                  ^\r\n *             |  ( X )  _  ( B ) |     Front Left   \\    Front Right\r\n *        ___  '.      ( A )     /|       Wheel       \\      Wheel\r\n *      .'    '.    '-._____.-'  .'       (x/▢)        \\     (Y/Δ)\r\n *     |       |                 |                      \\\r\n *      '.___.' '.               |          Rear Left    \\   Rear Right\r\n *               '.             /             Wheel       \\    Wheel\r\n *                \\.          .'              (A/X)        \\   (B/O)\r\n *                  \\________/\r\n *\r\n * Uncomment the @Disabled tag below to use this opmode.\r\n */\r\n@Disabled\r\n@Config\r\n@TeleOp(group = \"drive\")\r\npublic class MotorDirectionDebugger extends LinearOpMode {\r\n    public static double MOTOR_POWER = 0.7;\r\n\r\n    @Override\r\n    public void runOpMode() throws InterruptedException {\r\n        //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());\r\n\r\n        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);\r\n\r\n        telemetry.addLine(\"Press play to begin the debugging opmode\");\r\n        telemetry.update();\r\n\r\n        waitForStart();\r\n\r\n        if (isStopRequested()) return;\r\n\r\n        telemetry.clearAll();\r\n        telemetry.setDisplayFormat(Telemetry.DisplayFormat.HTML);\r\n\r\n        while (!isStopRequested()) {\r\n            telemetry.addLine(\"Press each button to turn on its respective motor\");\r\n            telemetry.addLine();\r\n            telemetry.addLine(\"<font face=\\\"monospace\\\">Xbox/PS4 Button - Motor</font>\");\r\n            telemetry.addLine(\"<font face=\\\"monospace\\\">&nbsp;&nbsp;X / ▢&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Front Left</font>\");\r\n            telemetry.addLine(\"<font face=\\\"monospace\\\">&nbsp;&nbsp;Y / Δ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Front Right</font>\");\r\n            telemetry.addLine(\"<font face=\\\"monospace\\\">&nbsp;&nbsp;B / O&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Rear&nbsp;&nbsp;Right</font>\");\r\n            telemetry.addLine(\"<font face=\\\"monospace\\\">&nbsp;&nbsp;A / X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Rear&nbsp;&nbsp;Left</font>\");\r\n            telemetry.addLine();\r\n\r\n            if(gamepad1.x) {\r\n                drive.setMotorPowers(MOTOR_POWER, 0, 0, 0);\r\n                telemetry.addLine(\"Running Motor: Front Left\");\r\n            } else if(gamepad1.y) {\r\n                drive.setMotorPowers(0, 0, 0, MOTOR_POWER);\r\n                telemetry.addLine(\"Running Motor: Front Right\");\r\n            } else if(gamepad1.b) {\r\n                drive.setMotorPowers(0, 0, MOTOR_POWER, 0);\r\n                telemetry.addLine(\"Running Motor: Rear Right\");\r\n            } else if(gamepad1.a) {\r\n                drive.setMotorPowers(0, MOTOR_POWER, 0, 0);\r\n                telemetry.addLine(\"Running Motor: Rear Left\");\r\n            } else {\r\n                drive.setMotorPowers(0, 0, 0, 0);\r\n                telemetry.addLine(\"Running Motor: None\");\r\n            }\r\n\r\n            telemetry.update();\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/MotorDirectionDebugger.java b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/MotorDirectionDebugger.java
+--- a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/MotorDirectionDebugger.java	(revision b5005e111e2efca067758869e7d8b3d4ae7bc698)
++++ b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/MotorDirectionDebugger.java	(date 1670276266491)
+@@ -5,9 +5,11 @@
+ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
++import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+ 
+ import org.firstinspires.ftc.robotcore.external.Telemetry;
++import org.firstinspires.ftc.robotcore.internal.opmode.TelemetryImpl;
+ import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
+ 
+ /**
+@@ -43,10 +45,11 @@
+ @TeleOp(group = "drive")
+ public class MotorDirectionDebugger extends LinearOpMode {
+     public static double MOTOR_POWER = 0.7;
++    public Telemetry telemetry = new TelemetryImpl((OpMode) this);
+ 
+     @Override
+     public void runOpMode() throws InterruptedException {
+-        //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
++        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+ 
+         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+ 
+Index: TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/MaxVelocityTuner.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.firstinspires.ftc.teamcode.rr.drive.opmode;\r\n\r\nimport com.acmerobotics.dashboard.FtcDashboard;\r\nimport com.acmerobotics.dashboard.config.Config;\r\nimport com.acmerobotics.dashboard.telemetry.MultipleTelemetry;\r\nimport com.acmerobotics.roadrunner.geometry.Pose2d;\r\nimport com.qualcomm.robotcore.eventloop.opmode.Autonomous;\r\nimport com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;\r\nimport com.qualcomm.robotcore.hardware.DcMotor;\r\nimport com.qualcomm.robotcore.hardware.VoltageSensor;\r\nimport com.qualcomm.robotcore.util.ElapsedTime;\r\n\r\nimport org.firstinspires.ftc.teamcode.rr.drive.DriveConstants;\r\nimport org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;\r\n\r\nimport java.util.Objects;\r\n\r\n/**\r\n * This routine is designed to calculate the maximum velocity your bot can achieve under load. It\r\n * will also calculate the effective kF value for your velocity PID.\r\n * <p>\r\n * Upon pressing start, your bot will run at max power for RUNTIME seconds.\r\n * <p>\r\n * Further fine tuning of kF may be desired.\r\n */\r\n@Config\r\n@Autonomous(group = \"drive\")\r\npublic class MaxVelocityTuner extends LinearOpMode {\r\n    public static double RUNTIME = 2.0;\r\n\r\n    private ElapsedTime timer;\r\n    private double maxVelocity = 0.0;\r\n\r\n    private VoltageSensor batteryVoltageSensor;\r\n\r\n    @Override\r\n    public void runOpMode() throws InterruptedException {\r\n        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);\r\n\r\n        drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);\r\n\r\n        batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();\r\n\r\n        //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());\r\n\r\n        telemetry.addLine(\"Your bot will go at full speed for \" + RUNTIME + \" seconds.\");\r\n        telemetry.addLine(\"Please ensure you have enough space cleared.\");\r\n        telemetry.addLine(\"\");\r\n        telemetry.addLine(\"Press start when ready.\");\r\n        telemetry.update();\r\n\r\n        waitForStart();\r\n\r\n        telemetry.clearAll();\r\n        telemetry.update();\r\n\r\n        drive.setDrivePower(new Pose2d(1, 0, 0));\r\n        timer = new ElapsedTime();\r\n\r\n        while (!isStopRequested() && timer.seconds() < RUNTIME) {\r\n            drive.updatePoseEstimate();\r\n\r\n            Pose2d poseVelo = Objects.requireNonNull(drive.getPoseVelocity(), \"poseVelocity() must not be null. Ensure that the getWheelVelocities() method has been overridden in your localizer.\");\r\n\r\n            maxVelocity = Math.max(poseVelo.vec().norm(), maxVelocity);\r\n        }\r\n\r\n        drive.setDrivePower(new Pose2d());\r\n\r\n        double effectiveKf = DriveConstants.getMotorVelocityF(veloInchesToTicks(maxVelocity));\r\n\r\n        telemetry.addData(\"Max Velocity\", maxVelocity);\r\n        telemetry.addData(\"Voltage Compensated kF\", effectiveKf * batteryVoltageSensor.getVoltage() / 12);\r\n        telemetry.update();\r\n\r\n        while (!isStopRequested() && opModeIsActive()) idle();\r\n    }\r\n\r\n    private double veloInchesToTicks(double inchesPerSec) {\r\n        return inchesPerSec / (2 * Math.PI * DriveConstants.WHEEL_RADIUS) / DriveConstants.GEAR_RATIO * DriveConstants.TICKS_PER_REV;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/MaxVelocityTuner.java b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/MaxVelocityTuner.java
+--- a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/MaxVelocityTuner.java	(revision b5005e111e2efca067758869e7d8b3d4ae7bc698)
++++ b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/MaxVelocityTuner.java	(date 1670276266489)
+@@ -6,10 +6,13 @@
+ import com.acmerobotics.roadrunner.geometry.Pose2d;
+ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
++import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+ import com.qualcomm.robotcore.hardware.DcMotor;
+ import com.qualcomm.robotcore.hardware.VoltageSensor;
+ import com.qualcomm.robotcore.util.ElapsedTime;
+ 
++import org.firstinspires.ftc.robotcore.external.Telemetry;
++import org.firstinspires.ftc.robotcore.internal.opmode.TelemetryImpl;
+ import org.firstinspires.ftc.teamcode.rr.drive.DriveConstants;
+ import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
+ 
+@@ -32,6 +35,7 @@
+     private double maxVelocity = 0.0;
+ 
+     private VoltageSensor batteryVoltageSensor;
++    public Telemetry telemetry = new TelemetryImpl((OpMode) this);
+ 
+     @Override
+     public void runOpMode() throws InterruptedException {
+@@ -41,7 +45,7 @@
+ 
+         batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
+ 
+-        //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
++        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+ 
+         telemetry.addLine("Your bot will go at full speed for " + RUNTIME + " seconds.");
+         telemetry.addLine("Please ensure you have enough space cleared.");
+Index: TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/StrafeTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.firstinspires.ftc.teamcode.rr.drive.opmode;\r\n\r\nimport com.acmerobotics.dashboard.FtcDashboard;\r\nimport com.acmerobotics.dashboard.config.Config;\r\nimport com.acmerobotics.dashboard.telemetry.MultipleTelemetry;\r\nimport com.acmerobotics.roadrunner.geometry.Pose2d;\r\nimport com.acmerobotics.roadrunner.trajectory.Trajectory;\r\nimport com.qualcomm.robotcore.eventloop.opmode.Autonomous;\r\nimport com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;\r\n\r\nimport org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;\r\n\r\n/*\r\n * This is a simple routine to test translational drive capabilities.\r\n */\r\n@Config\r\n@Autonomous(group = \"drive\")\r\npublic class StrafeTest extends LinearOpMode {\r\n    public static double DISTANCE = 60; // in\r\n\r\n    @Override\r\n    public void runOpMode() throws InterruptedException {\r\n        //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());\r\n\r\n        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);\r\n\r\n        Trajectory trajectory = drive.trajectoryBuilder(new Pose2d())\r\n                .strafeRight(DISTANCE)\r\n                .build();\r\n\r\n        waitForStart();\r\n\r\n        if (isStopRequested()) return;\r\n\r\n        drive.followTrajectory(trajectory);\r\n\r\n        Pose2d poseEstimate = drive.getPoseEstimate();\r\n        telemetry.addData(\"finalX\", poseEstimate.getX());\r\n        telemetry.addData(\"finalY\", poseEstimate.getY());\r\n        telemetry.addData(\"finalHeading\", poseEstimate.getHeading());\r\n        telemetry.update();\r\n\r\n        while (!isStopRequested() && opModeIsActive()) ;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/StrafeTest.java b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/StrafeTest.java
+--- a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/StrafeTest.java	(revision b5005e111e2efca067758869e7d8b3d4ae7bc698)
++++ b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/StrafeTest.java	(date 1670276266492)
+@@ -7,7 +7,10 @@
+ import com.acmerobotics.roadrunner.trajectory.Trajectory;
+ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
++import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+ 
++import org.firstinspires.ftc.robotcore.external.Telemetry;
++import org.firstinspires.ftc.robotcore.internal.opmode.TelemetryImpl;
+ import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
+ 
+ /*
+@@ -17,10 +20,11 @@
+ @Autonomous(group = "drive")
+ public class StrafeTest extends LinearOpMode {
+     public static double DISTANCE = 60; // in
++    public Telemetry telemetry = new TelemetryImpl((OpMode) this);
+ 
+     @Override
+     public void runOpMode() throws InterruptedException {
+-        //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
++        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+ 
+         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+ 
+Index: TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/TrackingWheelForwardOffsetTuner.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.firstinspires.ftc.teamcode.rr.drive.opmode;\r\n\r\nimport com.acmerobotics.dashboard.FtcDashboard;\r\nimport com.acmerobotics.dashboard.config.Config;\r\nimport com.acmerobotics.dashboard.telemetry.MultipleTelemetry;\r\nimport com.acmerobotics.roadrunner.geometry.Pose2d;\r\nimport com.acmerobotics.roadrunner.util.Angle;\r\nimport com.qualcomm.robotcore.eventloop.opmode.Autonomous;\r\nimport com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;\r\nimport com.qualcomm.robotcore.util.MovingStatistics;\r\nimport com.qualcomm.robotcore.util.RobotLog;\r\n\r\nimport org.firstinspires.ftc.robotcore.internal.system.Misc;\r\nimport org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;\r\nimport org.firstinspires.ftc.teamcode.rr.drive.StandardTrackingWheelLocalizer;\r\n\r\n/**\r\n * This routine determines the effective forward offset for the lateral tracking wheel.\r\n * The procedure executes a point turn at a given angle for a certain number of trials,\r\n * along with a specified delay in milliseconds. The purpose of this is to track the\r\n * change in the y position during the turn. The offset, or distance, of the lateral tracking\r\n * wheel from the center or rotation allows the wheel to spin during a point turn, leading\r\n * to an incorrect measurement for the y position. This creates an arc around around\r\n * the center of rotation with an arc length of change in y and a radius equal to the forward\r\n * offset. We can compute this offset by calculating (change in y position) / (change in heading)\r\n * which returns the radius if the angle (change in heading) is in radians. This is based\r\n * on the arc length formula of length = theta * radius.\r\n *\r\n * To run this routine, simply adjust the desired angle and specify the number of trials\r\n * and the desired delay. Then, run the procedure. Once it finishes, it will print the\r\n * average of all the calculated forward offsets derived from the calculation. This calculated\r\n * forward offset is then added onto the current forward offset to produce an overall estimate\r\n * for the forward offset. You can run this procedure as many times as necessary until a\r\n * satisfactory result is produced.\r\n */\r\n@Config\r\n@Autonomous(group=\"drive\")\r\npublic class TrackingWheelForwardOffsetTuner extends LinearOpMode {\r\n    public static double ANGLE = 180; // deg\r\n    public static int NUM_TRIALS = 5;\r\n    public static int DELAY = 1000; // ms\r\n\r\n    @Override\r\n    public void runOpMode() throws InterruptedException {\r\n        //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());\r\n\r\n        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);\r\n\r\n        if (!(drive.getLocalizer() instanceof StandardTrackingWheelLocalizer)) {\r\n            RobotLog.setGlobalErrorMsg(\"StandardTrackingWheelLocalizer is not being set in the \"\r\n                    + \"drive class. Ensure that \\\"setLocalizer(new StandardTrackingWheelLocalizer\"\r\n                    + \"(hardwareMap));\\\" is called in SampleMecanumDrive.java\");\r\n        }\r\n\r\n        telemetry.addLine(\"Press play to begin the forward offset tuner\");\r\n        telemetry.addLine(\"Make sure your robot has enough clearance to turn smoothly\");\r\n        telemetry.update();\r\n\r\n        waitForStart();\r\n\r\n        if (isStopRequested()) return;\r\n\r\n        telemetry.clearAll();\r\n        telemetry.addLine(\"Running...\");\r\n        telemetry.update();\r\n\r\n        MovingStatistics forwardOffsetStats = new MovingStatistics(NUM_TRIALS);\r\n        for (int i = 0; i < NUM_TRIALS; i++) {\r\n            drive.setPoseEstimate(new Pose2d());\r\n\r\n            // it is important to handle heading wraparounds\r\n            double headingAccumulator = 0;\r\n            double lastHeading = 0;\r\n\r\n            drive.turnAsync(Math.toRadians(ANGLE));\r\n\r\n            while (!isStopRequested() && drive.isBusy()) {\r\n                double heading = drive.getPoseEstimate().getHeading();\r\n                headingAccumulator += Angle.norm(heading - lastHeading);\r\n                lastHeading = heading;\r\n\r\n                drive.update();\r\n            }\r\n\r\n            double forwardOffset = StandardTrackingWheelLocalizer.FORWARD_OFFSET +\r\n                    drive.getPoseEstimate().getY() / headingAccumulator;\r\n            forwardOffsetStats.add(forwardOffset);\r\n\r\n            sleep(DELAY);\r\n        }\r\n\r\n        telemetry.clearAll();\r\n        telemetry.addLine(\"Tuning complete\");\r\n        telemetry.addLine(Misc.formatInvariant(\"Effective forward offset = %.2f (SE = %.3f)\",\r\n                forwardOffsetStats.getMean(),\r\n                forwardOffsetStats.getStandardDeviation() / Math.sqrt(NUM_TRIALS)));\r\n        telemetry.update();\r\n\r\n        while (!isStopRequested()) {\r\n            idle();\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/TrackingWheelForwardOffsetTuner.java b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/TrackingWheelForwardOffsetTuner.java
+--- a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/TrackingWheelForwardOffsetTuner.java	(revision b5005e111e2efca067758869e7d8b3d4ae7bc698)
++++ b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/TrackingWheelForwardOffsetTuner.java	(date 1670276266494)
+@@ -7,9 +7,12 @@
+ import com.acmerobotics.roadrunner.util.Angle;
+ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
++import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+ import com.qualcomm.robotcore.util.MovingStatistics;
+ import com.qualcomm.robotcore.util.RobotLog;
+ 
++import org.firstinspires.ftc.robotcore.external.Telemetry;
++import org.firstinspires.ftc.robotcore.internal.opmode.TelemetryImpl;
+ import org.firstinspires.ftc.robotcore.internal.system.Misc;
+ import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
+ import org.firstinspires.ftc.teamcode.rr.drive.StandardTrackingWheelLocalizer;
+@@ -39,10 +42,11 @@
+     public static double ANGLE = 180; // deg
+     public static int NUM_TRIALS = 5;
+     public static int DELAY = 1000; // ms
++    public Telemetry telemetry = new TelemetryImpl((OpMode) this);
+ 
+     @Override
+     public void runOpMode() throws InterruptedException {
+-        //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
++        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+ 
+         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+ 
+Index: TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/StandardTrackingWheelLocalizer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.firstinspires.ftc.teamcode.rr.drive;\r\nimport org.firstinspires.ftc.teamcode.util.CONFIG;\r\n\r\nimport androidx.annotation.NonNull;\r\n\r\nimport com.acmerobotics.dashboard.config.Config;\r\nimport com.acmerobotics.roadrunner.geometry.Pose2d;\r\nimport com.acmerobotics.roadrunner.localization.ThreeTrackingWheelLocalizer;\r\nimport com.qualcomm.robotcore.hardware.DcMotorEx;\r\nimport com.qualcomm.robotcore.hardware.DcMotorSimple;\r\nimport com.qualcomm.robotcore.hardware.HardwareMap;\r\nimport org.firstinspires.ftc.teamcode.rr.util.Encoder;\r\n\r\nimport java.util.Arrays;\r\nimport java.util.List;\r\n\r\n/*\r\n * Sample tracking wheel localizer implementation assuming the standard configuration:\r\n *\r\n *    /--------------\\\r\n *    |     ____     |\r\n *    |     ----     |\r\n *    | ||        || |\r\n *    | ||        || |\r\n *    |              |\r\n *    |              |\r\n *    \\--------------/\r\n *\r\n */\r\n@Config\r\npublic class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer {\r\n    public static double TICKS_PER_REV = 8192;\r\n    public static double WHEEL_RADIUS = 0.6889764; // in\r\n    public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed\r\n\r\n    public static double LATERAL_DISTANCE = 11.75; // in; distance between the left and right wheels\r\n    public static double FORWARD_OFFSET = 0.75; // in; offset of the lateral wheel\r\n\r\n    public static double X_MULTIPLIER = .99803; // Multiplier in the X direction\r\n    public static double Y_MULTIPLIER = 1.0055607; // Multiplier in the Y direction\r\n\r\n    private Encoder leftEncoder, rightEncoder, frontEncoder;\r\n\r\n    public StandardTrackingWheelLocalizer(HardwareMap hardwareMap) {\r\n        super(Arrays.asList(\r\n                new Pose2d(0, LATERAL_DISTANCE / 2, 0), // left\r\n                new Pose2d(0, -LATERAL_DISTANCE / 2, 0), // right\r\n                new Pose2d(FORWARD_OFFSET, 0, Math.toRadians(90)) // front\r\n        ));\r\n\r\n        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, CONFIG.O_R));\r\n        rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, CONFIG.O_L));\r\n        frontEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, CONFIG.O_C));\r\n\r\n        // TODO: reverse any encoders using Encoder.setDirection(Encoder.Direction.REVERSE)\r\n        frontEncoder.setDirection(Encoder.Direction.REVERSE);\r\n        rightEncoder.setDirection(Encoder.Direction.REVERSE);\r\n        leftEncoder.setDirection(Encoder.Direction.REVERSE);\r\n\r\n    }\r\n\r\n    public static double encoderTicksToInches(double ticks) {\r\n        return WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks / TICKS_PER_REV;\r\n    }\r\n\r\n    @NonNull\r\n    @Override\r\n    public List<Double> getWheelPositions() {\r\n        return Arrays.asList(\r\n                encoderTicksToInches(leftEncoder.getCurrentPosition()) * X_MULTIPLIER,\r\n                encoderTicksToInches(rightEncoder.getCurrentPosition()) * X_MULTIPLIER,\r\n                encoderTicksToInches(frontEncoder.getCurrentPosition()) * Y_MULTIPLIER\r\n        );\r\n    }\r\n\r\n    @NonNull\r\n    @Override\r\n    public List<Double> getWheelVelocities() {\r\n        // TODO: If your encoder velocity can exceed 32767 counts / second (such as the REV Through Bore and other\r\n        //  competing magnetic encoders), change Encoder.getRawVelocity() to Encoder.getCorrectedVelocity() to enable a\r\n        //  compensation method\r\n\r\n        return Arrays.asList(\r\n                encoderTicksToInches(leftEncoder.getCorrectedVelocity()) * X_MULTIPLIER,\r\n                encoderTicksToInches(rightEncoder.getCorrectedVelocity()) * X_MULTIPLIER,\r\n                encoderTicksToInches(frontEncoder.getCorrectedVelocity()) * Y_MULTIPLIER\r\n        );\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/StandardTrackingWheelLocalizer.java b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/StandardTrackingWheelLocalizer.java
+--- a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/StandardTrackingWheelLocalizer.java	(revision b5005e111e2efca067758869e7d8b3d4ae7bc698)
++++ b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/StandardTrackingWheelLocalizer.java	(date 1670276266481)
+@@ -33,11 +33,11 @@
+     public static double WHEEL_RADIUS = 0.6889764; // in
+     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
+ 
+-    public static double LATERAL_DISTANCE = 11.75; // in; distance between the left and right wheels
++    public static double LATERAL_DISTANCE = -11.1603; // in; distance between the left and right wheels
+     public static double FORWARD_OFFSET = 0.75; // in; offset of the lateral wheel
+ 
+-    public static double X_MULTIPLIER = .99803; // Multiplier in the X direction
+-    public static double Y_MULTIPLIER = 1.0055607; // Multiplier in the Y direction
++    public static double X_MULTIPLIER = 1.00988565850155; // Multiplier in the X direction
++    public static double Y_MULTIPLIER = 1.0104752601973794; // Multiplier in the Y direction
+ 
+     private Encoder leftEncoder, rightEncoder, frontEncoder;
+ 
+Index: TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/TrackWidthTuner.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.firstinspires.ftc.teamcode.rr.drive.opmode;\r\n\r\nimport com.acmerobotics.dashboard.FtcDashboard;\r\nimport com.acmerobotics.dashboard.config.Config;\r\nimport com.acmerobotics.dashboard.telemetry.MultipleTelemetry;\r\nimport com.acmerobotics.roadrunner.geometry.Pose2d;\r\nimport com.acmerobotics.roadrunner.util.Angle;\r\nimport com.qualcomm.robotcore.eventloop.opmode.Autonomous;\r\nimport com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;\r\nimport com.qualcomm.robotcore.util.MovingStatistics;\r\n\r\nimport org.firstinspires.ftc.robotcore.internal.system.Misc;\r\nimport org.firstinspires.ftc.teamcode.rr.drive.DriveConstants;\r\nimport org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;\r\n\r\n/*\r\n * This routine determines the effective track width. The procedure works by executing a point turn\r\n * with a given angle and measuring the difference between that angle and the actual angle (as\r\n * indicated by an external IMU/gyro, track wheels, or some other localizer). The quotient\r\n * given angle / actual angle gives a multiplicative adjustment to the estimated track width\r\n * (effective track width = estimated track width * given angle / actual angle). The routine repeats\r\n * this procedure a few times and averages the values for additional accuracy. Note: a relatively\r\n * accurate track width estimate is important or else the angular constraints will be thrown off.\r\n */\r\n@Config\r\n@Autonomous(group = \"drive\")\r\npublic class TrackWidthTuner extends LinearOpMode {\r\n    public static double ANGLE = 180; // deg\r\n    public static int NUM_TRIALS = 5;\r\n    public static int DELAY = 1000; // ms\r\n\r\n    @Override\r\n    public void runOpMode() throws InterruptedException {\r\n        //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());\r\n\r\n        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);\r\n        // TODO: if you haven't already, set the localizer to something that doesn't depend on\r\n        // drive encoders for computing the heading\r\n\r\n        telemetry.addLine(\"Press play to begin the track width tuner routine\");\r\n        telemetry.addLine(\"Make sure your robot has enough clearance to turn smoothly\");\r\n        telemetry.update();\r\n\r\n        waitForStart();\r\n\r\n        if (isStopRequested()) return;\r\n\r\n        telemetry.clearAll();\r\n        telemetry.addLine(\"Running...\");\r\n        telemetry.update();\r\n\r\n        MovingStatistics trackWidthStats = new MovingStatistics(NUM_TRIALS);\r\n        for (int i = 0; i < NUM_TRIALS; i++) {\r\n            drive.setPoseEstimate(new Pose2d());\r\n\r\n            // it is important to handle heading wraparounds\r\n            double headingAccumulator = 0;\r\n            double lastHeading = 0;\r\n\r\n            drive.turnAsync(Math.toRadians(ANGLE));\r\n\r\n            while (!isStopRequested() && drive.isBusy()) {\r\n                double heading = drive.getPoseEstimate().getHeading();\r\n                headingAccumulator += Angle.normDelta(heading - lastHeading);\r\n                lastHeading = heading;\r\n\r\n                drive.update();\r\n            }\r\n\r\n            double trackWidth = DriveConstants.TRACK_WIDTH * Math.toRadians(ANGLE) / headingAccumulator;\r\n            trackWidthStats.add(trackWidth);\r\n\r\n            sleep(DELAY);\r\n        }\r\n\r\n        telemetry.clearAll();\r\n        telemetry.addLine(\"Tuning complete\");\r\n        telemetry.addLine(Misc.formatInvariant(\"Effective track width = %.2f (SE = %.3f)\",\r\n                trackWidthStats.getMean(),\r\n                trackWidthStats.getStandardDeviation() / Math.sqrt(NUM_TRIALS)));\r\n        telemetry.update();\r\n\r\n        while (!isStopRequested()) {\r\n            idle();\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/TrackWidthTuner.java b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/TrackWidthTuner.java
+--- a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/TrackWidthTuner.java	(revision b5005e111e2efca067758869e7d8b3d4ae7bc698)
++++ b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/rr/drive/opmode/TrackWidthTuner.java	(date 1670276266493)
+@@ -7,8 +7,11 @@
+ import com.acmerobotics.roadrunner.util.Angle;
+ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
++import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+ import com.qualcomm.robotcore.util.MovingStatistics;
+ 
++import org.firstinspires.ftc.robotcore.external.Telemetry;
++import org.firstinspires.ftc.robotcore.internal.opmode.TelemetryImpl;
+ import org.firstinspires.ftc.robotcore.internal.system.Misc;
+ import org.firstinspires.ftc.teamcode.rr.drive.DriveConstants;
+ import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
+@@ -28,10 +31,11 @@
+     public static double ANGLE = 180; // deg
+     public static int NUM_TRIALS = 5;
+     public static int DELAY = 1000; // ms
++    public Telemetry telemetry = new TelemetryImpl((OpMode) this);
+ 
+     @Override
+     public void runOpMode() throws InterruptedException {
+-        //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
++        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+ 
+         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+         // TODO: if you haven't already, set the localizer to something that doesn't depend on
+Index: TeamCode/src/main/java/org/firstinspires/ftc/teamcode/tests/MotorTester.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.firstinspires.ftc.teamcode.tests;\r\n\r\nimport com.acmerobotics.dashboard.FtcDashboard;\r\nimport com.acmerobotics.dashboard.config.Config;\r\nimport com.qualcomm.robotcore.eventloop.opmode.OpMode;\r\nimport com.qualcomm.robotcore.eventloop.opmode.TeleOp;\r\nimport com.qualcomm.robotcore.hardware.DcMotorEx;\r\n\r\nimport org.firstinspires.ftc.robotcore.external.Telemetry;\r\n\r\n@Config\r\n@TeleOp\r\npublic class MotorTester extends OpMode {\r\n    DcMotorEx motor;\r\n    public static String motorName = \"lift\";\r\n    Telemetry dashTelemetry = FtcDashboard.getInstance().getTelemetry();\r\n\r\n    @Override\r\n    public void init() {\r\n        motor = hardwareMap.get(DcMotorEx.class, motorName);\r\n    }\r\n\r\n    @Override\r\n    public void loop() {\r\n        if(Math.abs(gamepad1.left_stick_y)>0.1){\r\n            motor.setPower(gamepad1.left_stick_y);\r\n        }\r\n        else{\r\n            motor.setPower(0);\r\n        }\r\n        telemetry.addData(\"Motor Position\", motor.getCurrentPosition());\r\n        dashTelemetry.addData(\"Motor Position\", motor.getCurrentPosition());\r\n\r\n    }\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/tests/MotorTester.java b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/tests/MotorTester.java
+--- a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/tests/MotorTester.java	(revision b5005e111e2efca067758869e7d8b3d4ae7bc698)
++++ b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/tests/MotorTester.java	(date 1670276266496)
+@@ -4,6 +4,7 @@
+ import com.acmerobotics.dashboard.config.Config;
+ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
++import com.qualcomm.robotcore.hardware.DcMotor;
+ import com.qualcomm.robotcore.hardware.DcMotorEx;
+ 
+ import org.firstinspires.ftc.robotcore.external.Telemetry;
+@@ -12,7 +13,7 @@
+ @TeleOp
+ public class MotorTester extends OpMode {
+     DcMotorEx motor;
+-    public static String motorName = "lift";
++    public static String motorName = "clawLift";
+     Telemetry dashTelemetry = FtcDashboard.getInstance().getTelemetry();
+ 
+     @Override
