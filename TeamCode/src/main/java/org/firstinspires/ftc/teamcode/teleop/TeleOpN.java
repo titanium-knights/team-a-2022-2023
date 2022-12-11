@@ -15,11 +15,13 @@ public class TeleOpN extends OpMode {
 
     //woot
 
+
     public double RIGHT_JOYSTICK_Y_Positive = 0;
     public double RIGHT_JOYSTICK_Y_Negative = 0;
 
-
-    public static double DRIVE_SPEED = .9; //idk we can play around w this
+    public double DRIVE_SPEED_CURRENT = DRIVE_SPEED_FASTMODE;
+    public double DRIVE_SPEED_SLOWMODE = .4;
+    public static double DRIVE_SPEED_FASTMODE = .9; //idk we can play around w this
 
     boolean isSlowmode = false;
     boolean clawClosed = false;
@@ -42,9 +44,18 @@ public class TeleOpN extends OpMode {
 
     public void loop() { //gamepad buttons that call util methods go here
 
+        if (gamepad1.x) {
+            isSlowmode = !isSlowmode;
+        }
 
+        if (!isSlowmode) {
+            DRIVE_SPEED_CURRENT = DRIVE_SPEED_FASTMODE;
+        } else {
+            DRIVE_SPEED_CURRENT = DRIVE_SPEED_SLOWMODE;
 
-        drive.teleOpRobotCentric(gamepad1, DRIVE_SPEED); //go drive vroom
+        }
+
+        drive.teleOpRobotCentric(gamepad1, DRIVE_SPEED_CURRENT); //go drive vroom
 
         telemetry.addData("Slow mode on?:", isSlowmode);
 
@@ -92,17 +103,17 @@ public class TeleOpN extends OpMode {
 
         if(Math.abs(-gamepad2.right_stick_y)>0.1){
             if(-gamepad2.right_stick_y > 0){
-                clawLift.setPower(RIGHT_JOYSTICK_Y_Positive);
+                clawLift.setPower(RIGHT_JOYSTICK_Y_Positive * 0.6);
             }
             else if(-gamepad2.right_stick_y < 0){
-                clawLift.setPower(RIGHT_JOYSTICK_Y_Negative);
+                clawLift.setPower(RIGHT_JOYSTICK_Y_Negative * 0.6);
             }
         }
         else if(clawLift.getPosition() < 410 && clawLift.getPosition() > 50){
-            clawLift.setPower(0.05);
+            clawLift.setPower(0.03);
         }
         else if(clawLift.getPosition() > 510 && clawLift.getPosition() < 840){
-            clawLift.setPower(-0.05);
+            clawLift.setPower(-0.03);
         }
         else{
             clawLift.setPower(0);

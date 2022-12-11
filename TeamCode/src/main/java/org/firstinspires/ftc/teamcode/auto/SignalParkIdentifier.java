@@ -27,19 +27,14 @@ import java.util.Vector;
 
 
 @Config
-@Autonomous(name = "Signal Park Auton", group = "Linear OpMode")
+@Autonomous(name = "Signal Park Tester", group = "Linear OpMode")
 
-public class SignalParkAuton extends LinearOpMode  {
+public class SignalParkIdentifier extends LinearOpMode  {
     TrajectorySequence detectPark;
 
     public static Vector2d ZONE_START_DROP_RIGHT = new Vector2d(0,24); //up at the corner
-    public static Vector2d ZONE_START_DROP_LEFT = new Vector2d(0,24); //up at the corner
 
     public static Vector2d Z3_S2 = new Vector2d(-24,24);
-    public static Vector2d Z2_S2 = new Vector2d(-24,0);
-    public static Vector2d Z1_S2 = new Vector2d(-24,-24);
-
-    public static Vector2d zoneAnalysis = Z1_S2;
 
     protected SampleMecanumDrive drive;
     protected SignalParkVision vision;
@@ -50,21 +45,6 @@ public class SignalParkAuton extends LinearOpMode  {
         vision = new SignalParkVision(hardwareMap, null);
     }
 
-    public void initTraj() {
-        if (vision.getPosition() == 1) {
-            zoneAnalysis = Z1_S2;
-        } else if (vision.getPosition() == 2) {
-            zoneAnalysis = Z2_S2;
-        } else {
-            zoneAnalysis = Z3_S2;
-        }
-
-        TrajectorySequenceBuilder build = drive.trajectorySequenceBuilder(new Pose2d())
-                .lineToConstantHeading(ZONE_START_DROP_RIGHT)
-                .lineToConstantHeading(zoneAnalysis);
-
-        detectPark = build.build();
-    }
     @Override
     public void runOpMode() throws InterruptedException {
         setupDevices();
@@ -77,15 +57,11 @@ public class SignalParkAuton extends LinearOpMode  {
         telemetry.addData("Detected: ", position);
         dashTelemetry.addData("Detected", position);
 
-        initTraj();
         telemetry.update();
+
         waitForStart();
 
-        drive.setPoseEstimate(detectPark.start());
-        drive.followTrajectorySequenceAsync(detectPark);
-        while (opModeIsActive() && !Thread.currentThread().isInterrupted() && drive.isBusy()) {
-            drive.update();
-        }
+        sleep(1000);
 
 
     }

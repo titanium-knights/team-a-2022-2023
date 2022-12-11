@@ -18,7 +18,7 @@ public class Lift {
     public static int MAX_LIMIT = 1000;
     public static int MIN_LIMIT = -348;
 
-    public static int AVERAGE_BUFFER = 10;
+    public static int AVERAGE_BUFFER = 15;
 
     public static double DIFFERENCE = 0;
 
