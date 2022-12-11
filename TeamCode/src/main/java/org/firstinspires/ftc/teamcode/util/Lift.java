@@ -76,9 +76,9 @@ public class Lift {
     public void correctMotorPositions(double pressedVal) {
         //if the difference between the two motors is larger than the difference
 
-        if(pressedVal > 0) {
-            if(getAverage() < 800){
-                LEFT_JOYSTICK_Y_Positive = pressedVal;
+        if(-pressedVal > 0) {
+            if(getAverage() < 900){
+                LEFT_JOYSTICK_Y_Positive = -pressedVal;
             }
             else{
                 LEFT_JOYSTICK_Y_Positive = 0;
@@ -86,9 +86,9 @@ public class Lift {
         }
 
 
-        else if(pressedVal < 0){
+        else if(-pressedVal < 0){
             if(getAverage() > -300){
-                LEFT_JOYSTICK_Y_Negative = pressedVal;
+                LEFT_JOYSTICK_Y_Negative = -pressedVal;
             }
             else{
                 LEFT_JOYSTICK_Y_Negative = 0;
@@ -101,12 +101,12 @@ public class Lift {
         }
 
 
-        if(Math.abs(pressedVal)>0.1){
-            if(pressedVal > 0){
+        if(Math.abs(-pressedVal)>0.1){
+            if(-pressedVal > 0){
                 lmr.setPower(LEFT_JOYSTICK_Y_Positive);
                 lml.setPower(LEFT_JOYSTICK_Y_Positive);
             }
-            else if(pressedVal < 0){
+            else if(-pressedVal < 0){
                 lmr.setPower(LEFT_JOYSTICK_Y_Negative);
                 lml.setPower(LEFT_JOYSTICK_Y_Negative);
             }
