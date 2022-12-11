@@ -14,6 +14,11 @@ public class TeleOpN extends OpMode {
     ClawSpin clawSpin;
 
     //woot
+
+    public double RIGHT_JOYSTICK_Y_Positive = 0;
+    public double RIGHT_JOYSTICK_Y_Negative = 0;
+
+
     public static double DRIVE_SPEED = .9; //idk we can play around w this
 
     boolean isSlowmode = false;
@@ -36,6 +41,9 @@ public class TeleOpN extends OpMode {
     }
 
     public void loop() { //gamepad buttons that call util methods go here
+
+
+
         drive.teleOpRobotCentric(gamepad1, DRIVE_SPEED); //go drive vroom
 
         telemetry.addData("Slow mode on?:", isSlowmode);
@@ -48,10 +56,52 @@ public class TeleOpN extends OpMode {
         lift.correctMotorPositions(gamepad2.left_stick_y);
 
         telemetry.addData("clawLift", clawLift.getPosition());
+        telemetry.addData("Right Joystick Y", (-1 * gamepad2.right_stick_y));
+        telemetry.addData("RIGHT_JOYSTICK_Y_Positive", RIGHT_JOYSTICK_Y_Positive);
+        telemetry.addData("RIGHT_JOYSTICK_Y_Negative", RIGHT_JOYSTICK_Y_Negative);
+
+
 
         //clawLift PLZZZ
-        if(Math.abs(gamepad2.right_stick_y)>0.1){
-            clawLift.setPower(gamepad2.right_stick_y);
+
+        if(-gamepad2.right_stick_y > 0) {
+            if(clawLift.getPosition() < 920){
+                RIGHT_JOYSTICK_Y_Positive = -gamepad2.right_stick_y;
+            }
+            else{
+                RIGHT_JOYSTICK_Y_Positive = 0;
+            }
+        }
+
+
+        else if(-gamepad2.right_stick_y < 0){
+            if(clawLift.getPosition() > 0){
+                RIGHT_JOYSTICK_Y_Negative = -gamepad2.right_stick_y;
+            }
+            else{
+                RIGHT_JOYSTICK_Y_Negative = 0;
+            }
+        }
+
+        else{
+            RIGHT_JOYSTICK_Y_Positive = 0;
+            RIGHT_JOYSTICK_Y_Negative = 0;
+        }
+
+
+        if(Math.abs(-gamepad2.right_stick_y)>0.1){
+            if(-gamepad2.right_stick_y > 0){
+                clawLift.setPower(RIGHT_JOYSTICK_Y_Positive);
+            }
+            else if(-gamepad2.right_stick_y < 0){
+                clawLift.setPower(RIGHT_JOYSTICK_Y_Negative);
+            }
+        }
+        else if(clawLift.getPosition() < 410 && clawLift.getPosition() > 50){
+            clawLift.setPower(0.05);
+        }
+        else if(clawLift.getPosition() > 510 && clawLift.getPosition() < 840){
+            clawLift.setPower(-0.05);
         }
         else{
             clawLift.setPower(0);
