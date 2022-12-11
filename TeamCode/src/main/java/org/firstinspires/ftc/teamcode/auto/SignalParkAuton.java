@@ -27,12 +27,13 @@ import java.util.Vector;
 
 
 @Config
-@Autonomous(name = "Signal Park Auton", group = "Linear OpMode")
+@Autonomous(name = "Signal Park Auton Right", group = "Linear OpMode")
 
 public class SignalParkAuton extends LinearOpMode  {
     TrajectorySequence detectPark;
 
     public static Vector2d ZONE_START_DROP_RIGHT = new Vector2d(0,24); //up at the corner
+    public static Vector2d ZONE_START_2 = new Vector2d(-24,24); //up at the corner
     public static Vector2d ZONE_START_DROP_LEFT = new Vector2d(0,24); //up at the corner
 
     public static Vector2d Z3_S2 = new Vector2d(-24,24);
@@ -61,6 +62,7 @@ public class SignalParkAuton extends LinearOpMode  {
 
         TrajectorySequenceBuilder build = drive.trajectorySequenceBuilder(new Pose2d())
                 .lineToConstantHeading(ZONE_START_DROP_RIGHT)
+                .lineToConstantHeading(ZONE_START_2)
                 .lineToConstantHeading(zoneAnalysis);
 
         detectPark = build.build();

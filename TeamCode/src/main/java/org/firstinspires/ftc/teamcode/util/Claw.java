@@ -8,7 +8,7 @@ public class Claw {
     public Servo claw; //servo or motor???
     public static double openPos = .2; //open and ready to take a cone or TSE
 
-    public static double closedConePos = 0.3; //closed for cone
+    public static double closedConePos = 0.5; //closed for cone
     public static double initPos = .3; //to stay legal
 
     public Claw(HardwareMap hmap) {
