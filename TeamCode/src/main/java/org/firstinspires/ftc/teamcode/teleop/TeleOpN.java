@@ -59,6 +59,7 @@ public class TeleOpN extends OpMode {
         telemetry.addData("Right Joystick Y", (-1 * gamepad2.right_stick_y));
         telemetry.addData("RIGHT_JOYSTICK_Y_Positive", RIGHT_JOYSTICK_Y_Positive);
         telemetry.addData("RIGHT_JOYSTICK_Y_Negative", RIGHT_JOYSTICK_Y_Negative);
+        telemetry.addData("LEFT Joystick Y", gamepad2.left_stick_y);
 
 
 
