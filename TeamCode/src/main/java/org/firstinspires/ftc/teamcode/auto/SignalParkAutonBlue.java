@@ -4,41 +4,32 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.rr.trajectorysequence.TrajectorySequence;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.rr.trajectorysequence.TrajectorySequenceBuilder;
-import org.firstinspires.ftc.teamcode.util.Claw;
-import org.firstinspires.ftc.teamcode.util.ClawLift;
-import org.firstinspires.ftc.teamcode.util.ClawSpin;
-import org.firstinspires.ftc.teamcode.util.Lift;
-import org.firstinspires.ftc.teamcode.util.MecanumDrive;
 import org.firstinspires.ftc.teamcode.util.SignalParkVision;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-
-import java.util.Vector;
 
 
 @Config
-@Autonomous(name = "Signal Park Auton Right", group = "Linear OpMode")
+@Autonomous(name = "Signal Park Auton Blue", group = "Linear OpMode")
 
-public class SignalParkAuton extends LinearOpMode  {
+public class SignalParkAutonBlue extends LinearOpMode  {
     TrajectorySequence detectPark;
 
     public static Vector2d ZONE_START_DROP_RIGHT = new Vector2d(0,24); //up at the corner
-    public static Vector2d ZONE_START_2 = new Vector2d(-24,24); //up at the corner
-    public static Vector2d ZONE_START_DROP_LEFT = new Vector2d(0,24); //up at the corner
+    public static Vector2d ZONE_START_DROP_LEFT = new Vector2d(0,-24); //up at the corner
 
-    public static Vector2d Z3_S2 = new Vector2d(-24,24);
-    public static Vector2d Z2_S2 = new Vector2d(-24,0);
+    public static Vector2d ZONE_START_2 = new Vector2d(-24,24); //up at the corner
+
+
     public static Vector2d Z1_S2 = new Vector2d(-24,-24);
+    public static Vector2d Z2_S2 = new Vector2d(-24,0);
+    public static Vector2d Z3_S2 = new Vector2d(-24,24);;
 
     public static Vector2d zoneAnalysis = Z1_S2;
 
