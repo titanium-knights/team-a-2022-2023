@@ -52,7 +52,6 @@ public class TeleOpN extends OpMode {
             DRIVE_SPEED_CURRENT = DRIVE_SPEED_FASTMODE;
         } else {
             DRIVE_SPEED_CURRENT = DRIVE_SPEED_SLOWMODE;
-
         }
 
         drive.teleOpRobotCentric(gamepad1, DRIVE_SPEED_CURRENT); //go drive vroom
