@@ -8,7 +8,7 @@ public class Lift {
     public DcMotor lml; //lift left
 
     public static double LIFT_POWER = .8;
-    public static double LIFT_POWER_MULTIPLYER = 1;
+    public static double LIFT_POWER_MULTIPLYER = .8;
 
     public static int HIGH_POSITION = 950;
     public static int MID_POSITION = 800;
