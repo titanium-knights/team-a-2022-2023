@@ -14,7 +14,14 @@ public class TeleOpN extends OpMode {
     ClawSpin clawSpin;
 
     //woot
-    public static double DRIVE_SPEED = .9; //idk we can play around w this
+
+
+    public double RIGHT_JOYSTICK_Y_Positive = 0;
+    public double RIGHT_JOYSTICK_Y_Negative = 0;
+
+    public double DRIVE_SPEED_CURRENT = DRIVE_SPEED_FASTMODE;
+    public double DRIVE_SPEED_SLOWMODE = .4;
+    public static double DRIVE_SPEED_FASTMODE = .9; //idk we can play around w this
 
     boolean isSlowmode = false;
     boolean clawClosed = false;
@@ -36,7 +43,18 @@ public class TeleOpN extends OpMode {
     }
 
     public void loop() { //gamepad buttons that call util methods go here
-        drive.teleOpRobotCentric(gamepad1, DRIVE_SPEED); //go drive vroom
+
+        if (gamepad1.x) {
+            isSlowmode = !isSlowmode;
+        }
+
+        if (!isSlowmode) {
+            DRIVE_SPEED_CURRENT = DRIVE_SPEED_FASTMODE;
+        } else {
+            DRIVE_SPEED_CURRENT = DRIVE_SPEED_SLOWMODE;
+        }
+
+        drive.teleOpRobotCentric(gamepad1, DRIVE_SPEED_CURRENT); //go drive vroom
 
         telemetry.addData("Slow mode on?:", isSlowmode);
 
@@ -50,10 +68,56 @@ public class TeleOpN extends OpMode {
 
 
         telemetry.addData("clawLift", clawLift.getPosition());
+        telemetry.addData("Right Joystick Y", (-1 * gamepad2.right_stick_y));
+        telemetry.addData("RIGHT_JOYSTICK_Y_Positive", RIGHT_JOYSTICK_Y_Positive);
+        telemetry.addData("RIGHT_JOYSTICK_Y_Negative", RIGHT_JOYSTICK_Y_Negative);
+        telemetry.addData("LEFT Joystick Y", gamepad2.left_stick_y);
+
+
 
         //clawLift PLZZZ
-        if (clawLift.FRONT_PICKUP_POS < clawLift.getPosition() && clawLift.getPosition() < clawLift.BACK_PICKUP_POS){
-            clawLift.setPower(gamepad2.right_stick_y);
+
+        if(-gamepad2.right_stick_y > 0) {
+            if(clawLift.getPosition() < 920){
+                RIGHT_JOYSTICK_Y_Positive = -gamepad2.right_stick_y;
+            }
+            else{
+                RIGHT_JOYSTICK_Y_Positive = 0;
+            }
+        }
+
+
+        else if(-gamepad2.right_stick_y < 0){
+            if(clawLift.getPosition() > 0){
+                RIGHT_JOYSTICK_Y_Negative = -gamepad2.right_stick_y;
+            }
+            else{
+                RIGHT_JOYSTICK_Y_Negative = 0;
+            }
+        }
+
+        else{
+            RIGHT_JOYSTICK_Y_Positive = 0;
+            RIGHT_JOYSTICK_Y_Negative = 0;
+        }
+
+
+        if(Math.abs(-gamepad2.right_stick_y)>0.1){
+            if(-gamepad2.right_stick_y > 0){
+                clawLift.setPower(RIGHT_JOYSTICK_Y_Positive * 0.6);
+            }
+            else if(-gamepad2.right_stick_y < 0){
+                clawLift.setPower(RIGHT_JOYSTICK_Y_Negative * 0.6);
+            }
+        }
+        else if(clawLift.getPosition() < 410 && clawLift.getPosition() > 50){
+            clawLift.setPower(0.03);
+        }
+        else if(clawLift.getPosition() > 510 && clawLift.getPosition() < 840){
+            clawLift.setPower(-0.03);
+        }
+        else{
+            clawLift.setPower(0);
         }
 
 

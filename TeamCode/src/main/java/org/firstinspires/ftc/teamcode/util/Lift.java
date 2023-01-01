@@ -8,7 +8,7 @@ public class Lift {
     public DcMotor lml; //lift left
 
     public static double LIFT_POWER = .8;
-    public static double LIFT_POWER_MULTIPLYER = 1;
+    public static double LIFT_POWER_MULTIPLYER = .8;
 
     public static int HIGH_POSITION = 950;
     public static int MID_POSITION = 800;
@@ -18,7 +18,7 @@ public class Lift {
     public static int MAX_LIMIT = 1000;
     public static int MIN_LIMIT = -348;
 
-    public static int AVERAGE_BUFFER = 10;
+    public static int AVERAGE_BUFFER = 15;
 
     public static double DIFFERENCE = 0;
 
@@ -26,6 +26,9 @@ public class Lift {
     public static double TOLERANCE = 20;
 
     public static double Y = 0;
+
+    public double LEFT_JOYSTICK_Y_Positive = 0;
+    public double LEFT_JOYSTICK_Y_Negative = 0;
 
     public Lift(HardwareMap hmap) {
         this.lmr = hmap.dcMotor.get(CONFIG.liftMotorRight);
@@ -73,13 +76,45 @@ public class Lift {
     public void correctMotorPositions(double pressedVal) {
         //if the difference between the two motors is larger than the difference
 
-        if (Math.abs(pressedVal) > 0.1) {
-            if ((getPositionL() < MAX_LIMIT && pressedVal > 0) || (getPositionL() > MIN_LIMIT && pressedVal < 0)) {
-                setPower(pressedVal);
+        if(-pressedVal > 0) {
+            if(getAverage() < 900){
+                LEFT_JOYSTICK_Y_Positive = -pressedVal;
+            }
+            else{
+                LEFT_JOYSTICK_Y_Positive = 0;
             }
         }
+
+
+        else if(-pressedVal < 0){
+            if(getAverage() > -300){
+                LEFT_JOYSTICK_Y_Negative = -pressedVal;
+            }
+            else{
+                LEFT_JOYSTICK_Y_Negative = 0;
+            }
+        }
+
+        else{
+            LEFT_JOYSTICK_Y_Positive = 0;
+            LEFT_JOYSTICK_Y_Negative = 0;
+        }
+
+
+        if(Math.abs(-pressedVal)>0.1){
+            if(-pressedVal > 0){
+                lmr.setPower(LEFT_JOYSTICK_Y_Positive);
+                lml.setPower(LEFT_JOYSTICK_Y_Positive);
+            }
+            else if(-pressedVal < 0){
+                lmr.setPower(LEFT_JOYSTICK_Y_Negative);
+                lml.setPower(LEFT_JOYSTICK_Y_Negative);
+            }
+        }
+
         else {
             setPower(0);
+
             if (Math.abs(getPositionR() - Math.abs(getPositionL())) < AVERAGE_BUFFER) {
                 lmr.setPower(0);
             }

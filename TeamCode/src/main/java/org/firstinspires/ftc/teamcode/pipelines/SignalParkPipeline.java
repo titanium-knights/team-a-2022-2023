@@ -24,7 +24,7 @@ public class SignalParkPipeline extends OpenCvPipeline {
         this.telemetry = telemetry;
     }
 
-    private volatile SignalZone currentZone = SignalZone.ZONE_ONE;
+    private volatile SignalZone currentZone = SignalZone.ZONE_TWO;
 
     public enum SignalZone {
         ZONE_ONE,
