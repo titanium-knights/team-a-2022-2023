@@ -21,13 +21,10 @@ import org.firstinspires.ftc.teamcode.util.SignalParkVision;
 public class BlueCycle extends LinearOpMode  {
     TrajectorySequence tester;
 
-   public static Vector2d test = new Vector2d(5, 5);
+   public static Vector2d toMidCone = new Vector2d(-48, 0);
+//   toCone
 
     public static Vector2d ZONE_START_DROP_RIGHT = new Vector2d(0,24); //up at the corner
-    public static Vector2d ZONE_START_DROP_LEFT = new Vector2d(0,-24); //up at the corner
-
-    public static Vector2d ZONE_START_2 = new Vector2d(-24,24); //up at the corner
-
 
     public static Vector2d Z1_S2 = new Vector2d(-24,-24);
     public static Vector2d Z2_S2 = new Vector2d(-24,0);
@@ -54,8 +51,12 @@ public class BlueCycle extends LinearOpMode  {
         }
 
         TrajectorySequenceBuilder analysis = drive.trajectorySequenceBuilder(new Pose2d())
-                .lineToConstantHeading(ZONE_START_DROP_RIGHT)
-                .lineToConstantHeading(zoneAnalysis);
+                //cycle part
+                .lineToConstantHeading(toMidCone)
+                .turn(Math.toRadians(-90));
+                //detection part
+//                .lineToConstantHeading(ZONE_START_DROP_RIGHT)
+//                .lineToConstantHeading(zoneAnalysis);
 
                 tester = analysis.build();
 
