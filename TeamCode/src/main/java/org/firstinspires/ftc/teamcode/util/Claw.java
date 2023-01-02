@@ -32,6 +32,7 @@ public class Claw {
     public double getPosition() { return claw.getPosition();
     }
 
+    //keep position holder
     public void keepPosition() {
         if (isOpen) {
             open();
