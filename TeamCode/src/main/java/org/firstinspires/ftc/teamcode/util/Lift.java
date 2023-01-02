@@ -7,16 +7,16 @@ public class Lift {
     public DcMotor lmr; //lift right
     public DcMotor lml; //lift left
 
-    public static double LIFT_POWER = .8;
-    public static double LIFT_POWER_MULTIPLYER = .8;
+    public static double LIFT_POWER = .6;
+    public static double LIFT_POWER_MULTIPLYER = .9;
 
     public static int HIGH_POSITION = 950;
     public static int MID_POSITION = 800;
     public static int LOW_POSITION = 650;
     public static int GROUND_POSITION = 50;
 
-    public static int MAX_LIMIT = 1000;
-    public static int MIN_LIMIT = -348;
+    public static int MAX_LIMIT = 900;
+    public static int MIN_LIMIT = -300;
 
     public static int AVERAGE_BUFFER = 15;
 
@@ -30,6 +30,12 @@ public class Lift {
     public double LEFT_JOYSTICK_Y_Positive = 0;
     public double LEFT_JOYSTICK_Y_Negative = 0;
 
+    public static double MULTIPLIER_DOWN = 0.4;
+    public static double MULTIPLIER_UP = 0.6;
+    public static double POWER_UP = 0.4;
+    public static double POWER_DOWN = 0.3;
+
+
     public Lift(HardwareMap hmap) {
         this.lmr = hmap.dcMotor.get(CONFIG.liftMotorRight);
         this.lml = hmap.dcMotor.get(CONFIG.liftMotorLeft);
@@ -40,14 +46,14 @@ public class Lift {
         lml.setPower(-power * LIFT_POWER_MULTIPLYER);
     }
 
-    public void setPosition(int pos) {
+    public void setPosition(int pos, double power) {
         lmr.setTargetPosition(pos);
         lmr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        lmr.setPower(LIFT_POWER);
+        lmr.setPower(power);
 
         lml.setTargetPosition(pos);
         lml.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        lml.setPower(LIFT_POWER);
+        lml.setPower(power);
     }
 
     //public void runToPosition()
@@ -77,7 +83,7 @@ public class Lift {
         //if the difference between the two motors is larger than the difference
 
         if(-pressedVal > 0) {
-            if(getAverage() < 900){
+            if(getAverage() < MAX_LIMIT){
                 LEFT_JOYSTICK_Y_Positive = -pressedVal;
             }
             else{
@@ -87,7 +93,7 @@ public class Lift {
 
 
         else if(-pressedVal < 0){
-            if(getAverage() > -300){
+            if(getAverage() > MIN_LIMIT){
                 LEFT_JOYSTICK_Y_Negative = -pressedVal;
             }
             else{
@@ -120,10 +126,10 @@ public class Lift {
             }
             else if (Math.abs(getPositionR() - Math.abs(getPositionL())) > AVERAGE_BUFFER) {
                 if (getPositionR() > getPositionL()) {
-                    lmr.setPower(-LIFT_POWER * .4); //multiply by .8 since gracity helps
+                    lmr.setPower(-POWER_DOWN); //multiply by .8 since gravity helps
                 }
                 if (getPositionR() < getPositionL())
-                    lmr.setPower(LIFT_POWER * .6);
+                    lmr.setPower(POWER_UP);
                 }
         }
     }

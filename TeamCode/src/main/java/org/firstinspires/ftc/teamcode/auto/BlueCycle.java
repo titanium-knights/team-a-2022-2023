@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.rr.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.rr.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.util.SignalParkVision;
+import org.firstinspires.ftc.teamcode.util.*;
 
 
 @Config
@@ -21,7 +22,20 @@ import org.firstinspires.ftc.teamcode.util.SignalParkVision;
 public class BlueCycle extends LinearOpMode  {
     TrajectorySequence tester;
 
-   public static Vector2d toMidCone = new Vector2d(-48, 0);
+   public static Vector2d FORWARD_CYCLE = new Vector2d(-50, 0);
+   public static int FORWARD_TURN_CONE = -88;
+   public static Vector2d FORWARD_CONE = new Vector2d(-50, -26);
+   public static Vector2d TOWARD_HIGH = new Vector2d(-56, 6);
+
+   //cycles
+    public static double LIFT_POWER_UP = .6;
+    public static double LIFT_POWER_DOWN = .4;
+
+   public static int LIFT_LOWER_1 = -120;
+    public static int LIFT_LOWER_2 = -190;
+    public static int LIFT_LOWER_3 = -250;
+
+
 //   toCone
 
     public static Vector2d ZONE_START_DROP_RIGHT = new Vector2d(0,24); //up at the corner
@@ -34,11 +48,17 @@ public class BlueCycle extends LinearOpMode  {
 
     protected SampleMecanumDrive drive;
     protected SignalParkVision vision;
+    protected Lift lift;
+    protected Claw claw;
     Telemetry dashTelemetry = FtcDashboard.getInstance().getTelemetry();
 
     protected void setupDevices(){
         drive = new SampleMecanumDrive(hardwareMap);
         vision = new SignalParkVision(hardwareMap, null);
+        lift = new Lift(hardwareMap);
+        claw = new Claw(hardwareMap);
+        claw.open();
+
     }
 
     public void initTraj() {
@@ -52,8 +72,26 @@ public class BlueCycle extends LinearOpMode  {
 
         TrajectorySequenceBuilder analysis = drive.trajectorySequenceBuilder(new Pose2d())
                 //cycle part
-                .lineToConstantHeading(toMidCone)
-                .turn(Math.toRadians(-90));
+                .lineToConstantHeading(FORWARD_CYCLE)
+                .turn(Math.toRadians(FORWARD_TURN_CONE))
+                .waitSeconds(0)
+                .addTemporalMarker(()->{
+                    lift.setPosition(LIFT_LOWER_1, LIFT_POWER_DOWN);
+                })
+                .lineToConstantHeading(FORWARD_CONE)
+                .waitSeconds(0.5)
+                .addTemporalMarker(()-> {
+                    claw.closeCone();
+                    sleep(2000);
+                })
+                .waitSeconds(2)
+                .addTemporalMarker(() -> {
+                    lift.setPosition(lift.MAX_LIMIT, LIFT_POWER_UP);
+                })
+                .waitSeconds(1)
+                .lineToConstantHeading(FORWARD_CYCLE)
+                .turn(Math.toRadians(45))
+                .lineToConstantHeading(TOWARD_HIGH);
                 //detection part
 //                .lineToConstantHeading(ZONE_START_DROP_RIGHT)
 //                .lineToConstantHeading(zoneAnalysis);
@@ -79,8 +117,10 @@ public class BlueCycle extends LinearOpMode  {
 
         drive.setPoseEstimate(tester.start());
         drive.followTrajectorySequence(tester);
+
         while (opModeIsActive() && !Thread.currentThread().isInterrupted() && drive.isBusy()) {
             drive.update();
+            claw.keepPosition();
         }
 
 
