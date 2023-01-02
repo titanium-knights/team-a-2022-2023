@@ -6,8 +6,10 @@ import com.qualcomm.robotcore.hardware.*;
 @Config
 public class ClawLift {
     public DcMotor clawLift;
-    public int FRONT_PICKUP_POS = -920;
-    public int BACK_PICKUP_POS = 0;
+    public double POWER = .7;
+
+    public int FRONT_DUMP = -920;
+    public int BACK_DUMP = 0;
 
     public ClawLift(HardwareMap hmap) {
         this.clawLift = hmap.dcMotor.get(CONFIG.clawLift);
@@ -25,6 +27,12 @@ public class ClawLift {
 
     public int getPosition() {
         return clawLift.getCurrentPosition();
+    }
+
+    public void setPosition(int pos) {
+        clawLift.setTargetPosition(pos);
+        clawLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        clawLift.setPower(POWER);
     }
 
 
