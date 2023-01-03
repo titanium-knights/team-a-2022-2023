@@ -7,16 +7,16 @@ import com.noahbres.meepmeep.core.ExtensionsKt;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-public class SingleCycle {
+public class RedSingleCycle {
 
-    public static int START_Y = 72;
+    public static int START_Y = -72;
     public static int START_X = 36;
 
-    public static Vector2d FORWARD_CYCLE = new Vector2d(36, 12);
+    public static Vector2d FORWARD_CYCLE = new Vector2d(36, -12);
     public static int FORWARD_CONE_ANG = -88;
-    public static Vector2d FORWARD_CONE = new Vector2d(60, 12);
-    public static Vector2d TOWARD_HIGH = new Vector2d(30, 6);
-    public static int TOWARD_HIGH_ANG = 45;
+    public static Vector2d FORWARD_CONE = new Vector2d(60, -12);
+    public static Vector2d TOWARD_HIGH = new Vector2d(30, -6);
+    public static int TOWARD_HIGH_ANG = -45;
 
 //    public static Vector2d FORWARD_CYCLE = new Vector2d(-50, 0);
 //    public static int FORWARD_CONE_ANG = -88;
