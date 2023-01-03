@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.util.*;
 
 
 @Config
-@Autonomous(name = "Red Left cycle", group = "Linear OpMode")
+@Autonomous(name = "Red TEST cycle", group = "Linear OpMode")
 
 public class RedCycle extends LinearOpMode  {
     TrajectorySequence tester;
