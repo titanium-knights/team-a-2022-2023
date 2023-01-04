@@ -58,12 +58,14 @@ public class TeleOpN extends OpMode {
 
         telemetry.addData("Slow mode on?:", isSlowmode);
 
-        telemetry.addData("lmr", lift.getPositionR());
-        telemetry.addData("lml", lift.getPositionL());
-        telemetry.addData("liftAverage", lift.getAverage());
-        telemetry.addData("LiftDif", lift.getDIFFERENCE());
+            telemetry.addData("lmr", lift.getPositionR());
+            telemetry.addData("lml", lift.getPositionL());
+            telemetry.addData("liftAverage", lift.getAverage());
+            telemetry.addData("LiftDif", lift.getDIFFERENCE());
+        if (lift.MIN_LIMIT < lift.getPositionL() && lift.getPositionL()< lift.MAX_LIMIT){
+            lift.correctMotorPositions(gamepad2.left_stick_y);
+        }
 
-        lift.correctMotorPositions(gamepad2.left_stick_y);
 
         telemetry.addData("clawLift", clawLift.getPosition());
         telemetry.addData("Right Joystick Y", (-1 * gamepad2.right_stick_y));
@@ -130,9 +132,9 @@ public class TeleOpN extends OpMode {
 
 
         //Code for spinning claw
-        if(gamepad2.right_stick_x>0.1){
+        if(gamepad2.right_stick_x>0.1 && gamepad1.right_stick_x > 0.1){
             clawSpin.setPosition(clawSpin.FRONTPOS);
-        } else if(gamepad2.right_stick_x<-0.1){
+        } else if(gamepad2.right_stick_x<-0.1 && gamepad1.right_stick_x < -0.1){
             clawSpin.setPosition(clawSpin.BACKPOS);
         }
 
