@@ -23,6 +23,7 @@ public class BlueCycle extends LinearOpMode  {
     TrajectorySequence tester;
 
    public static Vector2d FORWARD_CYCLE = new Vector2d(-50, 0);
+   public static Pose2d FORWARD_CYCLE_2 = new Pose2d(-48, 0, Math.toRadians(-90));
    public static int FORWARD_CONE_ANG = -88;
    public static Vector2d FORWARD_CONE = new Vector2d(-50, -26);
    public static Vector2d TOWARD_HIGH = new Vector2d(-56, 6);
@@ -51,13 +52,22 @@ public class BlueCycle extends LinearOpMode  {
     protected SignalParkVision vision;
     protected Lift lift;
     protected Claw claw;
+    protected ClawLift clawLift;
+    protected ClawSpin clawSpin;
+
     Telemetry dashTelemetry = FtcDashboard.getInstance().getTelemetry();
 
     protected void setupDevices(){
         drive = new SampleMecanumDrive(hardwareMap);
         vision = new SignalParkVision(hardwareMap, null);
         lift = new Lift(hardwareMap);
+        lift.setInit();
+
         claw = new Claw(hardwareMap);
+        clawLift = new ClawLift(hardwareMap);
+        clawLift.setInit();
+        clawSpin = new ClawSpin(hardwareMap);
+
         claw.open(); //moves upon init
     }
 
@@ -82,16 +92,24 @@ public class BlueCycle extends LinearOpMode  {
                 .waitSeconds(0.5)
                 .addTemporalMarker(()-> {
                     claw.closeCone();
+
                 })
                 .waitSeconds(2) //wait to pick up claw
                 .addTemporalMarker(() -> {
                     lift.setPosition(lift.MAX_LIMIT, LIFT_POWER_UP);
                 })
                 .waitSeconds(1)
-                .lineToConstantHeading(FORWARD_CYCLE) //go to pos 1
-                .turn(Math.toRadians(TOWARD_HIGH_ANG)) //turn to high
-                .lineToConstantHeading(TOWARD_HIGH);
+                .lineToConstantHeading(FORWARD_CYCLE)
+                .turn(Math.toRadians(TOWARD_HIGH_ANG))
+                .lineToConstantHeading(TOWARD_HIGH)
+                .addTemporalMarker(() -> {
+                    clawLift.setPosition(clawLift.BACK_DUMP);
+                    clawSpin.setPosition(clawSpin.BACKPOS);
+                    sleep(2000);
+                    claw.open();
+                });
                 //detection part
+//                .lineToConstantHeading(FORWARD_CYCLE) //go to pos 1
 //                .lineToConstantHeading(ZONE_START_DROP_RIGHT)
 //                .lineToConstantHeading(zoneAnalysis);
 
@@ -120,6 +138,9 @@ public class BlueCycle extends LinearOpMode  {
         while (opModeIsActive() && !Thread.currentThread().isInterrupted() && drive.isBusy()) {
             drive.update();
             claw.keepPosition();
+
+            telemetry.addData("lmr", lift.getPositionR());
+            telemetry.addData("lml", lift.getPositionL());
         }
 
 

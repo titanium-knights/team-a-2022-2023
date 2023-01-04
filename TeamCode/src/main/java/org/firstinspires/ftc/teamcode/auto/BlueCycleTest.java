@@ -32,8 +32,8 @@ public class BlueCycleTest extends LinearOpMode  {
     public static Pose2d TOWARD_HIGH = new Pose2d(-56, 6, TOWARD_HIGH_ANG);
 
     //cycles
-    public static double LIFT_POWER_UP = .6;
-    public static double LIFT_POWER_DOWN = .4;
+    public static double LIFT_POWER_UP = .4;
+    public static double LIFT_POWER_DOWN = .3;
 
     public static int LIFT_LOWER_1 = -120;
     public static int LIFT_LOWER_2 = -240;
@@ -41,12 +41,18 @@ public class BlueCycleTest extends LinearOpMode  {
 
     public static int[] LIFT_LOWERS = {LIFT_LOWER_1, LIFT_LOWER_2, LIFT_LOWER_3};
 
+    public static Pose2d FORWARD_CONE_1 = new Pose2d(-50, -26, Math.toRadians(0));
+    public static Pose2d FORWARD_CONE_2 = new Pose2d(-50, -26, Math.toRadians(0));
+    public static Pose2d FORWARD_CONE_3 = new Pose2d(-50, -26, Math.toRadians(0));
+
+    public static Pose2d[] FORWARD_CONES = {FORWARD_CONE_1, FORWARD_CONE_2, FORWARD_CONE_3};
+
     //starting pos to reset for analysis one mats from starting pos, this is the same as zone 2
     public static Vector2d ZONE_START_CENTER = new Vector2d(-24,0); //up at the corner
 
     public static Vector2d Z1_S2 = new Vector2d(-24,-24);
     public static Vector2d Z2_S2 = new Vector2d(-24,0);
-    public static Vector2d Z3_S2 = new Vector2d(-24,24);;
+    public static Vector2d Z3_S2 = new Vector2d(-24,24);
 
     public static Vector2d zoneAnalysis = Z1_S2;
 
@@ -55,6 +61,7 @@ public class BlueCycleTest extends LinearOpMode  {
     protected Lift lift;
     protected Claw claw;
     protected ClawLift clawLift;
+    protected ClawSpin clawSpin;
     Telemetry dashTelemetry = FtcDashboard.getInstance().getTelemetry();
 
     protected void setupDevices(){
@@ -63,6 +70,7 @@ public class BlueCycleTest extends LinearOpMode  {
         lift = new Lift(hardwareMap);
         claw = new Claw(hardwareMap);
         clawLift = new ClawLift(hardwareMap);
+        clawSpin = new ClawSpin(hardwareMap);
         claw.open(); //moves upon init
     }
 
@@ -88,7 +96,7 @@ public class BlueCycleTest extends LinearOpMode  {
              .addTemporalMarker(()->{
                         lift.setPosition(liftLowerTo, LIFT_POWER_DOWN);
                     })
-                    .lineToSplineHeading(FORWARD_CONE)
+                    .lineToSplineHeading(FORWARD_CONES[i])
                     .waitSeconds(0.5)
                     .addTemporalMarker(()-> {
                         claw.closeCone();
@@ -102,9 +110,14 @@ public class BlueCycleTest extends LinearOpMode  {
                     .lineToSplineHeading(TOWARD_HIGH)
                     .addTemporalMarker(() -> {
                         clawLift.setPosition(clawLift.FRONT_DUMP);
+                        clawSpin.setPosition(clawSpin.BACKPOS);
+                        sleep(2000);
                         claw.open();
                     })
-                    .lineToSplineHeading(FORWARD_CYCLE); //reset
+                    .lineToSplineHeading(FORWARD_CYCLE) //reset
+                    .addTemporalMarker(() -> {
+                        clawLift.setPosition(clawLift.BACK_DUMP);
+                    });
         } } catch (Exception ex){ //if something bad happens, itll just do 1 cycle
             traj.setReversed(false)
                     .addTemporalMarker(()->{
@@ -132,6 +145,7 @@ public class BlueCycleTest extends LinearOpMode  {
         traj.setReversed(false) //analysis pt
                 .lineToConstantHeading(ZONE_START_CENTER)
                 .lineToConstantHeading(zoneAnalysis);
+
 
         fullTraj = traj.build();
 
