@@ -28,7 +28,7 @@ public class RedCycleTest {
 
     public static Vector2d Z1_S2 = new Vector2d(24,-24);
     public static Vector2d Z2_S2 = new Vector2d(24,0);
-    public static Vector2d Z3_S2 = new Vector2d(24,24);;
+    public static Vector2d Z3_S2 = new Vector2d(24,24);
 
     public static Vector2d zoneAnalysis = Z1_S2;
 
@@ -60,6 +60,11 @@ public class RedCycleTest {
                     .lineToConstantHeading(TOWARD_HIGH)
                     .build()
             );
+        meepMeep.setBackground(MeepMeep.Background.FIELD_POWERPLAY_OFFICIAL)
+                .setDarkMode(true)
+                .setBackgroundAlpha(0.95f)
+                .addEntity(myBot)
+                .start();
     //detection part
 //                .lineToConstantHeading(ZONE_START_DROP_RIGHT)
 //                .lineToConstantHeading(zoneAnalysis);

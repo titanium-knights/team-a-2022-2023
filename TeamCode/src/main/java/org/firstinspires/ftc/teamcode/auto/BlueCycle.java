@@ -34,12 +34,12 @@ public class BlueCycle extends LinearOpMode  {
    public static int TOWARD_HIGH_ANG = 135;
 
    //cycles
-    public static double LIFT_POWER_UP = .6;
-    public static double LIFT_POWER_DOWN = .4;
+    //public static double LIFT_POWER_UP = .6;
+    //public static double LIFT_POWER_DOWN = .4;
 
-    public static int LIFT_LOWER_1 = -120;
-    public static int LIFT_LOWER_2 = -240;
-    public static int LIFT_LOWER_3 = -320;
+    //public static int LIFT_LOWER_1 = -120;
+    //public static int LIFT_LOWER_2 = -240;
+    //public static int LIFT_LOWER_3 = -320;
 
 
 //   toCone
@@ -54,25 +54,25 @@ public class BlueCycle extends LinearOpMode  {
 
     protected SampleMecanumDrive drive;
     protected SignalParkVision vision;
-    protected Lift lift;
-    protected Claw claw;
-    protected ClawLift clawLift;
-    protected ClawSpin clawSpin;
+   // protected Lift lift;
+   // protected Claw claw;
+    //protected ClawLift clawLift;
+    //protected ClawSpin clawSpin;
 
     Telemetry dashTelemetry = FtcDashboard.getInstance().getTelemetry();
 
     protected void setupDevices(){
         drive = new SampleMecanumDrive(hardwareMap);
         vision = new SignalParkVision(hardwareMap, null);
-        lift = new Lift(hardwareMap);
-        lift.setInit();
+       // lift = new Lift(hardwareMap);
+       // lift.setInit();
 
-        claw = new Claw(hardwareMap);
-        clawLift = new ClawLift(hardwareMap);
-        clawLift.setInit();
-        clawSpin = new ClawSpin(hardwareMap);
+        //claw = new Claw(hardwareMap);
+        //clawLift = new ClawLift(hardwareMap);
+        //clawLift.setInit();
+       // clawSpin = new ClawSpin(hardwareMap);
 
-        claw.open(); //moves upon init
+        //claw.open(); //moves upon init
     }
 
     public void initTraj() {
@@ -86,31 +86,32 @@ public class BlueCycle extends LinearOpMode  {
 
         TrajectorySequenceBuilder analysis = drive.trajectorySequenceBuilder(new Pose2d())
                 //cycle part
+
                 .lineToConstantHeading(FORWARD_CYCLE)
                 .turn(Math.toRadians(FORWARD_CONE_ANG))
                 .waitSeconds(0)
                 .addTemporalMarker(()->{
-                    lift.setPosition(LIFT_LOWER_1, LIFT_POWER_DOWN);
+                //    lift.setPosition(LIFT_LOWER_1, LIFT_POWER_DOWN);
                 })
                 .lineToConstantHeading(FORWARD_CONE)
                 .waitSeconds(0.5)
                 .addTemporalMarker(()-> {
-                    claw.closeCone();
+                //    claw.closeCone();
 
                 })
                 .waitSeconds(2) //wait to pick up claw
                 .addTemporalMarker(() -> {
-                    lift.setPosition(lift.MAX_LIMIT, LIFT_POWER_UP);
+               //     lift.setPosition(lift.MAX_LIMIT, LIFT_POWER_UP);
                 })
                 .waitSeconds(1)
                 .lineToConstantHeading(FORWARD_CYCLE)
                 .turn(Math.toRadians(TOWARD_HIGH_ANG))
                 .lineToConstantHeading(TOWARD_HIGH)
                 .addTemporalMarker(() -> {
-                    clawLift.setPosition(clawLift.BACK_DUMP);
-                    clawSpin.setPosition(clawSpin.BACKPOS);
+               //     clawLift.setPosition(clawLift.BACK_DUMP);
+               //     clawSpin.setPosition(clawSpin.BACKPOS);
                     sleep(2000);
-                    claw.open();
+               //     claw.open();
                 });
                 //detection part
 //                .lineToConstantHeading(FORWARD_CYCLE) //go to pos 1
@@ -141,10 +142,10 @@ public class BlueCycle extends LinearOpMode  {
 
         while (opModeIsActive() && !Thread.currentThread().isInterrupted() && drive.isBusy()) {
             drive.update();
-            claw.keepPosition();
+         //   claw.keepPosition();
 
-            telemetry.addData("lmr", lift.getPositionR());
-            telemetry.addData("lml", lift.getPositionL());
+           // telemetry.addData("lmr", lift.getPositionR());
+           // telemetry.addData("lml", lift.getPositionL());
         }
 
 
