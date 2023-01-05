@@ -22,12 +22,16 @@ import org.firstinspires.ftc.teamcode.util.*;
 public class BlueCycle extends LinearOpMode  {
     TrajectorySequence tester;
 
+    public static int START_Y = 0;
+    public static int START_X = 0;
+
    public static Vector2d FORWARD_CYCLE = new Vector2d(-50, 0);
-   public static Pose2d FORWARD_CYCLE_2 = new Pose2d(-48, 0, Math.toRadians(-90));
    public static int FORWARD_CONE_ANG = -88;
    public static Vector2d FORWARD_CONE = new Vector2d(-50, -26);
-   public static Vector2d TOWARD_HIGH = new Vector2d(-56, 6);
-   public static int TOWARD_HIGH_ANG = 45;
+   public static int TOWARD_HIGH_X = -60 ;
+   public static int TOWARD_HIGH_Y = 6;
+   public static Vector2d TOWARD_HIGH = new Vector2d(TOWARD_HIGH_X, TOWARD_HIGH_Y);
+   public static int TOWARD_HIGH_ANG = 135;
 
    //cycles
     public static double LIFT_POWER_UP = .6;

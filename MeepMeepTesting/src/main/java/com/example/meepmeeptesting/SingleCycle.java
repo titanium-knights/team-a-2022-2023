@@ -9,14 +9,28 @@ import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
 public class SingleCycle {
 
-    public static int START_Y = 72;
-    public static int START_X = 36;
+//    public static int START_Y = 72;
+//    public static int START_X = 36;
+//
+//    public static Vector2d FORWARD_CYCLE = new Vector2d(36, 12);
+//    public static int FORWARD_CONE_ANG = -88;
+//    public static Vector2d FORWARD_CONE = new Vector2d(60, 12);
+//    public static Vector2d TOWARD_HIGH = new Vector2d(30, 6);
+//    public static int TOWARD_HIGH_ANG = 45;
+public static int START_Y = 0;
+    public static int START_X = 0;
 
-    public static Vector2d FORWARD_CYCLE = new Vector2d(36, 12);
+    public static Vector2d FORWARD_CYCLE = new Vector2d(0, -50);
     public static int FORWARD_CONE_ANG = -88;
-    public static Vector2d FORWARD_CONE = new Vector2d(60, 12);
-    public static Vector2d TOWARD_HIGH = new Vector2d(30, 6);
-    public static int TOWARD_HIGH_ANG = 45;
+    public static Pose2d FORWARD_CONE = new Pose2d(-26, -50, 0);
+    public static int TOWARD_HIGH_X = 6 ;
+    public static int TOWARD_HIGH_Y = -60;
+    public static Vector2d TOWARD_HIGH = new Vector2d(TOWARD_HIGH_X, TOWARD_HIGH_Y);
+    public static int TOWARD_HIGH_ANG = -50;
+
+    public static Pose2d FORWARD_CYCLE2 = new Pose2d(0, -50, 0);
+    public static Pose2d TOWARD_HIGH2 = new Pose2d(TOWARD_HIGH_X, TOWARD_HIGH_Y, 0);
+
 
 //    public static Vector2d FORWARD_CYCLE = new Vector2d(-50, 0);
 //    public static int FORWARD_CONE_ANG = -88;
@@ -54,20 +68,23 @@ public class SingleCycle {
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(START_X, START_Y, Math.toRadians(90)))
-                                .lineToConstantHeading(FORWARD_CYCLE)
-                                .turn(Math.toRadians(FORWARD_CONE_ANG))
+                        drive.trajectorySequenceBuilder(new Pose2d(START_X, START_Y, Math.toRadians(0)))
+                                .splineToSplineHeading(FORWARD_CONE, Math.toRadians(FORWARD_CONE_ANG))
                                 .waitSeconds(0)
-
-                                .lineToConstantHeading(FORWARD_CONE)
+//                                .addTemporalMarker(()->{
+//                                    lift.setPosition(LIFT_LOWER_1, LIFT_POWER_DOWN);
+//                                })
                                 .waitSeconds(0.5)
-
+//                                .addTemporalMarker(()-> {
+//                                    claw.closeCone();
+//
+//                                })
                                 .waitSeconds(2) //wait to pick up claw
-
+//                                .addTemporalMarker(() -> {
+//                                    lift.setPosition(lift.MAX_LIMIT, LIFT_POWER_UP);
+//                                })
                                 .waitSeconds(1)
-                                .lineToConstantHeading(FORWARD_CYCLE) //go to pos 1
-                                .turn(Math.toRadians(TOWARD_HIGH_ANG)) //turn to high
-                                .lineToConstantHeading(TOWARD_HIGH)
+                                .splineToLinearHeading(TOWARD_HIGH2, Math.toRadians(TOWARD_HIGH_ANG))
                                 .build()
                 );
 
