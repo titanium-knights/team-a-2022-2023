@@ -22,15 +22,15 @@ import org.firstinspires.ftc.teamcode.util.*;
 public class TesterAutonThrowaway extends LinearOpMode  {
     TrajectorySequence tester;
 
-    public static int TEST_1_X = -2;
+    public static int TEST_1_X = -5;
     public static int TEST_1_Y = 0;
 //
-//    public static int TEST_2_X = 1;
-//    public static int TEST_2_Y = 1;
+    public static int TEST_2_X = -5;
+    public static int TEST_2_Y = 10;
 
 
     public static Vector2d TEST_1 = new Vector2d(TEST_1_X, TEST_1_Y);
-//    public static Vector2d TEST_2 = new Vector2d(TEST_2_X, TEST_2_Y);
+    public static Vector2d TEST_2 = new Vector2d(TEST_2_X, TEST_2_Y);
 
     protected SampleMecanumDrive drive;
     protected SignalParkVision vision;
@@ -44,8 +44,8 @@ public class TesterAutonThrowaway extends LinearOpMode  {
 
     public void initTraj() {
         TrajectorySequenceBuilder analysis = drive.trajectorySequenceBuilder(new Pose2d())
-                .turn(Math.toRadians(45));
-//                .lineToConstantHeading(TEST_2);
+                .lineToConstantHeading(TEST_1)
+                .lineToConstantHeading(TEST_2);
 
         tester = analysis.build();
 
