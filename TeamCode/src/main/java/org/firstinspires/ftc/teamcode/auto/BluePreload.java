@@ -31,7 +31,7 @@ public class BluePreload extends LinearOpMode  {
     public static int TOWARD_HIGH_X = -60 ;
     public static int TOWARD_HIGH_Y = 6;
     public static Vector2d TOWARD_HIGH = new Vector2d(TOWARD_HIGH_X, TOWARD_HIGH_Y);
-    public static int TOWARD_HIGH_ANG = 97;   //wild guess
+    public static int TOWARD_HIGH_ANG = 135;   //wild guess
 
     //cycles
     public static double LIFT_POWER_UP = .6;
