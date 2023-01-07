@@ -22,7 +22,6 @@ public class SignalParkAutonBlue extends LinearOpMode  {
     TrajectorySequence detectPark;
 
     public static Vector2d ZONE_START_DROP_RIGHT = new Vector2d(0,24); //up at the corner
-    public static Vector2d ZONE_START_DROP_LEFT = new Vector2d(0,-24); //up at the corner
 
     public static Vector2d ZONE_START_2 = new Vector2d(-24,24); //up at the corner
 
