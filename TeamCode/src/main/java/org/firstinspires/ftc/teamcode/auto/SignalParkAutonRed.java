@@ -62,7 +62,7 @@ public class SignalParkAutonRed extends LinearOpMode  {
 
         sleep(4000);
         int position =  vision.getPosition();
-        sleep(1000);
+        sleep(4000);
 
 
         telemetry.addData("Detected: ", position);
