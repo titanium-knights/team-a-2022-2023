@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.util.MecanumDrive;
 import org.firstinspires.ftc.teamcode.util.SignalParkVision;
 
 @Autonomous(name="BlueTimeParkAuton", group="Linear Opmode")
-@Config
+@Config  @Deprecated
 public class BlueTimeParkAuton extends LinearOpMode {
     public static double DRIVE_POWER = 0.5;
 

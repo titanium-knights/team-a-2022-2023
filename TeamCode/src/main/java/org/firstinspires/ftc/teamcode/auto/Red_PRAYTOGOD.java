@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.util.MecanumDrive;
 import org.firstinspires.ftc.teamcode.util.SignalParkVision;
 
 @Autonomous(name="RED_PRAYTOGOD", group="Linear Opmode")
-@Config
+@Config  @Deprecated
 public class Red_PRAYTOGOD extends LinearOpMode {
     public static double DRIVE_POWER = 0.5;
 

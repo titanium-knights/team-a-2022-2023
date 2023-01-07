@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.util.Lift;
 import org.firstinspires.ftc.teamcode.util.MecanumDrive;
 import org.firstinspires.ftc.teamcode.util.SignalParkVision;
 
-@Config
+@Config  @Deprecated
 @Autonomous(name = "Blue - PRAYTOGOD", group = "Linear OpMode")
 
 public class Blue_PRAYTOGOD extends LinearOpMode  {

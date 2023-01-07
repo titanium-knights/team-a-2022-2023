@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.util.LiftOld;
 import org.firstinspires.ftc.teamcode.util.MecanumDrive;
 
 @Autonomous(name="RedTimeParkAuton", group="Linear Opmode")
-@Config
+@Config  @Deprecated
 public class RedTimeParkAuton extends LinearOpMode {
     protected MecanumDrive drive;
     protected LiftOld lift;

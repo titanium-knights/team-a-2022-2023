@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.util.SignalParkVision;
 import org.firstinspires.ftc.teamcode.util.*;
 
 
-@Config
+@Config @Deprecated
 @Autonomous(name = "[TEST] Blue Left cycle", group = "Linear OpMode")
 
 public class BlueCycleTest extends LinearOpMode  {

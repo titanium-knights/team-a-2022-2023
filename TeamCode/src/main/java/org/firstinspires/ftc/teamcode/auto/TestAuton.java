@@ -25,7 +25,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.Vector;
 
-@Config
+@Config  @Deprecated
 @Autonomous(name = "test", group = "Linear OpMode")
 
 public class TestAuton extends LinearOpMode  {

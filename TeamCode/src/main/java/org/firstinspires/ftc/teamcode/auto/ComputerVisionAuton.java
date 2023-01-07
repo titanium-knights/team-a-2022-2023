@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.util.MecanumDrive;
 import org.firstinspires.ftc.teamcode.util.SignalParkVision;
 
 @Autonomous(name="ComputerVisionAuton", group="Linear Opmode")
-@Config
+@Config  @Deprecated
 public class ComputerVisionAuton extends LinearOpMode {
 
     protected MecanumDrive drive;
