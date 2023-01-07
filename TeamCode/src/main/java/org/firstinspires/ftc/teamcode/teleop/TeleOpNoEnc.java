@@ -62,13 +62,8 @@ public class TeleOpNoEnc extends OpMode {
         telemetry.addData("lml", lift.getPositionL());
         telemetry.addData("liftAverage", lift.getAverage());
         telemetry.addData("LiftDif", lift.getDIFFERENCE());
-//        if (lift.MIN_LIMIT < lift.getPositionL() && lift.getPositionL()< lift.MAX_LIMIT){
-//            lift.correctMotorPositions(gamepad2.left_stick_y);
-//        }
 
-        if (lift.MIN_LIMIT < lift.getPositionL() && lift.getPositionL()< lift.MAX_LIMIT && Math.abs(gamepad2.left_stick_y) > 0.1){
-            lift.setPower(gamepad2.left_stick_y);
-        }
+        lift.correctMotorPositions(gamepad2.left_stick_y);
 
 
 
@@ -84,8 +79,8 @@ public class TeleOpNoEnc extends OpMode {
         //clawLift PLZZZ
 
         if(-gamepad2.right_stick_y > 0) {
-            if(clawLift.getPosition() < 920){
-                RIGHT_JOYSTICK_Y_Positive = -gamepad2.right_stick_y;
+            if(clawLift.getPosition() < clawLift.BACK_DUMP){
+                RIGHT_JOYSTICK_Y_Positive = gamepad2.right_stick_y;
             }
             else{
                 RIGHT_JOYSTICK_Y_Positive = 0;
@@ -95,7 +90,7 @@ public class TeleOpNoEnc extends OpMode {
 
         else if(-gamepad2.right_stick_y < 0){
             if(clawLift.getPosition() > 0){
-                RIGHT_JOYSTICK_Y_Negative = -gamepad2.right_stick_y;
+                RIGHT_JOYSTICK_Y_Negative = gamepad2.right_stick_y;
             }
             else{
                 RIGHT_JOYSTICK_Y_Negative = 0;

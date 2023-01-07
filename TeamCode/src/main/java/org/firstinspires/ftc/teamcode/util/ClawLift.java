@@ -9,7 +9,7 @@ public class ClawLift {
     public double POWER = .7;
 
     public int FRONT_DUMP = 0;
-    public int BACK_DUMP = 920;
+    public int BACK_DUMP = 9100;
 
     public ClawLift(HardwareMap hmap) {
         this.clawLift = hmap.dcMotor.get(CONFIG.clawLift);

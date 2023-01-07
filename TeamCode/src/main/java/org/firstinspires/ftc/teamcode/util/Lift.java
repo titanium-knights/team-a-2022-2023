@@ -113,24 +113,24 @@ public class Lift {
                 lml.setPower(LEFT_JOYSTICK_Y_Positive);
             }
             else if(-pressedVal < 0){
-                lmr.setPower(LEFT_JOYSTICK_Y_Negative);
-                lml.setPower(LEFT_JOYSTICK_Y_Negative);
+                lmr.setPower(LEFT_JOYSTICK_Y_Negative * 0.5);
+                lml.setPower(LEFT_JOYSTICK_Y_Negative * 0.5);
             }
         }
 
         else {
             setPower(0);
 
-            if (Math.abs(getPositionR() - Math.abs(getPositionL())) < AVERAGE_BUFFER) {
-                lmr.setPower(0);
-            }
-            else if (Math.abs(getPositionR() - Math.abs(getPositionL())) > AVERAGE_BUFFER) {
-                if (getPositionR() > getPositionL()) {
-                    lmr.setPower(-POWER_DOWN); //multiply by .8 since gravity helps
-                }
-                if (getPositionR() < getPositionL())
-                    lmr.setPower(POWER_UP);
-                }
+//            if (Math.abs(getPositionR() - Math.abs(getPositionL())) < AVERAGE_BUFFER) {
+//                lmr.setPower(0);
+//            }
+//            else if (Math.abs(getPositionR() - Math.abs(getPositionL())) > AVERAGE_BUFFER) {
+//                if (getPositionR() > getPositionL()) {
+//                    lmr.setPower(-POWER_DOWN); //multiply by .8 since gravity helps
+//                }
+//                if (getPositionR() < getPositionL())
+//                    lmr.setPower(POWER_UP);
+//                }
         }
     }
 
