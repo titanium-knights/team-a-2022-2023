@@ -16,14 +16,6 @@ public class BlueSingleCycleLeft {
     public static Vector2d FORWARD_CONE = new Vector2d(60, 12);
     public static Vector2d TOWARD_HIGH = new Vector2d(30, 6);
     public static int TOWARD_HIGH_ANG = -135;
-
-
-//    public static Vector2d FORWARD_CYCLE = new Vector2d(-50, 0);
-//    public static int FORWARD_CONE_ANG = -88;
-//    public static Vector2d FORWARD_CONE = new Vector2d(-50, -26);
-//    public static Vector2d TOWARD_HIGH = new Vector2d(-56, 6);
-//    public static int TOWARD_HIGH_ANG = 45;
-
     //cycles
     public static int CYCLES = 3;
 

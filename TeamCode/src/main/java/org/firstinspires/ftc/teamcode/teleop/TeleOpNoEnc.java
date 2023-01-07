@@ -24,10 +24,6 @@ public class TeleOpNoEnc extends OpMode {
     public static double DRIVE_SPEED_FASTMODE = .9; //idk we can play around w this
 
     boolean isSlowmode = false;
-    boolean clawClosed = false;
-
-    boolean lastState = true;
-    boolean state = false;
 
     public void init() { //everything when you press the play button before u start goes here (INITialize, get it?)
         drive = new MecanumDrive(hardwareMap);
@@ -65,9 +61,6 @@ public class TeleOpNoEnc extends OpMode {
 
         lift.correctMotorPositions(gamepad2.left_stick_y);
 
-
-
-
         telemetry.addData("clawLift", clawLift.getPosition());
         telemetry.addData("Right Joystick Y", (-1 * gamepad2.right_stick_y));
         telemetry.addData("RIGHT_JOYSTICK_Y_Positive", RIGHT_JOYSTICK_Y_Positive);
@@ -78,49 +71,38 @@ public class TeleOpNoEnc extends OpMode {
 
         //clawLift PLZZZ
 
-        if(-gamepad2.right_stick_y > 0) {
-            if(clawLift.getPosition() < clawLift.BACK_DUMP){
-                RIGHT_JOYSTICK_Y_Positive = gamepad2.right_stick_y;
-            }
-            else{
-                RIGHT_JOYSTICK_Y_Positive = 0;
-            }
-        }
+//        if(-gamepad2.right_stick_y > 0) {
+//            if(clawLift.getPosition() < -9000){
+//                RIGHT_JOYSTICK_Y_Positive = gamepad2.right_stick_y;
+//            }
+//            else{
+//                RIGHT_JOYSTICK_Y_Positive = 0;
+//            }
+//        }
+//
+//
+//        else if(-gamepad2.right_stick_y < 0){
+//            if(clawLift.getPosition() > 0){
+//                RIGHT_JOYSTICK_Y_Negative = gamepad2.right_stick_y;
+//            }
+//            else{
+//                RIGHT_JOYSTICK_Y_Negative = 0;
+//            }
+//        }
+//
+//        else{
+//            RIGHT_JOYSTICK_Y_Positive = 0;
+//            RIGHT_JOYSTICK_Y_Negative = 0;
+//        }
 
 
-        else if(-gamepad2.right_stick_y < 0){
-            if(clawLift.getPosition() > 0){
-                RIGHT_JOYSTICK_Y_Negative = gamepad2.right_stick_y;
-            }
-            else{
-                RIGHT_JOYSTICK_Y_Negative = 0;
-            }
-        }
-
-        else{
-            RIGHT_JOYSTICK_Y_Positive = 0;
-            RIGHT_JOYSTICK_Y_Negative = 0;
-        }
 
 
-        if(Math.abs(-gamepad2.right_stick_y)>0.1){
-            if(-gamepad2.right_stick_y > 0){
-                clawLift.setPower(RIGHT_JOYSTICK_Y_Positive * 0.6);
-            }
-            else if(-gamepad2.right_stick_y < 0){
-                clawLift.setPower(RIGHT_JOYSTICK_Y_Negative * 0.6);
-            }
-        }
-        else if(clawLift.getPosition() < 410 && clawLift.getPosition() > 50){
-            clawLift.setPower(0.03);
-        }
-        else if(clawLift.getPosition() > 510 && clawLift.getPosition() < 840){
-            clawLift.setPower(-0.03);
-        }
-        else{
+        if(Math.abs(gamepad2.right_stick_y)>0.1){
+            clawLift.setPower(gamepad2.right_stick_y);
+        } else {
             clawLift.setPower(0);
         }
-
 
         //Code for opening and closing claw
 
@@ -133,9 +115,9 @@ public class TeleOpNoEnc extends OpMode {
 
 
         //Code for spinning claw
-        if(gamepad2.right_stick_x>0.1 && gamepad1.right_stick_x > 0.1){
+        if(gamepad2.right_stick_x>0.1){
             clawSpin.setPosition(clawSpin.FRONTPOS);
-        } else if(gamepad2.right_stick_x<-0.1 && gamepad1.right_stick_x < -0.1){
+        } else if(gamepad2.right_stick_x<-0.1){
             clawSpin.setPosition(clawSpin.BACKPOS);
         }
 

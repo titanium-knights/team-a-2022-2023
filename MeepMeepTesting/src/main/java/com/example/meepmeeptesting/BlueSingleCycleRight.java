@@ -16,6 +16,7 @@ public class BlueSingleCycleRight {
     public static Vector2d FORWARD_CONE = new Vector2d(-60, 12);
     public static Vector2d TOWARD_HIGH = new Vector2d(-30, 6);
     public static int TOWARD_HIGH_ANG = 135;
+    public static int RESET_ANG = -45;
 
 
 //    public static Vector2d FORWARD_CYCLE = new Vector2d(-50, 0);
@@ -83,7 +84,7 @@ public class BlueSingleCycleRight {
 //                                    claw.open();
                                         })
                                         .lineToConstantHeading(FORWARD_CYCLE) //go to pos 1
-                                        .turn(Math.toRadians(-45))
+                                        .turn(Math.toRadians(Math.toRadians(RESET_ANG)))
                                         .lineToConstantHeading(ZONE_START_DROP_RIGHT)
                                         .lineToConstantHeading(zoneAnalysis)
                                         .build()
