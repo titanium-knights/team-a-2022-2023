@@ -11,16 +11,14 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-import java.util.Arrays;
-
 /*
  * This sample demonstrates a basic (but battle-tested and essentially
  * 100% accurate) method of detecting the skystone when lined up with
  * the sample regions over the first 3 stones.
  */
 
-public class SignalParkPipeline extends OpenCvPipeline {
-    public SignalParkPipeline(Telemetry telemetry) {
+public class SignalParkPipelineRed extends OpenCvPipeline {
+    public SignalParkPipelineRed(Telemetry telemetry) {
         this.telemetry = telemetry;
     }
 
@@ -160,7 +158,7 @@ public class SignalParkPipeline extends OpenCvPipeline {
          * Find which hue each region is closest to
          * Draw a rectangle in that color
          */
-        double[] hues = {110, 80, 50};   //changed values not sure if they work try for next time
+        double[] hues = {70, 30, 8};   //changed values not sure if they work try for next time
 
 //            double closestHue = Arrays.stream(hues).map(hue -> {
 //                return Math.min(Math.abs(avg1-hue), 180-Math.abs(avg1-hue));

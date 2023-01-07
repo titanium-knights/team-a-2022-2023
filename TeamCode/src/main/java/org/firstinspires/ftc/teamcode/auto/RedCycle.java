@@ -49,14 +49,14 @@ public class RedCycle extends LinearOpMode  {
     public static Vector2d zoneAnalysis = Z1_S2;
 
     protected SampleMecanumDrive drive;
-    protected SignalParkVision vision;
+    protected SignalParkVisionRed vision;
     protected Lift lift;
     protected Claw claw;
     Telemetry dashTelemetry = FtcDashboard.getInstance().getTelemetry();
 
     protected void setupDevices(){
         drive = new SampleMecanumDrive(hardwareMap);
-        vision = new SignalParkVision(hardwareMap, null);
+        vision = new SignalParkVisionRed(hardwareMap, null);
         lift = new Lift(hardwareMap);
         claw = new Claw(hardwareMap);
         claw.open(); //moves upon init

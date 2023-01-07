@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.rr.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.rr.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.util.SignalParkVision;
+import org.firstinspires.ftc.teamcode.util.SignalParkVisionRed;
 
 
 @Config
@@ -32,12 +33,12 @@ public class SignalParkAutonRed extends LinearOpMode  {
     public static Vector2d zoneAnalysis = Z1_S2;
 
     protected SampleMecanumDrive drive;
-    protected SignalParkVision vision;
+    protected SignalParkVisionRed vision;
     Telemetry dashTelemetry = FtcDashboard.getInstance().getTelemetry();
 
     protected void setupDevices(){
         drive = new SampleMecanumDrive(hardwareMap);
-        vision = new SignalParkVision(hardwareMap, null);
+        vision = new SignalParkVisionRed(hardwareMap, null);
     }
 
     public void initTraj() {
