@@ -15,8 +15,8 @@ public class Lift {
     public static int LOW_POSITION = 650;
     public static int GROUND_POSITION = 50;
 
-    public static int MAX_LIMIT = 900;
-    public static int MIN_LIMIT = -300;
+    public static int MAX_LIMIT = 950;
+    public static int MIN_LIMIT = -320;
 
     public static int AVERAGE_BUFFER = 15;
 

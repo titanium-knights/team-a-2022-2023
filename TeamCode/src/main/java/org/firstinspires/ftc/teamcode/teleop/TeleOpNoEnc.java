@@ -59,45 +59,16 @@ public class TeleOpNoEnc extends OpMode {
         telemetry.addData("liftAverage", lift.getAverage());
         telemetry.addData("LiftDif", lift.getDIFFERENCE());
 
-        lift.correctMotorPositions(gamepad2.left_stick_y);
-
         telemetry.addData("clawLift", clawLift.getPosition());
         telemetry.addData("Right Joystick Y", (-1 * gamepad2.right_stick_y));
         telemetry.addData("RIGHT_JOYSTICK_Y_Positive", RIGHT_JOYSTICK_Y_Positive);
         telemetry.addData("RIGHT_JOYSTICK_Y_Negative", RIGHT_JOYSTICK_Y_Negative);
         telemetry.addData("LEFT Joystick Y", gamepad2.left_stick_y);
 
+        //lift
+        lift.correctMotorPositions(gamepad2.left_stick_y);
 
-
-        //clawLift PLZZZ
-
-//        if(-gamepad2.right_stick_y > 0) {
-//            if(clawLift.getPosition() < -9000){
-//                RIGHT_JOYSTICK_Y_Positive = gamepad2.right_stick_y;
-//            }
-//            else{
-//                RIGHT_JOYSTICK_Y_Positive = 0;
-//            }
-//        }
-//
-//
-//        else if(-gamepad2.right_stick_y < 0){
-//            if(clawLift.getPosition() > 0){
-//                RIGHT_JOYSTICK_Y_Negative = gamepad2.right_stick_y;
-//            }
-//            else{
-//                RIGHT_JOYSTICK_Y_Negative = 0;
-//            }
-//        }
-//
-//        else{
-//            RIGHT_JOYSTICK_Y_Positive = 0;
-//            RIGHT_JOYSTICK_Y_Negative = 0;
-//        }
-
-
-
-
+        //clawLift
         if(Math.abs(gamepad2.right_stick_y)>0.1){
             clawLift.setPower(gamepad2.right_stick_y);
         } else {
