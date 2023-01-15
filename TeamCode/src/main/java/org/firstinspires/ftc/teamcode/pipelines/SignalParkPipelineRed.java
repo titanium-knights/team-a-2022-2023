@@ -18,8 +18,19 @@ import org.openftc.easyopencv.OpenCvPipeline;
  */
 
 public class SignalParkPipelineRed extends OpenCvPipeline {
-    public SignalParkPipelineRed(Telemetry telemetry) {
+    protected int purple;
+    protected int green;
+    protected int orange;
+
+    public SignalParkPipelineRed(Telemetry telemetry, int hue1, int hue2, int hue3){
+        purple = hue1;
+        green = hue2;
+        orange = hue3;
         this.telemetry = telemetry;
+    }
+
+    public SignalParkPipelineRed(Telemetry telemetry) {
+        this(telemetry,120, 80, 50);
     }
 
     private volatile SignalZone currentZone = SignalZone.ZONE_TWO;

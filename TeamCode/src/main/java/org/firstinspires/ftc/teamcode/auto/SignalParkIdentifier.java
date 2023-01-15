@@ -36,13 +36,18 @@ public class SignalParkIdentifier extends LinearOpMode  {
 
     public static Vector2d Z3_S2 = new Vector2d(-24,24);
 
+    public static int PURPLE_HUE = 120;
+    public static int GREEN_HUE = 80;
+    public static int ORANGE_HUE = 50;
+
+
     protected SampleMecanumDrive drive;
     protected SignalParkVision vision;
     Telemetry dashTelemetry = FtcDashboard.getInstance().getTelemetry();
 
     protected void setupDevices(){
         drive = new SampleMecanumDrive(hardwareMap);
-        vision = new SignalParkVision(hardwareMap, null);
+        vision = new SignalParkVision(hardwareMap, null, PURPLE_HUE, GREEN_HUE, ORANGE_HUE);
     }
 
     @Override

@@ -19,12 +19,12 @@ public class SignalParkVision {
     OpenCvCamera camera;
     public SignalParkPipeline pipeline;
 
-    public SignalParkVision(HardwareMap hmap, Telemetry telemetry) {
+    public SignalParkVision(HardwareMap hmap, Telemetry telemetry, int hue1, int hue2, int hue3) {
         int cameraMonitorViewId = hmap.appContext.getResources().getIdentifier("cameraMonitorViewId",
                 "id", hmap.appContext.getPackageName());
         WebcamName webcamName = hmap.get(WebcamName.class, "Webcam 1");
         camera = OpenCvCameraFactory.getInstance().createWebcam(webcamName, cameraMonitorViewId);
-        pipeline = new SignalParkPipeline(telemetry);
+        pipeline = new SignalParkPipeline(telemetry, hue1, hue2, hue3);
 
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
@@ -45,6 +45,11 @@ public class SignalParkVision {
             }
         });
     }
+
+    public SignalParkVision(HardwareMap hmap, Telemetry telemetry){
+        this(hmap, telemetry, 120, 80, 50);
+    }
+
     public int getPosition(){
         SignalParkPipeline.SignalZone signalZone = pipeline.getAnalysis();
         if(signalZone == SignalParkPipeline.SignalZone.ZONE_ONE){
