@@ -12,6 +12,7 @@ public class TeleOpNoEnc extends OpMode {
     Claw claw;
     ClawLift clawLift;
     ClawSpin clawSpin;
+    EncServo encServo;
 
     //woot
 
@@ -28,14 +29,16 @@ public class TeleOpNoEnc extends OpMode {
     public void init() { //everything when you press the play button before u start goes here (INITialize, get it?)
         drive = new MecanumDrive(hardwareMap);
         lift = new Lift(hardwareMap);
-        lift.setInit();
-
+        encServo = new EncServo(hardwareMap);
         claw = new Claw(hardwareMap);
         clawLift = new ClawLift(hardwareMap);
+        clawSpin = new ClawSpin(hardwareMap);
 
         clawLift.setInit();
+        lift.setInit();
 
-        clawSpin = new ClawSpin(hardwareMap);
+        encServo.setPosition(encServo.UPPOS);
+
     }
 
     public void loop() { //gamepad buttons that call util methods go here
@@ -84,13 +87,12 @@ public class TeleOpNoEnc extends OpMode {
             claw.open();
         }
 
-
         //Code for spinning claw
-//        if(gamepad2.right_stick_x>0.1){
-//            clawSpin.setPosition(clawSpin.FRONTPOS);
-//        } else if(gamepad2.right_stick_x<-0.1){
-//            clawSpin.setPosition(clawSpin.BACKPOS);
-//        }
+        if(gamepad2.right_bumper){
+            clawSpin.setPosition(clawSpin.FRONTPOS);
+        } else if(gamepad2.left_bumper){
+            clawSpin.setPosition(clawSpin.BACKPOS);
+        }
 
 
 

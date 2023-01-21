@@ -16,18 +16,13 @@ public class Claw {
         this.claw = hmap.servo.get(CONFIG.clawServo);
     }
 
-    public boolean isClosedCone() { //check if closed
-        if (claw.getPosition() == closedConePos) {
-            return true;
-        } else {
-            return false;
-        }
-
+    public void setPosition(double pos) {
+        claw.setPosition(pos);
     }
 
-    public void open() { claw.setPosition(openPos); isOpen = true; isClosed = false;} //sets position to a position in parameter
+    public void open() { setPosition(openPos); isOpen = true; isClosed = false;} //sets position to a position in parameter
 
-    public void closeCone() { claw.setPosition(closedConePos); isClosed = true; isOpen = false;}
+    public void closeCone() { setPosition(closedConePos); isClosed = true; isOpen = false;}
 
     public double getPosition() { return claw.getPosition();
     }

@@ -52,6 +52,8 @@ public class RedCycle extends LinearOpMode  {
     protected SignalParkVisionRed vision;
     protected Lift lift;
     protected Claw claw;
+
+    protected EncServo encServo;
     Telemetry dashTelemetry = FtcDashboard.getInstance().getTelemetry();
 
     protected void setupDevices(){
@@ -60,6 +62,9 @@ public class RedCycle extends LinearOpMode  {
         lift = new Lift(hardwareMap);
         claw = new Claw(hardwareMap);
         claw.open(); //moves upon init
+
+        encServo = new EncServo(hardwareMap);
+        encServo.setPosition(encServo.DOWNPOS);
     }
 
     public void initTraj() {

@@ -54,6 +54,8 @@ public class BlueCycle extends LinearOpMode  {
 
     protected SampleMecanumDrive drive;
     protected SignalParkVision vision;
+
+    protected EncServo encServo;
    // protected Lift lift;
    // protected Claw claw;
     //protected ClawLift clawLift;
@@ -64,7 +66,11 @@ public class BlueCycle extends LinearOpMode  {
     protected void setupDevices(){
         drive = new SampleMecanumDrive(hardwareMap);
         vision = new SignalParkVision(hardwareMap, null);
-       // lift = new Lift(hardwareMap);
+
+        encServo = new EncServo(hardwareMap);
+        encServo.setPosition(encServo.DOWNPOS);
+
+        // lift = new Lift(hardwareMap);
        // lift.setInit();
 
         //claw = new Claw(hardwareMap);
