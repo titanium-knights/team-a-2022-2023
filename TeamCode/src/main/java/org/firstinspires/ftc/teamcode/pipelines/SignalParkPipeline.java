@@ -32,7 +32,7 @@ public class SignalParkPipeline extends OpenCvPipeline {
     }
 
     public SignalParkPipeline(Telemetry telemetry) {
-        this(telemetry, 120, 80, 50);
+        this(telemetry, 115, 70, 40);
     }
 
     private volatile SignalZone currentZone = SignalZone.ZONE_TWO;
@@ -55,7 +55,7 @@ public class SignalParkPipeline extends OpenCvPipeline {
      */
 
     //PLACE ALL REGIONS IN THE SAME PLACE (?)
-    static final Point REGION_TOPLEFT_ANCHOR_POINT = new Point(520, 170);
+    static final Point REGION_TOPLEFT_ANCHOR_POINT = new Point(365, 90);
 
     static final int REGION_WIDTH = 300;
     static final int REGION_HEIGHT = 400;

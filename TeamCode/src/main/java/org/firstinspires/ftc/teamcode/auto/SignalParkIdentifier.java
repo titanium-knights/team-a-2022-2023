@@ -36,9 +36,9 @@ public class SignalParkIdentifier extends LinearOpMode  {
 
     public static Vector2d Z3_S2 = new Vector2d(-24,24);
 
-    public static int PURPLE_HUE = 120;
-    public static int GREEN_HUE = 80;
-    public static int ORANGE_HUE = 50;
+    public static int PURPLE_HUE = 115;
+    public static int GREEN_HUE = 70;
+    public static int ORANGE_HUE = 40;
 
 
     protected SampleMecanumDrive drive;

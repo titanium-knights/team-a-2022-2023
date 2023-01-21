@@ -30,7 +30,7 @@ public class SignalParkPipelineRed extends OpenCvPipeline {
     }
 
     public SignalParkPipelineRed(Telemetry telemetry) {
-        this(telemetry,120, 80, 50);
+        this(telemetry,115, 70, 40);
     }
 
     private volatile SignalZone currentZone = SignalZone.ZONE_TWO;
@@ -53,7 +53,7 @@ public class SignalParkPipelineRed extends OpenCvPipeline {
      */
 
     //PLACE ALL REGIONS IN THE SAME PLACE (?)
-    static final Point REGION_TOPLEFT_ANCHOR_POINT = new Point(520, 170);
+    static final Point REGION_TOPLEFT_ANCHOR_POINT = new Point(365, 90);
 
     static final int REGION_WIDTH = 300;
     static final int REGION_HEIGHT = 400;
@@ -169,7 +169,7 @@ public class SignalParkPipelineRed extends OpenCvPipeline {
          * Find which hue each region is closest to
          * Draw a rectangle in that color
          */
-        double[] hues = {70, 30, 8};   //changed values not sure if they work try for next time
+        double[] hues = {purple, green, orange};   //changed values not sure if they work try for next time
 
 //            double closestHue = Arrays.stream(hues).map(hue -> {
 //                return Math.min(Math.abs(avg1-hue), 180-Math.abs(avg1-hue));
