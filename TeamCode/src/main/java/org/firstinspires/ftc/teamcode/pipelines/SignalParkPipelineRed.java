@@ -18,8 +18,19 @@ import org.openftc.easyopencv.OpenCvPipeline;
  */
 
 public class SignalParkPipelineRed extends OpenCvPipeline {
-    public SignalParkPipelineRed(Telemetry telemetry) {
+    protected int purple;
+    protected int green;
+    protected int orange;
+
+    public SignalParkPipelineRed(Telemetry telemetry, int hue1, int hue2, int hue3){
+        purple = hue1;
+        green = hue2;
+        orange = hue3;
         this.telemetry = telemetry;
+    }
+
+    public SignalParkPipelineRed(Telemetry telemetry) {
+        this(telemetry,115, 70, 40);
     }
 
     private volatile SignalZone currentZone = SignalZone.ZONE_TWO;
@@ -42,7 +53,7 @@ public class SignalParkPipelineRed extends OpenCvPipeline {
      */
 
     //PLACE ALL REGIONS IN THE SAME PLACE (?)
-    static final Point REGION_TOPLEFT_ANCHOR_POINT = new Point(520, 170);
+    static final Point REGION_TOPLEFT_ANCHOR_POINT = new Point(365, 90);
 
     static final int REGION_WIDTH = 300;
     static final int REGION_HEIGHT = 400;
@@ -158,7 +169,7 @@ public class SignalParkPipelineRed extends OpenCvPipeline {
          * Find which hue each region is closest to
          * Draw a rectangle in that color
          */
-        double[] hues = {70, 30, 8};   //changed values not sure if they work try for next time
+        double[] hues = {purple, green, orange};   //changed values not sure if they work try for next time
 
 //            double closestHue = Arrays.stream(hues).map(hue -> {
 //                return Math.min(Math.abs(avg1-hue), 180-Math.abs(avg1-hue));
