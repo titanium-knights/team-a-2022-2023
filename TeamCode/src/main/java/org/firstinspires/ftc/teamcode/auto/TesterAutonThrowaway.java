@@ -22,10 +22,10 @@ import org.firstinspires.ftc.teamcode.util.*;
 public class TesterAutonThrowaway extends LinearOpMode  {
     TrajectorySequence tester;
 
-    public static int TEST_1_X = -5;
+    public static int TEST_1_X = 5;
     public static int TEST_1_Y = 0;
 //
-    public static int TEST_2_X = -5;
+    public static int TEST_2_X = 5;
     public static int TEST_2_Y = 10;
 
 
@@ -34,18 +34,20 @@ public class TesterAutonThrowaway extends LinearOpMode  {
 
     protected SampleMecanumDrive drive;
     protected SignalParkVision vision;
+    protected EncServo encServo;
 
     Telemetry dashTelemetry = FtcDashboard.getInstance().getTelemetry();
 
     protected void setupDevices(){
         drive = new SampleMecanumDrive(hardwareMap);
         vision = new SignalParkVision(hardwareMap, null);
+        encServo = new EncServo(hardwareMap);
     }
 
     public void initTraj() {
         TrajectorySequenceBuilder analysis = drive.trajectorySequenceBuilder(new Pose2d())
-                .lineToConstantHeading(TEST_1)
-                .lineToConstantHeading(TEST_2);
+                .lineToConstantHeading(TEST_1);
+                //.lineToConstantHeading(TEST_2);
 
         tester = analysis.build();
 
