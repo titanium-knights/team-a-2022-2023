@@ -25,11 +25,11 @@ public class SignalParkAutonRed extends LinearOpMode  {
 
     public static Vector2d ZONE_START_DROP_LEFT = new Vector2d(0,-24); //up at the corner
 
-    public static Vector2d ZONE_START_2 = new Vector2d(-24,-24); //up at the corner
+    public static Vector2d ZONE_START_2 = new Vector2d(24,-24); //up at the corner
 
-    public static Vector2d Z3_S2 = new Vector2d(-24,-24);
-    public static Vector2d Z2_S2 = new Vector2d(-24,0);
-    public static Vector2d Z1_S2 = new Vector2d(-24,25);;
+    public static Vector2d Z3_S2 = new Vector2d(24,-24);
+    public static Vector2d Z2_S2 = new Vector2d(24,0);
+    public static Vector2d Z1_S2 = new Vector2d(24,25);;
 
     public static Vector2d zoneAnalysis = Z1_S2;
 

@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.util.*;
 
 @Autonomous(name="BlueCycleTimeAuton", group="Linear Opmode")
 @Config
+@Deprecated
 public class BlueSingleCycleTimeAuton extends LinearOpMode {
     protected MecanumDrive drive;
     protected ElapsedTime elapsedTime;
