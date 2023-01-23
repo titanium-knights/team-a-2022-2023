@@ -10,11 +10,24 @@ public class ClawSpin {
     public static double BACKPOS = 0.64;
 
     public ClawSpin(HardwareMap hmap) {
-
         this.clawSpin = hmap.servo.get(CONFIG.clawSpin);
     }
 
     public void setPosition(double pos) {
         clawSpin.setPosition(pos);
+    }
+
+    public boolean isForward() {
+        if (clawSpin.getPosition() == FRONTPOS) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isBack() {
+        if (clawSpin.getPosition() == FRONTPOS) {
+            return true;
+        }
+        return false;
     }
 }

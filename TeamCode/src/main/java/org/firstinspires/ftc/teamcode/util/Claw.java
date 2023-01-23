@@ -20,9 +20,9 @@ public class Claw {
         claw.setPosition(pos);
     }
 
-    public void open() { setPosition(openPos); isOpen = true; isClosed = false;} //sets position to a position in parameter
+    public void open() { isOpen = true; isClosed = false;} //sets position to a position in parameter
 
-    public void closeCone() { setPosition(closedConePos); isClosed = true; isOpen = false;}
+    public void closeCone() { isClosed = true; isOpen = false;}
 
     public double getPosition() { return claw.getPosition();
     }

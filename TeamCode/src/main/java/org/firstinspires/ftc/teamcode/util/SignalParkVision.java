@@ -47,7 +47,7 @@ public class SignalParkVision {
     }
 
     public SignalParkVision(HardwareMap hmap, Telemetry telemetry){
-        this(hmap, telemetry, 115, 70, 40);
+        this(hmap, telemetry, 115, 100, 70);
     }
 
     public int getPosition(){

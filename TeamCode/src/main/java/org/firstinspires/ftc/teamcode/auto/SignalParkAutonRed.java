@@ -23,24 +23,24 @@ import org.firstinspires.ftc.teamcode.util.SignalParkVisionRed;
 public class SignalParkAutonRed extends LinearOpMode  {
     TrajectorySequence detectPark;
 
-    public static Vector2d ZONE_START_DROP_LEFT = new Vector2d(0,-24); //up at the corner
+    public static Vector2d ZONE_START_DROP_LEFT = new Vector2d(0,24); //up at the corner
 
-    public static Vector2d ZONE_START_2 = new Vector2d(24,-24); //up at the corner
+    public static Vector2d ZONE_START_2 = new Vector2d(24,24); //up at the corner
 
-    public static Vector2d Z3_S2 = new Vector2d(24,-24);
+    public static Vector2d Z1_S2 = new Vector2d(24,25);
     public static Vector2d Z2_S2 = new Vector2d(24,0);
-    public static Vector2d Z1_S2 = new Vector2d(24,25);;
+    public static Vector2d Z3_S2 = new Vector2d(24,-25);;
 
     public static Vector2d zoneAnalysis = Z1_S2;
 
     protected SampleMecanumDrive drive;
-    protected SignalParkVisionRed vision;
+    protected SignalParkVision vision;
     protected EncServo encServo;
     Telemetry dashTelemetry = FtcDashboard.getInstance().getTelemetry();
 
     protected void setupDevices(){
         drive = new SampleMecanumDrive(hardwareMap);
-        vision = new SignalParkVisionRed(hardwareMap, null);
+        vision = new SignalParkVision(hardwareMap, null);
 
         encServo = new EncServo(hardwareMap);
         encServo.setPosition(encServo.DOWNPOS);
