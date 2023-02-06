@@ -6,9 +6,8 @@ import com.qualcomm.robotcore.hardware.*;
 @Config
 public class ClawLift {
     public DcMotor clawLift;
-    public int FRONT_DUMP = 0;
-    public int BACK_DUMP = 3100;
-    public int BUFFER = 50;
+    public int FRONT_DUMP = 650;
+    public int BACK_DUMP = 2500;
     public double POWER = .7;
 
     public ClawLift(HardwareMap hmap) {
@@ -29,14 +28,20 @@ public class ClawLift {
         return clawLift.getCurrentPosition();
     }
 
-    public void setPosition(int pos) {
-        double autonMovePower = .7;
-        if (pos < 0) { autonMovePower = -.7; } else { autonMovePower = .7;}
-        while (Math.abs(getPosition())-Math.abs(pos) > BUFFER) {
-            clawLift.setPower(autonMovePower);
+    public void setPosition(int pos, boolean isFront) {
+        if (isFront) {
+            while (getPosition() > pos) {
+                setPower(POWER * -1);
+            }
+            setPower(0);
         }
-        clawLift.setPower(0);
+        else {
+            while (getPosition() < pos) {
+                setPower(POWER* 1);
+            }
+            setPower(0);
 
+        }
     }
 
 

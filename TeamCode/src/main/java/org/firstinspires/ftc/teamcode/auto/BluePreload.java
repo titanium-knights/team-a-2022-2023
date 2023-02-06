@@ -90,7 +90,7 @@ public class BluePreload extends LinearOpMode  {
                 .turn(Math.toRadians(TOWARD_HIGH_ANG))
                 .lineToConstantHeading(TOWARD_HIGH)
                 .addTemporalMarker(() -> {
-                    clawLift.setPosition(clawLift.BACK_DUMP);
+                    clawLift.setPosition(clawLift.BACK_DUMP, false);
                     clawSpin.setPosition(clawSpin.BACKPOS);
                     sleep(2000);
                     claw.open();

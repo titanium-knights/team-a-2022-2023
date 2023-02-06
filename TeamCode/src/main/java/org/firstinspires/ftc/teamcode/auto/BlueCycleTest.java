@@ -109,14 +109,14 @@ public class BlueCycleTest extends LinearOpMode  {
                     .lineToSplineHeading(FORWARD_CYCLE)
                     .lineToSplineHeading(TOWARD_HIGH)
                     .addTemporalMarker(() -> {
-                        clawLift.setPosition(clawLift.FRONT_DUMP);
+                        clawLift.setPosition(clawLift.FRONT_DUMP, true);
                         clawSpin.setPosition(clawSpin.BACKPOS);
                         sleep(2000);
                         claw.open();
                     })
                     .lineToSplineHeading(FORWARD_CYCLE) //reset
                     .addTemporalMarker(() -> {
-                        clawLift.setPosition(clawLift.BACK_DUMP);
+                        clawLift.setPosition(clawLift.BACK_DUMP, true);
                     });
         } } catch (Exception ex){ //if something bad happens, itll just do 1 cycle
             traj.setReversed(false)
@@ -136,7 +136,7 @@ public class BlueCycleTest extends LinearOpMode  {
                     .lineToSplineHeading(FORWARD_CYCLE)
                     .lineToSplineHeading(TOWARD_HIGH)
                     .addTemporalMarker(() -> {
-                        clawLift.setPosition(clawLift.FRONT_DUMP);
+                        clawLift.setPosition(clawLift.FRONT_DUMP, true);
                         claw.open();
                     })
                     .lineToSplineHeading(FORWARD_CYCLE); //reset
