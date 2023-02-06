@@ -89,12 +89,22 @@ public class TeleOpNoEnc extends OpMode {
             claw.open();
         }
 
-        //Code for spinning claw
+//        //Code for spinning claw
+//        if(gamepad2.right_bumper && claw.isClosed){
+//            clawSpin.setPosition(clawSpin.FRONTPOS);
+//        } else if(gamepad2.left_bumper  && claw.isClosed){
+//            clawSpin.setPosition(clawSpin.BACKPOS);
+//        }
+
+        //present
         if(gamepad2.right_bumper && claw.isClosed){
             clawSpin.setPosition(clawSpin.FRONTPOS);
+            clawLift.setPosition(clawLift.FRONT_DUMP);
         } else if(gamepad2.left_bumper  && claw.isClosed){
+            clawLift.setPosition(clawLift.BACK_DUMP);
             clawSpin.setPosition(clawSpin.BACKPOS);
         }
+
 
 
 
