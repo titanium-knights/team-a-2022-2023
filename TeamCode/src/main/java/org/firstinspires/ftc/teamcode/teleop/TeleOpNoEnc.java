@@ -73,7 +73,7 @@ public class TeleOpNoEnc extends OpMode {
 
         //clawLift
         if(Math.abs(gamepad2.right_stick_y)>0.1){
-            clawLift.setPower(gamepad2.right_stick_y);
+            clawLift.setPower(-gamepad2.right_stick_y);
         } else {
             clawLift.setPower(0);
         }
