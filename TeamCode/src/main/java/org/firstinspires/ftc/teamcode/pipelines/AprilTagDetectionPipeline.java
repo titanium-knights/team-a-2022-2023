@@ -77,10 +77,10 @@ public class AprilTagDetectionPipeline extends OpenCvPipeline
         ZONE_THREE
     }
 
-    // tags 1, 2, 3 from 36hll
-    int LEFT = 1;
-    int MIDDLE = 2;
-    int RIGHT = 3;
+    // tags 6, 12, 18 from 36hll because alisona said so
+    int LEFT = 6;
+    int MIDDLE = 12;
+    int RIGHT = 18;
 
     public AprilTagDetectionPipeline(Telemetry telemetry, double tagsize, double fx, double fy, double cx, double cy)
     {
