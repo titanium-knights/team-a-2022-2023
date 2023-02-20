@@ -158,15 +158,6 @@ public class AprilTagDetectionPipeline extends OpenCvPipeline
             {
                 boolean tagFound = false;
 
-//                for(AprilTagDetection tag : detections)
-//                {
-//                    if(tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT)
-//                    {
-//                        tagOfInterest = tag;
-//                        tagFound = true;
-//                        break;
-//                    }
-//                }
                 AprilTagDetection tag = detections.get(detections.size()-1);
                     if(tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT)
                         {
