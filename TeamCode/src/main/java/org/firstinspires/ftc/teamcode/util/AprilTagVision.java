@@ -67,7 +67,6 @@ public class AprilTagVision
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         pipeline = new AprilTagDetectionPipeline(telemetry, tagsize, fx, fy, cx, cy);
 
-        camera.setPipeline(pipeline);
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
