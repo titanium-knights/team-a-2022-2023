@@ -42,7 +42,7 @@ public class AprilTagParkAutonBlue extends LinearOpMode  {
 
     protected void setupDevices(){
         drive = new SampleMecanumDrive(hardwareMap);
-        vision = new AprilTagVision(hardwareMap, null);
+        vision = new AprilTagVision(hardwareMap, dashTelemetry);
 
         encServo = new EncServo(hardwareMap);
         encServo.setPosition(encServo.DOWNPOS);
