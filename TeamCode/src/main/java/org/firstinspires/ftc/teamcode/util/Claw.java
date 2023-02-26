@@ -6,9 +6,9 @@ import com.acmerobotics.dashboard.config.Config;
 @Config
 public class Claw {
     public Servo claw; //servo or motor???
-    public static double openPos = .2; //open and ready to take a cone or TSE
+    public static double openPos = .08; //open and ready to take a cone or TSE
 
-    public static double closedConePos = 0.5; //closed for cone
+    public static double closedConePos = 0.24; //closed for cone
     public static boolean isClosed = false;
     public static boolean isOpen = false;
 

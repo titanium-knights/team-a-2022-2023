@@ -33,14 +33,14 @@ public class TesterAutonThrowaway extends LinearOpMode  {
     public static Vector2d TEST_2 = new Vector2d(TEST_2_X, TEST_2_Y);
 
     protected SampleMecanumDrive drive;
-    protected SignalParkVision vision;
+    protected AprilTagVision vision;
     protected EncServo encServo;
 
     Telemetry dashTelemetry = FtcDashboard.getInstance().getTelemetry();
 
     protected void setupDevices(){
         drive = new SampleMecanumDrive(hardwareMap);
-        vision = new SignalParkVision(hardwareMap, null);
+        vision = new AprilTagVision(hardwareMap, telemetry);
         encServo = new EncServo(hardwareMap);
     }
 

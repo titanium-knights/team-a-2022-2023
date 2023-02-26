@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class EncServo {
     public Servo encServo; //servo
 
-    public static double DOWNPOS = 0.8;
+    public static double DOWNPOS = 0.89;
     public static double UPPOS = 0.0;
 
     public EncServo(HardwareMap hmap) {

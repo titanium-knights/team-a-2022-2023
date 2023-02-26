@@ -105,6 +105,15 @@ public class TeleOpNoEnc extends OpMode {
             clawLift.setPosition(clawLift.BACK_DUMP, false);
         }
 
+        if (gamepad2.dpad_left) {
+            clawSpin.setPosition(clawSpin.BACKPOS);
+        }
+
+        if (gamepad2.dpad_right) {
+            clawSpin.setPosition(clawSpin.FRONTPOS);
+        }
+
+
 
 
 

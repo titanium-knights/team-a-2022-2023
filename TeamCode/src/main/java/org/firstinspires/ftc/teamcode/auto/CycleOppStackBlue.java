@@ -58,7 +58,7 @@ public class CycleOppStackBlue extends LinearOpMode  {
     public static Vector2d zoneAnalysis = Z1_S2;
 
     protected SampleMecanumDrive drive;
-    protected SignalParkVision vision;
+    protected AprilTagVision  vision;
 
     protected EncServo encServo;
      protected Lift lift;
@@ -70,7 +70,7 @@ public class CycleOppStackBlue extends LinearOpMode  {
 
     protected void setupDevices(){
         drive = new SampleMecanumDrive(hardwareMap);
-        vision = new SignalParkVision(hardwareMap, null);
+        vision = new AprilTagVision(hardwareMap, telemetry);
 
         encServo = new EncServo(hardwareMap);
         encServo.setPosition(encServo.DOWNPOS);
