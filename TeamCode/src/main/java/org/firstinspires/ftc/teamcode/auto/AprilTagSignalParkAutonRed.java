@@ -17,8 +17,8 @@ public class AprilTagSignalParkAutonRed extends LinearOpMode {
 
     public static int STOP_TIME = 500;
     public static int FORWARD1_TIME = 550;
-    public static int STRAFE_TIME = 900;
-    public static int STRAFE_TIME_1 = 2000;
+    public static int STRAFE_TIME_2 = 900;
+    public static int STRAFE_TIME_1 = 900;
     public static double POWER = .8;
     public static int position;
 
@@ -36,10 +36,6 @@ public class AprilTagSignalParkAutonRed extends LinearOpMode {
 
 
         telemetry.addData("Detected: ", position);
-
-        drive.strafeRightWithPower(POWER);
-        sleep(STRAFE_TIME);
-
         drive.stop();
         sleep(STOP_TIME);
 
@@ -52,15 +48,15 @@ public class AprilTagSignalParkAutonRed extends LinearOpMode {
         switch (position){
             case 1:
                 drive.strafeLeftWithPower(POWER);
-                sleep(STRAFE_TIME_1 );
+                sleep(STRAFE_TIME_1);
                 break;
             case 2:
-                drive.strafeLeftWithPower(POWER);
-                sleep(STRAFE_TIME);
-                break;
-            case 3:
                 drive.stop();
                 sleep(STOP_TIME);
+                break;
+            case 3:
+                drive.strafeRightWithPower(POWER);
+                sleep(STRAFE_TIME_2);
                 break;
 
         }
