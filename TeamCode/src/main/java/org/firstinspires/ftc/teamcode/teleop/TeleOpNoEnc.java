@@ -80,13 +80,14 @@ public class TeleOpNoEnc extends OpMode {
 
         //Code for opening and closing claw
 
-        if(gamepad1.a) {
-            claw.setPosition(claw.closedConePos);
-            claw.closeCone();
-        }
-        if(gamepad1.y) {
+        if(gamepad1.y || gamepad2.y) {
             claw.setPosition(claw.openPos);
             claw.open();
+        }
+
+        if(gamepad1.a || gamepad2.a) {
+            claw.setPosition(claw.closedConePos);
+            claw.closeCone();
         }
 
 //        //Code for spinning claw
