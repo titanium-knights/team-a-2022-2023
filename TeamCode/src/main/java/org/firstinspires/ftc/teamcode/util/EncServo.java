@@ -7,7 +7,7 @@ public class EncServo {
     public Servo encServo; //servo
 
     public static double DOWNPOS = 0.89;
-    public static double UPPOS = 0.0;
+    public static double UPPOS = 0.2;
 
     public EncServo(HardwareMap hmap) {
 
@@ -18,11 +18,14 @@ public class EncServo {
         encServo.setPosition(pos);
     }
 
-    public String retPosition() {
-        if (encServo.getPosition() == DOWNPOS) {
-            return "down: " + encServo.getPosition();
-        } else {
-            return "up: " + encServo.getPosition();
+    public double getPosition() {
+        return encServo.getPosition();
+    }
+
+    public boolean isUp() {
+        if (getPosition() == UPPOS) {
+            return true;
         }
+        return false;
     }
 }
