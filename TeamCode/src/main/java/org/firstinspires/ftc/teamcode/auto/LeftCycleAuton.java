@@ -25,17 +25,21 @@ public class LeftCycleAuton extends LinearOpMode  {
     public static int START_Y = 0;
     public static int START_X = 0;
 
-    public static int FORWARD_CYCLE_X = 56;
+    public static int FORWARD_CYCLE_X = 55;
     public static int FORWARD_CYCLE_Y = 0;
     public static Vector2d FORWARD_CYCLE = new Vector2d(FORWARD_CYCLE_X, FORWARD_CYCLE_Y);
-    public static int FORWARD_CONE_ANG = -81;
+    public static int FORWARD_CONE_ANG = -82;
 
-    public static int FORWARD_CONE_X = 55;
-    public static int FORWARD_CONE_Y = -26;
+    public static int FORWARD_CONE_X = 53;
+    public static int FORWARD_CONE_Y = -27;
     public static Vector2d FORWARD_CONE = new Vector2d(FORWARD_CONE_X, FORWARD_CONE_Y);
 
-    public static int TOWARD_HIGH_X = 30;
-    public static int TOWARD_HIGH_Y = 3;
+    public static int FORWARD_CYCLE_2_X = 50;
+    public static int FORWARD_CYCLE_2_Y = 0;
+    public static Vector2d FORWARD_CYCLE_2 = new Vector2d(FORWARD_CYCLE_2_X, FORWARD_CYCLE_2_Y);
+
+    public static int TOWARD_HIGH_X = 27;
+    public static int TOWARD_HIGH_Y = 1;
     public static Vector2d TOWARD_HIGH = new Vector2d(TOWARD_HIGH_X, TOWARD_HIGH_Y);
 
     //cycles
@@ -43,7 +47,7 @@ public class LeftCycleAuton extends LinearOpMode  {
     public static double LIFT_POWER_UP = .4;
     public static double LIFT_POWER_DOWN = .3;
 
-    public static int LIFT_HEIGHT = 850;
+    public static int LIFT_HEIGHT = 900;
 
     public static int LIFT_MIDDLE = 100;
 
@@ -117,7 +121,7 @@ public class LeftCycleAuton extends LinearOpMode  {
                     lift.setPosition(LIFT_MIDDLE, LIFT_POWER_UP);
                 })
                 .waitSeconds(1)
-                .lineToConstantHeading(FORWARD_CYCLE)
+                .lineToConstantHeading(FORWARD_CYCLE_2)
                 .lineToConstantHeading(TOWARD_HIGH)
                 .addTemporalMarker(() -> {
                     lift.setPosition(LIFT_HEIGHT, LIFT_POWER_UP);
