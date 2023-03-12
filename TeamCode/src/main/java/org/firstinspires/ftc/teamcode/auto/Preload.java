@@ -12,31 +12,46 @@ import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.rr.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.rr.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.util.AprilTagVision;
+import org.firstinspires.ftc.teamcode.util.Claw;
+import org.firstinspires.ftc.teamcode.util.ClawLift;
+import org.firstinspires.ftc.teamcode.util.ClawSpin;
 import org.firstinspires.ftc.teamcode.util.EncServo;
+import org.firstinspires.ftc.teamcode.util.Lift;
 import org.firstinspires.ftc.teamcode.util.SignalParkVision;
 
 
 @Config
-@Autonomous(name = "April Tag Park Auton Red", group = "Linear OpMode")
 
-public class AprilTagParkAutonRed extends LinearOpMode  {
+@Autonomous(name = "Preload", group = "Linear OpMode")
+
+public class Preload extends LinearOpMode  {
     TrajectorySequence detectPark;
 
-    public static Vector2d ZONE_START_DROP_LEFT = new Vector2d(0,22); //up at the corner
+    public static Vector2d ZONE_START_DROP_RIGHT = new Vector2d(0,-11); //up at the corner
 
-    public static Vector2d ZONE_START_2 = new Vector2d(26,22); //up at the corner
+    public static Vector2d ZONE_START_2 = new Vector2d(26,-11); //up at the corner
 //
 //    public static int TURN = -90;
 
-    public static Vector2d Z1_S2 = new Vector2d(26,23);
-    public static Vector2d Z2_S2 = new Vector2d(26,-3);
-    public static Vector2d Z3_S2 = new Vector2d(24,-18);
+    public static Vector2d Z1_S2 = new Vector2d(26,35);
+    public static Vector2d Z2_S2 = new Vector2d(26,18);
+    public static Vector2d Z3_S2 = new Vector2d(26,-10);;
+
+    public static Vector2d TOWARD_LOW = new Vector2d(5, 5);
 
     public static Vector2d zoneAnalysis = Z1_S2;
 
+    public static double turnToLow = Math.toRadians(-45);
+    public static int RAISE_TO_LOW = 500;
+
     protected SampleMecanumDrive drive;
     protected AprilTagVision vision;
+
     protected EncServo encServo;
+    protected Lift lift;
+    protected Claw claw;
+    protected ClawLift clawLift;
+    protected ClawSpin clawSpin;
     Telemetry dashTelemetry = FtcDashboard.getInstance().getTelemetry();
 
     protected void setupDevices(){
@@ -45,6 +60,23 @@ public class AprilTagParkAutonRed extends LinearOpMode  {
 
         encServo = new EncServo(hardwareMap);
         encServo.setPosition(encServo.DOWNPOS);
+
+        lift = new Lift(hardwareMap);
+        lift.setInit();
+
+        claw = new Claw(hardwareMap);
+        clawLift = new ClawLift(hardwareMap);
+        clawLift.setInit();
+        clawSpin = new ClawSpin(hardwareMap);
+
+        claw.setPosition(claw.closedConePos);
+        claw.closeCone();
+
+        sleep(4000);
+
+        claw.keepPosition();
+
+        clawSpin.setPosition(clawSpin.FRONTPOS);
     }
 
     public void initTraj() {
@@ -57,9 +89,15 @@ public class AprilTagParkAutonRed extends LinearOpMode  {
         }
 
         TrajectorySequenceBuilder build = drive.trajectorySequenceBuilder(new Pose2d())
-                .lineToConstantHeading(ZONE_START_DROP_LEFT)
-                .lineToConstantHeading(ZONE_START_2)
-                .lineToConstantHeading(zoneAnalysis);
+                .turn(turnToLow)
+                .addTemporalMarker(() -> {
+                    clawLift.setPosition(RAISE_TO_LOW, true);
+                })
+                .lineToConstantHeading(TOWARD_LOW)
+                .addTemporalMarker(() -> {
+                    claw.setPosition(claw.openPos);
+                    claw.open();
+                });
 
         detectPark = build.build();
     }
@@ -69,7 +107,7 @@ public class AprilTagParkAutonRed extends LinearOpMode  {
 
         sleep(4000);
         int position =  vision.getPosition();
-        sleep(4000);
+        sleep(2000);
 
 
         telemetry.addData("Detected: ", position);

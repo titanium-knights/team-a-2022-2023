@@ -12,7 +12,11 @@ import org.firstinspires.ftc.teamcode.rr.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.rr.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.rr.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.util.AprilTagVision;
+import org.firstinspires.ftc.teamcode.util.Claw;
+import org.firstinspires.ftc.teamcode.util.ClawLift;
+import org.firstinspires.ftc.teamcode.util.ClawSpin;
 import org.firstinspires.ftc.teamcode.util.EncServo;
+import org.firstinspires.ftc.teamcode.util.Lift;
 import org.firstinspires.ftc.teamcode.util.SignalParkVision;
 
 
@@ -23,14 +27,15 @@ import org.firstinspires.ftc.teamcode.util.SignalParkVision;
 public class AprilTagParkAutonBlue extends LinearOpMode  {
     TrajectorySequence detectPark;
 
-    public static Vector2d ZONE_START_DROP_RIGHT = new Vector2d(0,-24); //up at the corner
+    public static Vector2d ZONE_START_DROP_RIGHT = new Vector2d(0,-20); //up at the corner
 
-    public static Vector2d ZONE_START_2 = new Vector2d(24,-24); //up at the corner
+    public static Vector2d ZONE_START_2 = new Vector2d(26,-20); //up at the corner
+//
+//    public static int TURN = -90;
 
-
-    public static Vector2d Z1_S2 = new Vector2d(24,27);
-    public static Vector2d Z2_S2 = new Vector2d(24,0);
-    public static Vector2d Z3_S2 = new Vector2d(24,-25);;
+    public static Vector2d Z1_S2 = new Vector2d(20,20);
+    public static Vector2d Z2_S2 = new Vector2d(20,5);
+    public static Vector2d Z3_S2 = new Vector2d(25,-15);;
 
     public static Vector2d zoneAnalysis = Z1_S2;
 
@@ -46,6 +51,7 @@ public class AprilTagParkAutonBlue extends LinearOpMode  {
 
         encServo = new EncServo(hardwareMap);
         encServo.setPosition(encServo.DOWNPOS);
+
     }
 
     public void initTraj() {
@@ -60,6 +66,7 @@ public class AprilTagParkAutonBlue extends LinearOpMode  {
         TrajectorySequenceBuilder build = drive.trajectorySequenceBuilder(new Pose2d())
                 .lineToConstantHeading(ZONE_START_DROP_RIGHT)
                 .lineToConstantHeading(ZONE_START_2)
+//                .turn(Math.toRadians(TURN))
                 .lineToConstantHeading(zoneAnalysis);
 
         detectPark = build.build();

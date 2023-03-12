@@ -17,28 +17,28 @@ import org.firstinspires.ftc.teamcode.util.*;
 
 
 @Config
-@Autonomous(name = "Left Cycle Auton", group = "Linear OpMode")
+@Autonomous(name = "Right Cycle Auton", group = "Linear OpMode")
 
-public class LeftCycleAuton extends LinearOpMode  {
+public class RightCycleAuton extends LinearOpMode  {
     TrajectorySequence tester;
 
     public static int START_Y = 0;
     public static int START_X = 0;
 
-    public static int FORWARD_CYCLE_X = 51;
+    public static int FORWARD_CYCLE_X = 50;
     public static int FORWARD_CYCLE_Y = 0;
     public static Vector2d FORWARD_CYCLE = new Vector2d(FORWARD_CYCLE_X, FORWARD_CYCLE_Y);
-    public static int FORWARD_CONE_ANG = -85;
+    public static int FORWARD_CONE_ANG = 90;
 
     public static int FORWARD_CONE_X = 50;
-    public static int FORWARD_CONE_Y = -28;
+    public static int FORWARD_CONE_Y = 28;
     public static Vector2d FORWARD_CONE = new Vector2d(FORWARD_CONE_X, FORWARD_CONE_Y);
 //
 //    public static int FORWARD_CYCLE_2_X = 50;
 //    public static int FORWARD_CYCLE_2_Y = 0;
 //    public static Vector2d FORWARD_CYCLE_2 = new Vector2d(FORWARD_CYCLE_2_X, FORWARD_CYCLE_2_Y);
 
-    public static int TOWARD_HIGH_X = 30;
+    public static int TOWARD_HIGH_X = 35;
     public static int TOWARD_HIGH_Y = 1;
     public static Vector2d TOWARD_HIGH = new Vector2d(TOWARD_HIGH_X, TOWARD_HIGH_Y);
 
@@ -56,19 +56,18 @@ public class LeftCycleAuton extends LinearOpMode  {
     public static int LIFT_LOWER_3 = -320;
 
     //   toCone
-    public static Vector2d Z1_S2 = new Vector2d(20,20);
-    public static Vector2d Z2_S2 = new Vector2d(20,5);
-    public static Vector2d Z3_S2 = new Vector2d(25,-15);;
+    public static Vector2d Z1_S2 = new Vector2d(24,-24);
+    public static Vector2d Z2_S2 = new Vector2d(24,0);
+    public static Vector2d Z3_S2 = new Vector2d(24,24);;
 
     public static Vector2d zoneAnalysis = Z1_S2;
-    public static Vector2d ZONE_DEFAULT = new Vector2d(20,5);
 
     protected SampleMecanumDrive drive;
     protected AprilTagVision vision;
 
     protected EncServo encServo;
-     protected Lift lift;
-     protected Claw claw;
+    protected Lift lift;
+    protected Claw claw;
     protected ClawLift clawLift;
     protected ClawSpin clawSpin;
 
@@ -81,8 +80,8 @@ public class LeftCycleAuton extends LinearOpMode  {
         encServo = new EncServo(hardwareMap);
         encServo.setPosition(encServo.DOWNPOS);
 
-         lift = new Lift(hardwareMap);
-         lift.setInit();
+        lift = new Lift(hardwareMap);
+        lift.setInit();
 
         claw = new Claw(hardwareMap);
         clawLift = new ClawLift(hardwareMap);
@@ -109,7 +108,7 @@ public class LeftCycleAuton extends LinearOpMode  {
                 .turn(Math.toRadians(FORWARD_CONE_ANG))
                 .waitSeconds(0)
                 .addTemporalMarker(()->{
-                        lift.setPosition(LIFT_LOWER_1, LIFT_POWER_DOWN);
+                    lift.setPosition(LIFT_LOWER_1, LIFT_POWER_DOWN);
 
                 })
                 .lineToConstantHeading(FORWARD_CONE)
@@ -129,17 +128,17 @@ public class LeftCycleAuton extends LinearOpMode  {
                 .turn(Math.toRadians(357))
                 .waitSeconds(1)
                 .addTemporalMarker(() -> {
-                            lift.setPosition(LIFT_HEIGHT, LIFT_POWER_UP);
+                    lift.setPosition(LIFT_HEIGHT, LIFT_POWER_UP);
 
-                            clawSpin.setPosition(clawSpin.BACKPOS);
+                    clawSpin.setPosition(clawSpin.BACKPOS);
 
-                            clawLift.setPosition(1729, false);
+                    clawLift.setPosition(1729, false);
 
-                            sleep(2000);
-                            claw.setPosition(claw.openPos);
-                            claw.open();
-                        })
-                                .addTemporalMarker( () -> {
+                    sleep(2000);
+                    claw.setPosition(claw.openPos);
+                    claw.open();
+                })
+                .addTemporalMarker( () -> {
                     sleep(2000);
 
                     claw.setPosition(claw.closedConePos);
@@ -154,11 +153,7 @@ public class LeftCycleAuton extends LinearOpMode  {
                     lift.setPosition(LIFT_MIDDLE, LIFT_POWER_UP);
 
                 })
-                .waitSeconds(2)
-                .lineToConstantHeading(ZONE_DEFAULT)
-                .waitSeconds(1)
-                .lineToConstantHeading(zoneAnalysis);
-
+                .waitSeconds(2); //wait to pick up claw
         //detection part
 //                .lineToConstantHeading(FORWARD_CYCLE) //go to pos 1
 //                .lineToConstantHeading(ZONE_START_DROP_RIGHT)
