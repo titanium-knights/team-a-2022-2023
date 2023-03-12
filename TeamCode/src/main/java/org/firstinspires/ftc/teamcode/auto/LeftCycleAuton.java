@@ -17,32 +17,33 @@ import org.firstinspires.ftc.teamcode.util.*;
 
 
 @Config
-@Autonomous(name = "Blue Left cycle", group = "Linear OpMode")
+@Autonomous(name = "Left Cycle Auton", group = "Linear OpMode")
 
-public class BlueCycle extends LinearOpMode  {
+public class LeftCycleAuton extends LinearOpMode  {
     TrajectorySequence tester;
 
     public static int START_Y = 0;
     public static int START_X = 0;
 
-   public static Vector2d FORWARD_CYCLE = new Vector2d(50, 0);
-   public static int FORWARD_CONE_ANG = -88;
-   public static Vector2d FORWARD_CONE = new Vector2d(50, -26);
-   public static int TOWARD_HIGH_X = 60 ;
-   public static int TOWARD_HIGH_Y = 6;
-   public static Vector2d TOWARD_HIGH = new Vector2d(TOWARD_HIGH_X, TOWARD_HIGH_Y);
-   public static int TOWARD_HIGH_ANG = 45;
+    public static Vector2d FORWARD_CYCLE = new Vector2d(55, 0);
+    public static int FORWARD_CONE_ANG = -88;
+    public static Vector2d FORWARD_CONE = new Vector2d(55, -26);
+    public static Vector2d TOWARD_HIGH = new Vector2d(30, 3);
 
-   //cycles
-    //public static double LIFT_POWER_UP = .6;
-    //public static double LIFT_POWER_DOWN = .4;
+    //cycles
 
-    //public static int LIFT_LOWER_1 = -120;
-    //public static int LIFT_LOWER_2 = -240;
-    //public static int LIFT_LOWER_3 = -320;
+    public static double LIFT_POWER_UP = .4;
+    public static double LIFT_POWER_DOWN = .3;
 
+    public static int LIFT_HEIGHT = 850;
 
-//   toCone
+    public static int LIFT_MIDDLE = 100;
+
+    public static int LIFT_LOWER_1 = -75;
+    public static int LIFT_LOWER_2 = -240;
+    public static int LIFT_LOWER_3 = -320;
+
+    //   toCone
     public static Vector2d Z1_S2 = new Vector2d(24,-24);
     public static Vector2d Z2_S2 = new Vector2d(24,0);
     public static Vector2d Z3_S2 = new Vector2d(24,24);;
@@ -50,32 +51,33 @@ public class BlueCycle extends LinearOpMode  {
     public static Vector2d zoneAnalysis = Z1_S2;
 
     protected SampleMecanumDrive drive;
-    protected SignalParkVision vision;
+    protected AprilTagVision vision;
 
     protected EncServo encServo;
-   // protected Lift lift;
-   // protected Claw claw;
-    //protected ClawLift clawLift;
-    //protected ClawSpin clawSpin;
+     protected Lift lift;
+     protected Claw claw;
+    protected ClawLift clawLift;
+    protected ClawSpin clawSpin;
 
     Telemetry dashTelemetry = FtcDashboard.getInstance().getTelemetry();
 
     protected void setupDevices(){
         drive = new SampleMecanumDrive(hardwareMap);
-        vision = new SignalParkVision(hardwareMap, null);
+        vision = new AprilTagVision(hardwareMap, telemetry);
 
         encServo = new EncServo(hardwareMap);
         encServo.setPosition(encServo.DOWNPOS);
 
-        // lift = new Lift(hardwareMap);
-       // lift.setInit();
+         lift = new Lift(hardwareMap);
+         lift.setInit();
 
-        //claw = new Claw(hardwareMap);
-        //clawLift = new ClawLift(hardwareMap);
-        //clawLift.setInit();
-       // clawSpin = new ClawSpin(hardwareMap);
+        claw = new Claw(hardwareMap);
+        clawLift = new ClawLift(hardwareMap);
+        clawLift.setInit();
+        clawSpin = new ClawSpin(hardwareMap);
 
-        //claw.open(); //moves upon init
+        claw.open(); //moves upon init
+        claw.setPosition(claw.openPos);
     }
 
     public void initTraj() {
@@ -89,39 +91,57 @@ public class BlueCycle extends LinearOpMode  {
 
         TrajectorySequenceBuilder analysis = drive.trajectorySequenceBuilder(new Pose2d())
                 //cycle part
-
                 .lineToConstantHeading(FORWARD_CYCLE)
                 .turn(Math.toRadians(FORWARD_CONE_ANG))
                 .waitSeconds(0)
                 .addTemporalMarker(()->{
-                //    lift.setPosition(LIFT_LOWER_1, LIFT_POWER_DOWN);
-                })
-                .lineToConstantHeading(FORWARD_CONE)
-                .waitSeconds(0.5)
-                .addTemporalMarker(()-> {
-                //    claw.closeCone();
+                        lift.setPosition(LIFT_LOWER_1, LIFT_POWER_DOWN);
 
                 })
-                .waitSeconds(2) //wait to pick up claw
-                .addTemporalMarker(() -> {
-               //     lift.setPosition(lift.MAX_LIMIT, LIFT_POWER_UP);
+                .lineToConstantHeading(FORWARD_CONE)
+                .waitSeconds(2)
+                .addTemporalMarker(()-> {
+                    claw.setPosition(claw.closedConePos);
+                    claw.closeCone();
+
+                    sleep(2000);
+
+                    lift.setPosition(LIFT_MIDDLE, LIFT_POWER_UP);
                 })
                 .waitSeconds(1)
                 .lineToConstantHeading(FORWARD_CYCLE)
-                .turn(Math.toRadians(TOWARD_HIGH_ANG))
                 .lineToConstantHeading(TOWARD_HIGH)
                 .addTemporalMarker(() -> {
-               //     clawLift.setPosition(clawLift.BACK_DUMP);
-               //     clawSpin.setPosition(clawSpin.BACKPOS);
+                    lift.setPosition(LIFT_HEIGHT, LIFT_POWER_UP);
+
+                    clawLift.setPosition(1729, false);
+                    clawSpin.setPosition(clawSpin.BACKPOS);
+
                     sleep(2000);
-               //     claw.open();
-                });
-                //detection part
+                    claw.setPosition(claw.openPos);
+                    claw.open();
+
+                    sleep(2000);
+
+                    claw.setPosition(claw.closedConePos);
+                    claw.closeCone();
+
+                    clawSpin.setPosition(clawSpin.FRONTPOS);
+
+                    clawLift.setPosition(clawLift.FRONT_DUMP, true);
+
+                    sleep(2000);
+
+                    lift.setPosition(LIFT_MIDDLE, LIFT_POWER_UP);
+
+                })
+                .waitSeconds(2); //wait to pick up claw
+        //detection part
 //                .lineToConstantHeading(FORWARD_CYCLE) //go to pos 1
 //                .lineToConstantHeading(ZONE_START_DROP_RIGHT)
 //                .lineToConstantHeading(zoneAnalysis);
 
-                tester = analysis.build();
+        tester = analysis.build();
 
     }
     @Override
@@ -145,10 +165,10 @@ public class BlueCycle extends LinearOpMode  {
 
         while (opModeIsActive() && !Thread.currentThread().isInterrupted() && drive.isBusy()) {
             drive.update();
-         //   claw.keepPosition();
+            //   claw.keepPosition();
 
-           // telemetry.addData("lmr", lift.getPositionR());
-           // telemetry.addData("lml", lift.getPositionL());
+            // telemetry.addData("lmr", lift.getPositionR());
+            // telemetry.addData("lml", lift.getPositionL());
         }
 
 
