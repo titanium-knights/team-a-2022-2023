@@ -20,8 +20,6 @@ import org.firstinspires.ftc.teamcode.util.*;
 @Autonomous(name = "Right Cycle Auton", group = "Linear OpMode")
 
 public class RightCycleAuton extends LinearOpMode  {
-    TrajectorySequence tester;
-
     public static int START_Y = 0;
     public static int START_X = 0;
 
@@ -101,8 +99,29 @@ public class RightCycleAuton extends LinearOpMode  {
         } else {
             zoneAnalysis = Z3_S2;
         }
+    }
+    @Override
+    public void runOpMode() throws InterruptedException {
+        setupDevices();
 
-        TrajectorySequenceBuilder analysis = drive.trajectorySequenceBuilder(new Pose2d())
+        sleep(4000);
+        int position =  vision.getPosition();
+        sleep(1000);
+
+        telemetry.addData("Detected: ", position);
+        dashTelemetry.addData("Detected", position);
+
+        telemetry.addData("forward X", FORWARD_CYCLE_X);
+        telemetry.addData("forward Y", FORWARD_CYCLE_Y);
+
+        telemetry.addData("to cone X", FORWARD_CONE_X);
+        telemetry.addData("to cone Y", FORWARD_CONE_Y);
+
+        telemetry.addData("to high X", TOWARD_HIGH_X);
+        telemetry.addData("to high Y", TOWARD_HIGH_Y);
+
+        initTraj();
+        TrajectorySequence sequence1 = drive.trajectorySequenceBuilder(new Pose2d())
                 //cycle part
                 .lineToConstantHeading(FORWARD_CYCLE)
                 .turn(Math.toRadians(FORWARD_CONE_ANG))
@@ -122,8 +141,17 @@ public class RightCycleAuton extends LinearOpMode  {
                     lift.setPosition(LIFT_MIDDLE, LIFT_POWER_UP);
                 })
                 .waitSeconds(1)
-                //.lineToConstantHeading(FORWARD_CYCLE_2)
-                .lineToConstantHeading(FORWARD_CYCLE)
+                .build();
+
+        telemetry.update();
+        waitForStart();
+
+        drive.setPoseEstimate(sequence1.start());
+        drive.followTrajectorySequence(sequence1);
+
+        TrajectorySequence sequence2 = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+                //.lineToLinearHeading(new Pose2d(FORWARD_CYCLE_2, 0))
+                .lineToLinearHeading(new Pose2d(FORWARD_CYCLE, 0))
                 .lineToConstantHeading(TOWARD_HIGH)
                 .turn(Math.toRadians(357))
                 .waitSeconds(1)
@@ -153,51 +181,14 @@ public class RightCycleAuton extends LinearOpMode  {
                     lift.setPosition(LIFT_MIDDLE, LIFT_POWER_UP);
 
                 })
-                .waitSeconds(2); //wait to pick up claw
+                .waitSeconds(2)
+                .build(); //wait to pick up claw
         //detection part
 //                .lineToConstantHeading(FORWARD_CYCLE) //go to pos 1
 //                .lineToConstantHeading(ZONE_START_DROP_RIGHT)
 //                .lineToConstantHeading(zoneAnalysis);
 
-        tester = analysis.build();
-
-    }
-    @Override
-    public void runOpMode() throws InterruptedException {
-        setupDevices();
-
-        sleep(4000);
-        int position =  vision.getPosition();
-        sleep(1000);
-
-
-        telemetry.addData("Detected: ", position);
-        dashTelemetry.addData("Detected", position);
-
-        telemetry.addData("forward X", FORWARD_CYCLE_X);
-        telemetry.addData("forward Y", FORWARD_CYCLE_Y);
-
-        telemetry.addData("to cone X", FORWARD_CONE_X);
-        telemetry.addData("to cone Y", FORWARD_CONE_Y);
-
-        telemetry.addData("to high X", TOWARD_HIGH_X);
-        telemetry.addData("to high Y", TOWARD_HIGH_Y);
-
-
-        initTraj();
-        telemetry.update();
-        waitForStart();
-
-        drive.setPoseEstimate(tester.start());
-        drive.followTrajectorySequence(tester);
-
-        while (opModeIsActive() && !Thread.currentThread().isInterrupted() && drive.isBusy()) {
-            drive.update();
-            //   claw.keepPosition();
-
-            // telemetry.addData("lmr", lift.getPositionR());
-            // telemetry.addData("lml", lift.getPositionL());
-        }
+        drive.followTrajectorySequence(sequence2);
 
 
     }
