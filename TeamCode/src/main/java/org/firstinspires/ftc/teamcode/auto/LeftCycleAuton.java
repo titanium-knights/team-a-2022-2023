@@ -122,7 +122,7 @@ public class LeftCycleAuton extends LinearOpMode  {
         telemetry.addData("to high X", TOWARD_HIGH_X);
         telemetry.addData("to high Y", TOWARD_HIGH_Y);
 
-
+        initTraj();
         TrajectorySequence sequence1 = drive.trajectorySequenceBuilder(new Pose2d())
                 //cycle part
                 .lineToConstantHeading(FORWARD_CYCLE)
