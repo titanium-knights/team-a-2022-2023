@@ -25,10 +25,18 @@ public class LeftCycleAuton extends LinearOpMode  {
     public static int START_Y = 0;
     public static int START_X = 0;
 
-    public static Vector2d FORWARD_CYCLE = new Vector2d(55, 0);
-    public static int FORWARD_CONE_ANG = -88;
-    public static Vector2d FORWARD_CONE = new Vector2d(55, -26);
-    public static Vector2d TOWARD_HIGH = new Vector2d(30, 3);
+    public static int FORWARD_CYCLE_X = 56;
+    public static int FORWARD_CYCLE_Y = 0;
+    public static Vector2d FORWARD_CYCLE = new Vector2d(FORWARD_CYCLE_X, FORWARD_CYCLE_Y);
+    public static int FORWARD_CONE_ANG = -81;
+
+    public static int FORWARD_CONE_X = 55;
+    public static int FORWARD_CONE_Y = -26;
+    public static Vector2d FORWARD_CONE = new Vector2d(FORWARD_CONE_X, FORWARD_CONE_Y);
+
+    public static int TOWARD_HIGH_X = 30;
+    public static int TOWARD_HIGH_Y = 3;
+    public static Vector2d TOWARD_HIGH = new Vector2d(TOWARD_HIGH_X, TOWARD_HIGH_Y);
 
     //cycles
 
