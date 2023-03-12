@@ -20,8 +20,6 @@ import org.firstinspires.ftc.teamcode.util.*;
 @Autonomous(name = "Left Cycle Auton", group = "Linear OpMode")
 
 public class LeftCycleAuton extends LinearOpMode  {
-    TrajectorySequence tester;
-
     public static int START_Y = 0;
     public static int START_X = 0;
 
@@ -102,70 +100,6 @@ public class LeftCycleAuton extends LinearOpMode  {
         } else {
             zoneAnalysis = Z3_S2;
         }
-
-        TrajectorySequenceBuilder analysis = drive.trajectorySequenceBuilder(new Pose2d())
-                //cycle part
-                .lineToConstantHeading(FORWARD_CYCLE)
-                .turn(Math.toRadians(FORWARD_CONE_ANG))
-                .waitSeconds(0)
-                .addTemporalMarker(()->{
-                        lift.setPosition(LIFT_LOWER_1, LIFT_POWER_DOWN);
-
-                })
-                .lineToConstantHeading(FORWARD_CONE)
-                .waitSeconds(2)
-                .addTemporalMarker(()-> {
-                    claw.setPosition(claw.closedConePos);
-                    claw.closeCone();
-
-                    sleep(2000);
-
-                    lift.setPosition(LIFT_MIDDLE, LIFT_POWER_UP);
-                })
-                .waitSeconds(1)
-                //.lineToConstantHeading(FORWARD_CYCLE_2)
-                .lineToConstantHeading(FORWARD_CYCLE)
-                .lineToConstantHeading(TOWARD_HIGH)
-                .turn(Math.toRadians(357))
-                .waitSeconds(1)
-                .addTemporalMarker(() -> {
-                            lift.setPosition(LIFT_HEIGHT, LIFT_POWER_UP);
-
-                            clawSpin.setPosition(clawSpin.BACKPOS);
-
-                            clawLift.setPosition(1729, false);
-
-                            sleep(2000);
-                            claw.setPosition(claw.openPos);
-                            claw.open();
-                        })
-                                .addTemporalMarker( () -> {
-                    sleep(2000);
-
-                    claw.setPosition(claw.closedConePos);
-                    claw.closeCone();
-
-                    clawSpin.setPosition(clawSpin.FRONTPOS);
-
-                    clawLift.setPosition(clawLift.FRONT_DUMP, true);
-
-                    sleep(2000);
-
-                    lift.setPosition(LIFT_MIDDLE, LIFT_POWER_UP);
-
-                })
-                .waitSeconds(2)
-                .lineToConstantHeading(ZONE_DEFAULT)
-                .waitSeconds(1)
-                .lineToConstantHeading(zoneAnalysis);
-
-        //detection part
-//                .lineToConstantHeading(FORWARD_CYCLE) //go to pos 1
-//                .lineToConstantHeading(ZONE_START_DROP_RIGHT)
-//                .lineToConstantHeading(zoneAnalysis);
-
-        tester = analysis.build();
-
     }
     @Override
     public void runOpMode() throws InterruptedException {
@@ -189,21 +123,72 @@ public class LeftCycleAuton extends LinearOpMode  {
         telemetry.addData("to high Y", TOWARD_HIGH_Y);
 
 
-        initTraj();
+        TrajectorySequence sequence1 = drive.trajectorySequenceBuilder(new Pose2d())
+                //cycle part
+                .lineToConstantHeading(FORWARD_CYCLE)
+                .turn(Math.toRadians(FORWARD_CONE_ANG))
+                .waitSeconds(0)
+                .addTemporalMarker(()->{
+                    lift.setPosition(LIFT_LOWER_1, LIFT_POWER_DOWN);
+
+                })
+                .lineToConstantHeading(FORWARD_CONE)
+                .waitSeconds(2)
+                .addTemporalMarker(()-> {
+                    claw.setPosition(claw.closedConePos);
+                    claw.closeCone();
+
+                    sleep(2000);
+
+                    lift.setPosition(LIFT_MIDDLE, LIFT_POWER_UP);
+                })
+                .waitSeconds(1)
+                .build();
+
         telemetry.update();
         waitForStart();
 
-        drive.setPoseEstimate(tester.start());
-        drive.followTrajectorySequence(tester);
+        drive.setPoseEstimate(sequence1.start());
+        drive.followTrajectorySequence(sequence1);
 
-        while (opModeIsActive() && !Thread.currentThread().isInterrupted() && drive.isBusy()) {
-            drive.update();
-            //   claw.keepPosition();
+        TrajectorySequence sequence2 = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+                .lineToLinearHeading(new Pose2d(FORWARD_CYCLE, 0))
+                .lineToConstantHeading(TOWARD_HIGH)
+                .turn(Math.toRadians(357))
+                .waitSeconds(1)
+                .addTemporalMarker(() -> {
+                    lift.setPosition(LIFT_HEIGHT, LIFT_POWER_UP);
 
-            // telemetry.addData("lmr", lift.getPositionR());
-            // telemetry.addData("lml", lift.getPositionL());
-        }
+                    clawSpin.setPosition(clawSpin.BACKPOS);
 
+                    clawLift.setPosition(1729, false);
+
+                    sleep(2000);
+                    claw.setPosition(claw.openPos);
+                    claw.open();
+                })
+                .addTemporalMarker( () -> {
+                    sleep(2000);
+
+                    claw.setPosition(claw.closedConePos);
+                    claw.closeCone();
+
+                    clawSpin.setPosition(clawSpin.FRONTPOS);
+
+                    clawLift.setPosition(clawLift.FRONT_DUMP, true);
+
+                    sleep(2000);
+
+                    lift.setPosition(LIFT_MIDDLE, LIFT_POWER_UP);
+
+                })
+                .waitSeconds(2)
+                .lineToConstantHeading(ZONE_DEFAULT)
+                .waitSeconds(1)
+                .lineToConstantHeading(zoneAnalysis)
+                .build();
+
+        drive.followTrajectorySequence(sequence2);
 
     }
 }
