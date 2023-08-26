@@ -69,7 +69,6 @@ public class AprilTagVision
         WebcamName webcamName = hmap.get(WebcamName.class, "Webcam 1");
         camera = OpenCvCameraFactory.getInstance().createWebcam(webcamName, cameraMonitorViewId);
         pipeline = new AprilTagDetectionPipeline(telemetry, tagsize, fx, fy, cx, cy);
-
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
@@ -77,7 +76,6 @@ public class AprilTagVision
                 FtcDashboard.getInstance().startCameraStream(camera, 0);
                 camera.setPipeline(pipeline);
             }
-
             @Override
             public void onError(int errorCode) {
 
@@ -86,15 +84,9 @@ public class AprilTagVision
     }
     public int getPosition(){
         AprilTagDetectionPipeline.AprilTagZone aprilTagZone = pipeline.getAnalysis();
-        if(aprilTagZone == AprilTagDetectionPipeline.AprilTagZone.ZONE_ONE){
-            return 1;
-        }
-        else if (aprilTagZone == AprilTagDetectionPipeline.AprilTagZone.ZONE_TWO) {
-            return 2;
-        }
-        else {
-            return 3;
-        }
+        if(aprilTagZone == AprilTagDetectionPipeline.AprilTagZone.ZONE_ONE){return 1;}
+        else if (aprilTagZone == AprilTagDetectionPipeline.AprilTagZone.ZONE_TWO) {return 2;}
+        else {return 3;}
     }
 
         

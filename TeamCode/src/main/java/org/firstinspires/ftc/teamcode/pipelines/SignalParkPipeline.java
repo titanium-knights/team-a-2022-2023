@@ -171,11 +171,7 @@ public class SignalParkPipeline extends OpenCvPipeline {
          * Find which hue each region is closest to
          * Draw a rectangle in that color
          */
-        double[] hues = {purple, green, orange};   //changed values not sure if they work try for next time
-
-//            double closestHue = Arrays.stream(hues).map(hue -> {
-//                return Math.min(Math.abs(avg1-hue), 180-Math.abs(avg1-hue));
-//            }).min().getAsDouble();
+        double[] hues = {purple, green, orange};
         double minDistance = Double.POSITIVE_INFINITY;
         int minIndex = 0;
         for (int i = 0; i < 3; i++) {
